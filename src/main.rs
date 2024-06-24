@@ -1,5 +1,6 @@
 use tfhe_backward_compat_data::{
     data_0_6::V0_6,
+    data_0_7::V0_7,
     data_dir,
     generate::{store_metadata, TfhersVersion},
     Testcase, HL_MODULE_NAME, SHORTINT_MODULE_NAME,
@@ -34,7 +35,8 @@ fn gen_all_data<Vers: TfhersVersion>() -> Vec<Testcase> {
 
 fn main() {
     let root_dir = env!("CARGO_MANIFEST_DIR");
-    let testcases = gen_all_data::<V0_6>(); // When we add more versions, extend the Vec with all the testcases
+    let mut testcases = gen_all_data::<V0_6>();
+    testcases.extend(gen_all_data::<V0_7>());
 
     let shortint_testcases: Vec<Testcase> = testcases
         .iter()
