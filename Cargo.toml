@@ -10,6 +10,7 @@ edition = "2021"
 # This is a list of tfhe-rs versions we will generate data for. This list will grow over time.
 # They are only activated when generating data, with the binary target and the "generate" feature.
 tfhe_0_6 = { version = "0.6", features = ["boolean", "integer", "shortint", "x86_64-unix"], package = "tfhe", optional = true }
+tfhe_0_7 = { version = "0.7", features = ["boolean", "integer", "shortint", "x86_64-unix"], package = "tfhe", optional = true }
 
 tfhe-versionable = { version = "0.1", optional = true }
 
@@ -28,5 +29,5 @@ required-features = ["generate"]
 [features]
 default = ["generate"]
 
-generate = ["dep:tfhe_0_6", "dep:tfhe-versionable"]
+generate = ["dep:tfhe_0_6", "dep:tfhe_0_7", "dep:tfhe-versionable"]
 load = ["dep:semver"]

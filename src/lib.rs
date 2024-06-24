@@ -15,6 +15,8 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "generate")]
 pub mod data_0_6;
 #[cfg(feature = "generate")]
+pub mod data_0_7;
+#[cfg(feature = "generate")]
 pub mod generate;
 #[cfg(feature = "load")]
 pub mod load;
@@ -330,6 +332,36 @@ impl TestType for HlBoolCiphertextListTest {
     }
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub enum DataKind {
+    Bool,
+    Signed,
+    Unsigned,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct HlHeterogeneousCiphertextListTest {
+    pub test_filename: Cow<'static, str>,
+    pub key_filename: Cow<'static, str>,
+    pub packed: bool,
+    pub clear_values: Cow<'static, [u64]>,
+    pub data_kinds: Cow<'static, [DataKind]>,
+}
+
+impl TestType for HlHeterogeneousCiphertextListTest {
+    fn module(&self) -> String {
+        HL_MODULE_NAME.to_string()
+    }
+
+    fn target_type(&self) -> String {
+        "CompactCiphertextList".to_string()
+    }
+
+    fn test_filename(&self) -> String {
+        self.test_filename.to_string()
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug, Display)]
 pub enum TestMetadata {
     // Shortint
@@ -343,6 +375,7 @@ pub enum TestMetadata {
     HlCiphertextList(HlCiphertextListTest),
     HlSignedCiphertextList(HlSignedCiphertextListTest),
     HlBoolCiphertextList(HlBoolCiphertextListTest),
+    HlHeterogeneousCiphertextList(HlHeterogeneousCiphertextListTest),
     HlClientKey(HlClientKeyTest),
     HlServerKey(HlServerKeyTest),
     HlPublicKey(HlPublicKeyTest),
