@@ -1,0 +1,37 @@
+name: Cargo Build
+
+on:
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: "full"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  cargo-builds:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+
+      - name: Install and run newline linter checks
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          wget https://github.com/fernandrone/linelint/releases/download/0.0.6/linelint-linux-amd64
+          echo "16b70fb7b471d6f95cbdc0b4e5dc2b0ac9e84ba9ecdc488f7bdf13df823aca4b linelint-linux-amd64" > checksum
+          sha256sum -c checksum || exit 1
+          chmod +x linelint-linux-amd64
+          mv linelint-linux-amd64 /usr/local/bin/linelint
+          linelint .
+
+      - name: Check fmt
+        run: |
+          cargo fmt --check
+
+      - name: Run clippy
+        run: |
+          cargo clippy --all-features
