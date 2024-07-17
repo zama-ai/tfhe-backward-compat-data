@@ -24,15 +24,21 @@ use tfhe_0_6::{
     CompressedFheBool, CompressedFheInt8, CompressedFheUint8, CompressedPublicKey,
     CompressedServerKey, ConfigBuilder, FheBool, FheInt8, FheUint8, PublicKey,
 };
-use tfhe_versionable::Versionize;
+use tfhe_versionable_0_1::Versionize;
 
 use crate::{
-    generate::{save_cbor, store_versioned_test, TfhersVersion, VALID_TEST_PARAMS},
+    generate::{save_cbor, store_versioned_test_01, TfhersVersion, VALID_TEST_PARAMS},
     HlBoolCiphertextListTest, HlBoolCiphertextTest, HlCiphertextListTest, HlCiphertextTest,
     HlClientKeyTest, HlPublicKeyTest, HlServerKeyTest, HlSignedCiphertextListTest,
     HlSignedCiphertextTest, ShortintCiphertextTest, ShortintClientKeyTest, TestMetadata,
     TestParameterSet, HL_MODULE_NAME, SHORTINT_MODULE_NAME,
 };
+
+macro_rules! store_versioned_test {
+    ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
+        store_versioned_test_01($msg, $dir, $test_filename)
+    };
+}
 
 impl From<TestParameterSet> for ClassicPBSParameters {
     fn from(value: TestParameterSet) -> Self {
@@ -295,7 +301,7 @@ impl TfhersVersion for V0_6 {
         // generate a client key
         let shortint_client_key = shortint::ClientKey::new(SHORTINT_CLIENTKEY_TEST.parameters);
 
-        store_versioned_test(
+        store_versioned_test!(
             &shortint_client_key,
             &dir,
             &SHORTINT_CLIENTKEY_TEST.test_filename,
@@ -306,8 +312,8 @@ impl TfhersVersion for V0_6 {
         let ct2 = shortint_client_key.encrypt(SHORTINT_CT2_TEST.clear_value);
 
         // Serialize them
-        store_versioned_test(&ct1, &dir, &SHORTINT_CT1_TEST.test_filename);
-        store_versioned_test(&ct2, &dir, &SHORTINT_CT2_TEST.test_filename);
+        store_versioned_test!(&ct1, &dir, &SHORTINT_CT1_TEST.test_filename);
+        store_versioned_test!(&ct2, &dir, &SHORTINT_CT2_TEST.test_filename);
 
         vec![
             TestMetadata::ShortintClientKey(SHORTINT_CLIENTKEY_TEST),
@@ -339,31 +345,31 @@ impl TfhersVersion for V0_6 {
         let compact_pub_key = CompactPublicKey::new(&hl_client_key);
         let compressed_compact_pub_key = CompressedCompactPublicKey::new(&hl_client_key);
 
-        store_versioned_test(&hl_client_key, &dir, &HL_CLIENTKEY_TEST.test_filename);
+        store_versioned_test!(&hl_client_key, &dir, &HL_CLIENTKEY_TEST.test_filename);
 
-        store_versioned_test(&hl_server_key, &dir, &HL_SERVERKEY_TEST.test_filename);
-        store_versioned_test(
+        store_versioned_test!(&hl_server_key, &dir, &HL_SERVERKEY_TEST.test_filename);
+        store_versioned_test!(
             &compressed_server_key,
             &dir,
             &HL_COMPRESSED_SERVERKEY_TEST.test_filename,
         );
-        store_versioned_test(&pub_key, &dir, &HL_PUBKEY_TEST.test_filename);
+        store_versioned_test!(&pub_key, &dir, &HL_PUBKEY_TEST.test_filename);
         save_cbor(
             &client_key_for_pk.versionize(),
             dir.join(&*HL_PUBKEY_TEST.client_key_filename),
         );
 
-        store_versioned_test(
+        store_versioned_test!(
             &compressed_pub_key,
             &dir,
             &HL_COMPRESSED_PUBKEY_TEST.test_filename,
         );
-        store_versioned_test(
+        store_versioned_test!(
             &compact_pub_key,
             &dir,
             &HL_COMPACT_PUBKEY_TEST.test_filename,
         );
-        store_versioned_test(
+        store_versioned_test!(
             &compressed_compact_pub_key,
             &dir,
             &HL_COMPRESSED_COMPACT_PUBKEY_TEST.test_filename,
@@ -422,54 +428,54 @@ impl TfhersVersion for V0_6 {
             CompactFheBoolList::encrypt(&HL_BOOL_LIST_TEST.clear_values, &compact_pub_key);
 
         // Serialize them
-        store_versioned_test(&ct1, &dir, &HL_CT1_TEST.test_filename);
-        store_versioned_test(&ct2, &dir, &HL_CT2_TEST.test_filename);
-        store_versioned_test(
+        store_versioned_test!(&ct1, &dir, &HL_CT1_TEST.test_filename);
+        store_versioned_test!(&ct2, &dir, &HL_CT2_TEST.test_filename);
+        store_versioned_test!(
             &compressed_ct1,
             &dir,
             &HL_COMPRESSED_SEEDED_CT_TEST.test_filename,
         );
-        store_versioned_test(
+        store_versioned_test!(
             &compressed_ct2,
             &dir,
             &HL_COMPRESSED_CT_MODSWITCHED_TEST.test_filename,
         );
-        store_versioned_test(&compact_ct, &dir, &HL_COMPACT_CT_TEST.test_filename);
-        store_versioned_test(&ct_list, &dir, &HL_CT_LIST_TEST.test_filename);
+        store_versioned_test!(&compact_ct, &dir, &HL_COMPACT_CT_TEST.test_filename);
+        store_versioned_test!(&ct_list, &dir, &HL_CT_LIST_TEST.test_filename);
 
-        store_versioned_test(&ct1_signed, &dir, &HL_SIGNED_CT1_TEST.test_filename);
-        store_versioned_test(&ct2_signed, &dir, &HL_SIGNED_CT2_TEST.test_filename);
-        store_versioned_test(
+        store_versioned_test!(&ct1_signed, &dir, &HL_SIGNED_CT1_TEST.test_filename);
+        store_versioned_test!(&ct2_signed, &dir, &HL_SIGNED_CT2_TEST.test_filename);
+        store_versioned_test!(
             &compressed_ct1_signed,
             &dir,
             &HL_SIGNED_COMPRESSED_SEEDED_CT_TEST.test_filename,
         );
-        store_versioned_test(
+        store_versioned_test!(
             &compressed_ct2_signed,
             &dir,
             &HL_SIGNED_COMPRESSED_CT_MODSWITCHED_TEST.test_filename,
         );
-        store_versioned_test(
+        store_versioned_test!(
             &compact_ct_signed,
             &dir,
             &HL_SIGNED_COMPACT_CT_TEST.test_filename,
         );
-        store_versioned_test(&ct_list_signed, &dir, &HL_SIGNED_CT_LIST_TEST.test_filename);
+        store_versioned_test!(&ct_list_signed, &dir, &HL_SIGNED_CT_LIST_TEST.test_filename);
 
-        store_versioned_test(&bool1, &dir, &HL_BOOL1_TEST.test_filename);
-        store_versioned_test(&bool2, &dir, &HL_BOOL2_TEST.test_filename);
-        store_versioned_test(
+        store_versioned_test!(&bool1, &dir, &HL_BOOL1_TEST.test_filename);
+        store_versioned_test!(&bool2, &dir, &HL_BOOL2_TEST.test_filename);
+        store_versioned_test!(
             &compressed_bool1,
             &dir,
             &HL_COMPRESSED_BOOL_SEEDED_TEST.test_filename,
         );
-        store_versioned_test(
+        store_versioned_test!(
             &compressed_bool2,
             &dir,
             &HL_COMPRESSED_BOOL_MODSWITCHED_TEST.test_filename,
         );
-        store_versioned_test(&compact_bool, &dir, &HL_COMPACT_BOOL_TEST.test_filename);
-        store_versioned_test(&bool_list, &dir, &HL_BOOL_LIST_TEST.test_filename);
+        store_versioned_test!(&compact_bool, &dir, &HL_COMPACT_BOOL_TEST.test_filename);
+        store_versioned_test!(&bool_list, &dir, &HL_BOOL_LIST_TEST.test_filename);
 
         vec![
             TestMetadata::HlClientKey(HL_CLIENTKEY_TEST),

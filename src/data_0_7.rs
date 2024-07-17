@@ -5,22 +5,32 @@ use tfhe_0_7::{
     core_crypto::commons::{
         generators::DeterministicSeeder, math::random::ActivatedRandomGenerator,
     },
+    generate_keys,
+    prelude::FheEncrypt,
+    set_server_key,
     shortint::{
         engine::ShortintEngine,
         parameters::{
             DecompositionBaseLog, DecompositionLevelCount, DynamicDistribution, GlweDimension,
-            LweDimension, PolynomialSize, StandardDev,
+            LweDimension, PolynomialSize, StandardDev, COMP_PARAM_MESSAGE_2_CARRY_2,
         },
         CarryModulus, CiphertextModulus, ClassicPBSParameters, EncryptionKeyChoice, MaxNoiseLevel,
         MessageModulus, PBSParameters,
     },
-    ClientKey, CompactCiphertextList, CompactPublicKey, Seed,
+    CompactCiphertextList, CompactPublicKey, CompressedCiphertextListBuilder, FheBool, FheInt8,
+    FheUint8, Seed,
 };
 
 use crate::{
-    generate::{store_versioned_test, TfhersVersion, VALID_TEST_PARAMS},
+    generate::{store_versioned_test_02, TfhersVersion, VALID_TEST_PARAMS},
     DataKind, HlHeterogeneousCiphertextListTest, TestMetadata, TestParameterSet, HL_MODULE_NAME,
 };
+
+macro_rules! store_versioned_test {
+    ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
+        store_versioned_test_02($msg, $dir, $test_filename)
+    };
+}
 
 impl From<TestParameterSet> for ClassicPBSParameters {
     fn from(value: TestParameterSet) -> Self {
@@ -72,7 +82,7 @@ const HL_PACKED_COMPACTLIST_TEST: HlHeterogeneousCiphertextListTest =
             DataKind::Bool,
             DataKind::Bool,
         ]),
-        packed: true,
+        compressed: false,
     };
 
 const HL_COMPACTLIST_TEST: HlHeterogeneousCiphertextListTest = HlHeterogeneousCiphertextListTest {
@@ -85,8 +95,22 @@ const HL_COMPACTLIST_TEST: HlHeterogeneousCiphertextListTest = HlHeterogeneousCi
         DataKind::Bool,
         DataKind::Bool,
     ]),
-    packed: false,
+    compressed: false,
 };
+
+const HL_COMPRESSED_LIST_TEST: HlHeterogeneousCiphertextListTest =
+    HlHeterogeneousCiphertextListTest {
+        test_filename: Cow::Borrowed("hl_compressed_heterogeneous_list"),
+        key_filename: Cow::Borrowed("client_key.cbor"),
+        clear_values: Cow::Borrowed(&[17u8 as u64, -12i8 as u64, false as u64, true as u64]),
+        data_kinds: Cow::Borrowed(&[
+            DataKind::Unsigned,
+            DataKind::Signed,
+            DataKind::Bool,
+            DataKind::Bool,
+        ]),
+        compressed: true,
+    };
 
 pub struct V0_7;
 
@@ -113,13 +137,17 @@ impl TfhersVersion for V0_7 {
         create_dir_all(&dir).unwrap();
 
         // Generate a compact public key needed to create a compact list
-        let config =
-            tfhe_0_7::ConfigBuilder::with_custom_parameters(VALID_TEST_PARAMS, None).build();
-        let hl_client_key = ClientKey::generate(config);
+        let config = tfhe_0_7::ConfigBuilder::with_custom_parameters(VALID_TEST_PARAMS, None)
+            .enable_compression(COMP_PARAM_MESSAGE_2_CARRY_2)
+            .build();
+        let (hl_client_key, hl_server_key) = generate_keys(config);
+
+        set_server_key(hl_server_key);
+
         let compact_pub_key = CompactPublicKey::new(&hl_client_key);
 
         // Store the associated client key to be able to decrypt the ciphertexts in the list
-        store_versioned_test(&hl_client_key, &dir, &HL_COMPACTLIST_TEST.key_filename);
+        store_versioned_test!(&hl_client_key, &dir, &HL_COMPACTLIST_TEST.key_filename);
 
         let mut compact_builder = CompactCiphertextList::builder(&compact_pub_key);
         compact_builder
@@ -130,16 +158,30 @@ impl TfhersVersion for V0_7 {
         let compact_list_packed = compact_builder.build_packed();
         let compact_list = compact_builder.build();
 
-        store_versioned_test(
+        let mut compressed_builder = CompressedCiphertextListBuilder::new();
+        compressed_builder
+            .push(FheUint8::encrypt(17u8, &hl_client_key))
+            .push(FheInt8::encrypt(-1, &hl_client_key))
+            .push(FheBool::encrypt(false, &hl_client_key))
+            .push(FheBool::encrypt(true, &hl_client_key));
+        let compressed_list = compressed_builder.build().unwrap();
+
+        store_versioned_test!(
             &compact_list_packed,
             &dir,
             &HL_PACKED_COMPACTLIST_TEST.test_filename,
         );
-        store_versioned_test(&compact_list, &dir, &HL_COMPACTLIST_TEST.test_filename);
+        store_versioned_test!(&compact_list, &dir, &HL_COMPACTLIST_TEST.test_filename);
+        store_versioned_test!(
+            &compressed_list,
+            &dir,
+            &HL_COMPRESSED_LIST_TEST.test_filename,
+        );
 
         vec![
             TestMetadata::HlHeterogeneousCiphertextList(HL_PACKED_COMPACTLIST_TEST),
             TestMetadata::HlHeterogeneousCiphertextList(HL_COMPACTLIST_TEST),
+            TestMetadata::HlHeterogeneousCiphertextList(HL_COMPRESSED_LIST_TEST),
         ]
     }
 }

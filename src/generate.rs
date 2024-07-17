@@ -6,7 +6,8 @@ use std::{
 
 use bincode::Options;
 use serde::Serialize;
-use tfhe_versionable::Versionize;
+use tfhe_versionable_0_1::Versionize as Versionize01;
+use tfhe_versionable_0_2::Versionize as Versionize02;
 
 use crate::{data_dir, dir_for_version, TestMetadata, TestParameterSet};
 
@@ -59,8 +60,25 @@ pub fn save_bcode<Data: Serialize, P: AsRef<Path>>(msg: &Data, path: P) {
     options.serialize_into(&mut file, msg).unwrap();
 }
 
-/// Stores the test data in `dir`, encoded in both cbor and bincode
-pub fn store_versioned_test<Data: Versionize, P: AsRef<Path>>(
+/// Stores the test data in `dir`, encoded in both cbor and bincode, using tfhe-versionable 0.1
+pub fn store_versioned_test_01<Data: Versionize01, P: AsRef<Path>>(
+    msg: &Data,
+    dir: P,
+    test_filename: &str,
+) {
+    let versioned = msg.versionize();
+
+    // Store in cbor
+    let filename_cbor = format!("{}.cbor", test_filename);
+    save_cbor(&versioned, dir.as_ref().join(filename_cbor));
+
+    // Store in bincode
+    let filename_bincode = format!("{}.bcode", test_filename);
+    save_bcode(&versioned, dir.as_ref().join(filename_bincode));
+}
+
+/// Stores the test data in `dir`, encoded in both cbor and bincode, using tfhe-versionable 0.2
+pub fn store_versioned_test_02<Data: Versionize02, P: AsRef<Path>>(
     msg: &Data,
     dir: P,
     test_filename: &str,
