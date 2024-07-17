@@ -269,6 +269,7 @@ impl TestType for HlBoolCiphertextTest {
     }
 }
 
+/// Legacy compact unsigned ciphertext lists (deprected in 0.7)
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct HlCiphertextListTest {
     pub test_filename: Cow<'static, str>,
@@ -290,6 +291,7 @@ impl TestType for HlCiphertextListTest {
     }
 }
 
+/// Legacy compact signed ciphertext lists (deprected in 0.7)
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct HlSignedCiphertextListTest {
     pub test_filename: Cow<'static, str>,
@@ -311,6 +313,7 @@ impl TestType for HlSignedCiphertextListTest {
     }
 }
 
+/// Legacy compact bool ciphertext lists (deprected in 0.7)
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct HlBoolCiphertextListTest {
     pub test_filename: Cow<'static, str>,
@@ -332,7 +335,7 @@ impl TestType for HlBoolCiphertextListTest {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
 pub enum DataKind {
     Bool,
     Signed,

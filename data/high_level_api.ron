@@ -326,4 +326,25 @@
             ],
         )),
     ),
+    (
+        tfhe_version_min: "0.7",
+        tfhe_module: "high_level_api",
+        metadata: HlHeterogeneousCiphertextList((
+            test_filename: "hl_compressed_heterogeneous_list",
+            key_filename: "client_key.cbor",
+            compressed: true,
+            clear_values: [
+                17,
+                18446744073709551604,
+                0,
+                1,
+            ],
+            data_kinds: [
+                Unsigned,
+                Signed,
+                Bool,
+                Bool,
+            ],
+        )),
+    ),
 ]
