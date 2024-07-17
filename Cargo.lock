@@ -45,9 +45,9 @@ dependencies = [
 
 [[package]]
 name = "bitflags"
-version = "2.5.0"
+version = "2.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf4b9d6a944f767f8e5e0db018570623c85f3d925ac718db4e06d0187adb21c1"
+checksum = "b048fb63fd8b5923fc5aa7b340d8e156aec7ec02f0c78fa8a6ddc2613f6f71de"
 dependencies = [
  "serde",
 ]
@@ -113,8 +113,18 @@ dependencies = [
 [[package]]
 name = "concrete-csprng"
 version = "0.4.0"
+source = "git+https://github.com/zama-ai/tfhe-rs?branch=release/0.7.x#10ff0ad968a040658eb0520d42c697a948747fd9"
+dependencies = [
+ "aes",
+ "libc",
+ "rayon",
+]
+
+[[package]]
+name = "concrete-csprng"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1c7080e711c39c3dda834604f7c31f4634a38b8dddeb9f24db5d7801751415ad"
+checksum = "90518357249582c16a6b64d7410243dfb3109d5bf0ad1665c058c9a59f2fc4cc"
 dependencies = [
  "aes",
  "libc",
@@ -217,9 +227,9 @@ dependencies = [
 
 [[package]]
 name = "either"
-version = "1.12.0"
+version = "1.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3dca9240753cf90908d7e4aac30f630662b02aebaa1b58a3cadabdb23385b58b"
+checksum = "60b1af1c220855b6ceac025d3f6ecdd2b7c4894bfe9cd9bda4fbb4bc7c0d4cf0"
 
 [[package]]
 name = "generic-array"
@@ -414,18 +424,18 @@ checksum = "61697e0a1c7e512e84a621326239844a24d8207b4669b41bc18b32ea5cbf988b"
 
 [[package]]
 name = "serde"
-version = "1.0.203"
+version = "1.0.204"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7253ab4de971e72fb7be983802300c30b5a7f0c2e56fab8abfc6a214307c0094"
+checksum = "bc76f558e0cbb2a839d37354c575f1dc3fdc6546b5be373ba43d95f231bf7c12"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.203"
+version = "1.0.204"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "500cbc0ebeb6f46627f50f3f5811ccf6bf00643be300b4c3eabc0ef55dc5b5ba"
+checksum = "e0cd7e117be63d3c3678776753929474f3b04a43a080c744d6b0ae2a8c28e222"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -466,9 +476,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "2.0.68"
+version = "2.0.71"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "901fa70d88b9d6c98022e23b4136f9f3e54e4662c3bc1bd1d84a42a9a0f0c1e9"
+checksum = "b146dcf730474b4bcd16c311627b31ede9ab149045db4d6088b3becaea046462"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -484,7 +494,7 @@ dependencies = [
  "aligned-vec",
  "bincode",
  "bytemuck",
- "concrete-csprng",
+ "concrete-csprng 0.4.1",
  "concrete-fft",
  "dyn-stack",
  "itertools",
@@ -493,19 +503,18 @@ dependencies = [
  "rand_core",
  "rayon",
  "serde",
- "tfhe-versionable",
+ "tfhe-versionable 0.1.0",
 ]
 
 [[package]]
 name = "tfhe"
-version = "0.7.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dafa7eb0c9fadc8f2e26c83c2c2164e5b646e4a789952dc88d26daa53ae2b7d0"
+version = "0.7.1"
+source = "git+https://github.com/zama-ai/tfhe-rs?branch=release/0.7.x#10ff0ad968a040658eb0520d42c697a948747fd9"
 dependencies = [
  "aligned-vec",
  "bincode",
  "bytemuck",
- "concrete-csprng",
+ "concrete-csprng 0.4.0",
  "concrete-fft",
  "concrete-ntt",
  "dyn-stack",
@@ -516,7 +525,7 @@ dependencies = [
  "rayon",
  "serde",
  "sha3",
- "tfhe-versionable",
+ "tfhe-versionable 0.2.0",
 ]
 
 [[package]]
@@ -530,8 +539,9 @@ dependencies = [
  "serde",
  "strum",
  "tfhe 0.6.4",
- "tfhe 0.7.0",
- "tfhe-versionable",
+ "tfhe 0.7.1",
+ "tfhe-versionable 0.1.0",
+ "tfhe-versionable 0.2.0",
 ]
 
 [[package]]
@@ -543,7 +553,18 @@ dependencies = [
  "aligned-vec",
  "num-complex",
  "serde",
- "tfhe-versionable-derive",
+ "tfhe-versionable-derive 0.1.0",
+]
+
+[[package]]
+name = "tfhe-versionable"
+version = "0.2.0"
+source = "git+https://github.com/zama-ai/tfhe-rs?branch=release/0.7.x#10ff0ad968a040658eb0520d42c697a948747fd9"
+dependencies = [
+ "aligned-vec",
+ "num-complex",
+ "serde",
+ "tfhe-versionable-derive 0.2.0",
 ]
 
 [[package]]
@@ -551,6 +572,16 @@ name = "tfhe-versionable-derive"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "754aede9c522d81d852b46714d42137d307f418b8b6eed4db03d1466080f4f9d"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "tfhe-versionable-derive"
+version = "0.2.0"
+source = "git+https://github.com/zama-ai/tfhe-rs?branch=release/0.7.x#10ff0ad968a040658eb0520d42c697a948747fd9"
 dependencies = [
  "proc-macro2",
  "quote",
