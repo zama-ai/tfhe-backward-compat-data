@@ -5,7 +5,7 @@ use std::{
 };
 
 #[cfg(feature = "load")]
-use semver::{Version, VersionReq};
+use semver::{Prerelease, Version, VersionReq};
 #[cfg(feature = "load")]
 use std::fmt::Display;
 use strum::Display;
@@ -394,7 +394,10 @@ pub struct Testcase {
 #[cfg(feature = "load")]
 impl Testcase {
     pub fn is_valid_for_version(&self, version: &str) -> bool {
-        let tfhe_version = Version::parse(version).unwrap();
+        let mut tfhe_version = Version::parse(version).unwrap();
+
+        // Removes the pre-release tag because matches will always return
+        tfhe_version.pre = Prerelease::EMPTY;
 
         let req = format!(">={}", self.tfhe_version_min);
         let min_version = VersionReq::parse(&req).unwrap();
