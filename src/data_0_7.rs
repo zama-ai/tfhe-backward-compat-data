@@ -18,17 +18,26 @@ use tfhe_0_7::{
         MessageModulus, PBSParameters,
     },
     CompactCiphertextList, CompactPublicKey, CompressedCiphertextListBuilder, FheBool, FheInt8,
-    FheUint8, Seed,
+    FheUint8, KeySwitchingKey, Seed,
 };
 
 use crate::{
-    generate::{store_versioned_test_02, TfhersVersion, VALID_TEST_PARAMS},
-    DataKind, HlHeterogeneousCiphertextListTest, TestMetadata, TestParameterSet, HL_MODULE_NAME,
+    generate::{
+        store_versioned_auxiliary_02, store_versioned_test_02, TfhersVersion, VALID_TEST_PARAMS,
+    },
+    DataKind, HlHeterogeneousCiphertextListTest, HlKskTest, TestMetadata, TestParameterSet,
+    HL_MODULE_NAME,
 };
 
 macro_rules! store_versioned_test {
     ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
         store_versioned_test_02($msg, $dir, $test_filename)
+    };
+}
+
+macro_rules! store_versioned_auxiliary {
+    ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
+        store_versioned_auxiliary_02($msg, $dir, $test_filename)
     };
 }
 
@@ -112,6 +121,12 @@ const HL_COMPRESSED_LIST_TEST: HlHeterogeneousCiphertextListTest =
         compressed: true,
     };
 
+const HL_KSK_TEST: HlKskTest = HlKskTest {
+    test_filename: Cow::Borrowed("hl_ksk"),
+    src_key_filename: Cow::Borrowed("client_key.cbor"),
+    dest_key_filename: Cow::Borrowed("client_key_dest.cbor"),
+};
+
 pub struct V0_7;
 
 impl TfhersVersion for V0_7 {
@@ -142,13 +157,14 @@ impl TfhersVersion for V0_7 {
             .build();
         let (hl_client_key, hl_server_key) = generate_keys(config);
 
-        set_server_key(hl_server_key);
+        set_server_key(hl_server_key.clone());
 
         let compact_pub_key = CompactPublicKey::new(&hl_client_key);
 
         // Store the associated client key to be able to decrypt the ciphertexts in the list
-        store_versioned_test!(&hl_client_key, &dir, &HL_COMPACTLIST_TEST.key_filename);
+        store_versioned_auxiliary!(&hl_client_key, &dir, &HL_COMPACTLIST_TEST.key_filename);
 
+        // Generate heterogeneous list data
         let mut compact_builder = CompactCiphertextList::builder(&compact_pub_key);
         compact_builder
             .push(17u32)
@@ -166,6 +182,14 @@ impl TfhersVersion for V0_7 {
             .push(FheBool::encrypt(true, &hl_client_key));
         let compressed_list = compressed_builder.build().unwrap();
 
+        // Generate a ksk
+        let (hl_dest_client_key, hl_dest_server_key) = generate_keys(config);
+        let ksk = KeySwitchingKey::new(
+            (&hl_client_key, &hl_server_key),
+            (&hl_dest_client_key, &hl_dest_server_key),
+        )
+        .unwrap();
+
         store_versioned_test!(
             &compact_list_packed,
             &dir,
@@ -177,6 +201,11 @@ impl TfhersVersion for V0_7 {
             &dir,
             &HL_COMPRESSED_LIST_TEST.test_filename,
         );
+
+        // Store the KSK and the destination key needed for the test. The src key is the one used everywhere else
+        // so we don't store it again
+        store_versioned_test!(&ksk, &dir, &HL_KSK_TEST.test_filename);
+        store_versioned_auxiliary!(&hl_dest_client_key, &dir, &HL_KSK_TEST.dest_key_filename);
 
         vec![
             TestMetadata::HlHeterogeneousCiphertextList(HL_PACKED_COMPACTLIST_TEST),

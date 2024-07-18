@@ -60,39 +60,47 @@ pub fn save_bcode<Data: Serialize, P: AsRef<Path>>(msg: &Data, path: P) {
     options.serialize_into(&mut file, msg).unwrap();
 }
 
-/// Stores the test data in `dir`, encoded in both cbor and bincode, using tfhe-versionable 0.1
-pub fn store_versioned_test_01<Data: Versionize01, P: AsRef<Path>>(
-    msg: &Data,
-    dir: P,
-    test_filename: &str,
-) {
-    let versioned = msg.versionize();
+/// Stores the test data in `dir`, encoded in both cbor and bincode, using the right tfhe-versionable version
+macro_rules! define_store_versioned_test_fn {
+    ($fn_name:ident, $versionize_trait:ident) => {
+        pub fn $fn_name<Data: $versionize_trait, P: AsRef<Path>>(
+            msg: &Data,
+            dir: P,
+            test_filename: &str,
+        ) {
+            let versioned = msg.versionize();
 
-    // Store in cbor
-    let filename_cbor = format!("{}.cbor", test_filename);
-    save_cbor(&versioned, dir.as_ref().join(filename_cbor));
+            // Store in cbor
+            let filename_cbor = format!("{}.cbor", test_filename);
+            save_cbor(&versioned, dir.as_ref().join(filename_cbor));
 
-    // Store in bincode
-    let filename_bincode = format!("{}.bcode", test_filename);
-    save_bcode(&versioned, dir.as_ref().join(filename_bincode));
+            // Store in bincode
+            let filename_bincode = format!("{}.bcode", test_filename);
+            save_bcode(&versioned, dir.as_ref().join(filename_bincode));
+        }
+    };
 }
+define_store_versioned_test_fn!(store_versioned_test_01, Versionize01);
+define_store_versioned_test_fn!(store_versioned_test_02, Versionize02);
 
-/// Stores the test data in `dir`, encoded in both cbor and bincode, using tfhe-versionable 0.2
-pub fn store_versioned_test_02<Data: Versionize02, P: AsRef<Path>>(
-    msg: &Data,
-    dir: P,
-    test_filename: &str,
-) {
-    let versioned = msg.versionize();
+/// Stores the auxiliary data in `dir`, encoded in cbor, using the right tfhe-versionable version
+macro_rules! define_store_versioned_auxiliary_fn {
+    ($fn_name:ident, $versionize_trait:ident) => {
+        pub fn $fn_name<Data: $versionize_trait, P: AsRef<Path>>(
+            msg: &Data,
+            dir: P,
+            test_filename: &str,
+        ) {
+            let versioned = msg.versionize();
 
-    // Store in cbor
-    let filename_cbor = format!("{}.cbor", test_filename);
-    save_cbor(&versioned, dir.as_ref().join(filename_cbor));
-
-    // Store in bincode
-    let filename_bincode = format!("{}.bcode", test_filename);
-    save_bcode(&versioned, dir.as_ref().join(filename_bincode));
+            // Store in cbor
+            let filename_cbor = format!("{}", test_filename);
+            save_cbor(&versioned, dir.as_ref().join(filename_cbor));
+        }
+    };
 }
+define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_01, Versionize01);
+define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_02, Versionize02);
 
 pub fn store_metadata<Meta: Serialize, P: AsRef<Path>>(value: &Meta, path: P) {
     let serialized = ron::to_string(value).unwrap();

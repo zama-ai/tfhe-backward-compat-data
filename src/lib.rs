@@ -335,7 +335,7 @@ impl TestType for HlBoolCiphertextListTest {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
 pub enum DataKind {
     Bool,
     Signed,
@@ -363,6 +363,13 @@ impl TestType for HlHeterogeneousCiphertextListTest {
     fn test_filename(&self) -> String {
         self.test_filename.to_string()
     }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct HlKskTest {
+    pub test_filename: Cow<'static, str>,
+    pub src_key_filename: Cow<'static, str>,
+    pub dest_key_filename: Cow<'static, str>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Display)]
