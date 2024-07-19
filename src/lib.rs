@@ -343,7 +343,7 @@ pub enum DataKind {
 pub struct HlHeterogeneousCiphertextListTest {
     pub test_filename: Cow<'static, str>,
     pub key_filename: Cow<'static, str>,
-    pub packed: bool,
+    pub compressed: bool,
     pub clear_values: Cow<'static, [u64]>,
     pub data_kinds: Cow<'static, [DataKind]>,
 }

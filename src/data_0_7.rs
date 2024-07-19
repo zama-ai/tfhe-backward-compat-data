@@ -72,7 +72,7 @@ const HL_PACKED_COMPACTLIST_TEST: HlHeterogeneousCiphertextListTest =
             DataKind::Bool,
             DataKind::Bool,
         ]),
-        packed: true,
+        compressed: false,
     };
 
 const HL_COMPACTLIST_TEST: HlHeterogeneousCiphertextListTest = HlHeterogeneousCiphertextListTest {
@@ -85,7 +85,7 @@ const HL_COMPACTLIST_TEST: HlHeterogeneousCiphertextListTest = HlHeterogeneousCi
         DataKind::Bool,
         DataKind::Bool,
     ]),
-    packed: false,
+    compressed: false,
 };
 
 pub struct V0_7;
