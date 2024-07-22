@@ -1,4 +1,5 @@
 # tfhe-rs backwards compatibility test corpus
+TEST
 This repo contains various messages from [TFHE-rs](https://github.com/zama-ai/tfhe-rs) that have been versioned and serialized.
 The goal is to detect in TFHE-rs CI when the version of a type should be updated because a breaking change has been added.
 
