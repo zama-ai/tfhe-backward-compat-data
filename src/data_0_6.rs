@@ -1,38 +1,32 @@
-use std::{borrow::Cow, fs::create_dir_all};
-
-use tfhe_0_6::{
-    boolean::engine::BooleanEngine,
-    core_crypto::commons::{
-        generators::DeterministicSeeder,
-        math::random::{ActivatedRandomGenerator, Seed},
-    },
-    generate_keys,
-    prelude::FheEncrypt,
-    set_server_key,
-    shortint::{
-        self,
-        engine::ShortintEngine,
-        parameters::{
-            DecompositionBaseLog, DecompositionLevelCount, DynamicDistribution, GlweDimension,
-            LweDimension, PolynomialSize, StandardDev, PARAM_MESSAGE_1_CARRY_1_PBS_KS,
-        },
-        CarryModulus, CiphertextModulus, ClassicPBSParameters, EncryptionKeyChoice, MaxNoiseLevel,
-        MessageModulus, PBSParameters,
-    },
-    ClientKey, CompactFheBool, CompactFheBoolList, CompactFheInt8, CompactFheInt8List,
-    CompactFheUint8, CompactFheUint8List, CompactPublicKey, CompressedCompactPublicKey,
-    CompressedFheBool, CompressedFheInt8, CompressedFheUint8, CompressedPublicKey,
-    CompressedServerKey, ConfigBuilder, FheBool, FheInt8, FheUint8, PublicKey,
-};
-use tfhe_versionable_0_1::Versionize;
-
+use crate::generate::{save_cbor, store_versioned_test_01, TfhersVersion, VALID_TEST_PARAMS};
 use crate::{
-    generate::{save_cbor, store_versioned_test_01, TfhersVersion, VALID_TEST_PARAMS},
     HlBoolCiphertextListTest, HlBoolCiphertextTest, HlCiphertextListTest, HlCiphertextTest,
     HlClientKeyTest, HlPublicKeyTest, HlServerKeyTest, HlSignedCiphertextListTest,
     HlSignedCiphertextTest, ShortintCiphertextTest, ShortintClientKeyTest, TestMetadata,
     TestParameterSet, HL_MODULE_NAME, SHORTINT_MODULE_NAME,
 };
+use std::borrow::Cow;
+use std::fs::create_dir_all;
+use tfhe_0_6::boolean::engine::BooleanEngine;
+use tfhe_0_6::core_crypto::commons::generators::DeterministicSeeder;
+use tfhe_0_6::core_crypto::commons::math::random::{ActivatedRandomGenerator, Seed};
+use tfhe_0_6::prelude::FheEncrypt;
+use tfhe_0_6::shortint::engine::ShortintEngine;
+use tfhe_0_6::shortint::parameters::{
+    DecompositionBaseLog, DecompositionLevelCount, DynamicDistribution, GlweDimension,
+    LweDimension, PolynomialSize, StandardDev, PARAM_MESSAGE_1_CARRY_1_PBS_KS,
+};
+use tfhe_0_6::shortint::{
+    self, CarryModulus, CiphertextModulus, ClassicPBSParameters, EncryptionKeyChoice,
+    MaxNoiseLevel, MessageModulus, PBSParameters,
+};
+use tfhe_0_6::{
+    generate_keys, set_server_key, ClientKey, CompactFheBool, CompactFheBoolList, CompactFheInt8,
+    CompactFheInt8List, CompactFheUint8, CompactFheUint8List, CompactPublicKey,
+    CompressedCompactPublicKey, CompressedFheBool, CompressedFheInt8, CompressedFheUint8,
+    CompressedPublicKey, CompressedServerKey, ConfigBuilder, FheBool, FheInt8, FheUint8, PublicKey,
+};
+use tfhe_versionable_0_1::Versionize;
 
 macro_rules! store_versioned_test {
     ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
