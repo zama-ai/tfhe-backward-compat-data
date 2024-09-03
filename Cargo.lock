@@ -63,9 +63,9 @@ dependencies = [
 
 [[package]]
 name = "bytemuck"
-version = "1.16.1"
+version = "1.17.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b236fc92302c97ed75b38da1f4917b5cdda4984745740f153a5d3059e48d725e"
+checksum = "773d90827bc3feecfb67fab12e24de0749aad83c74b9504ecde46237b5cd24e2"
 
 [[package]]
 name = "cfg-if"
@@ -147,9 +147,9 @@ dependencies = [
 
 [[package]]
 name = "cpufeatures"
-version = "0.2.12"
+version = "0.2.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "53fe5e26ff1b7aef8bca9c6080520cfb8d9333c7568e1829cef191a9723e5504"
+checksum = "51e852e6dc9a5bed1fae92dd2375037bf2b768725bf3be87811edee3249d09ad"
 dependencies = [
  "libc",
 ]
@@ -287,9 +287,9 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.155"
+version = "0.2.158"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "97b3888a4aecf77e811145cadf6eef5901f4782c53886191b2f693f24761847c"
+checksum = "d8adc4bb1803a324070e64a98ae98f38934d91957a99cfb3a43dcbc01bc56439"
 
 [[package]]
 name = "libm"
@@ -346,9 +346,9 @@ dependencies = [
 
 [[package]]
 name = "quote"
-version = "1.0.36"
+version = "1.0.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0fa76aaf39101c457836aec0ce2316dbdc3ab723cdda1c6bd4e6ad4208acaca7"
+checksum = "b5b9d34b8991d19d98081b46eacdd8eb58c6f2b201139f7c5f643cc155a633af"
 dependencies = [
  "proc-macro2",
 ]
@@ -414,18 +414,18 @@ checksum = "61697e0a1c7e512e84a621326239844a24d8207b4669b41bc18b32ea5cbf988b"
 
 [[package]]
 name = "serde"
-version = "1.0.204"
+version = "1.0.209"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bc76f558e0cbb2a839d37354c575f1dc3fdc6546b5be373ba43d95f231bf7c12"
+checksum = "99fce0ffe7310761ca6bf9faf5115afbc19688edd00171d81b1bb1b116c63e09"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.204"
+version = "1.0.209"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e0cd7e117be63d3c3678776753929474f3b04a43a080c744d6b0ae2a8c28e222"
+checksum = "a5831b979fd7b5439637af1752d535ff49f4860c0f341d1baeb6faf0f4242170"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -466,9 +466,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "2.0.71"
+version = "2.0.77"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b146dcf730474b4bcd16c311627b31ede9ab149045db4d6088b3becaea046462"
+checksum = "9f35bcdf61fd8e7be6caf75f429fdca8beb3ed76584befb503b1569faee373ed"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -498,9 +498,9 @@ dependencies = [
 
 [[package]]
 name = "tfhe"
-version = "0.7.2"
+version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0623aaa0dc7836f4f7aa96602ef9c6a55f87cbcb962a94ed7a9e6d00daa32cfb"
+checksum = "654a8bea9d6a503ebe16c8244c6a44ce924ed4c9c5a9a425fee5e021081243db"
 dependencies = [
  "aligned-vec",
  "bincode",
@@ -516,7 +516,7 @@ dependencies = [
  "rayon",
  "serde",
  "sha3",
- "tfhe-versionable 0.2.0",
+ "tfhe-versionable 0.2.1",
 ]
 
 [[package]]
@@ -530,9 +530,9 @@ dependencies = [
  "serde",
  "strum",
  "tfhe 0.6.4",
- "tfhe 0.7.2",
+ "tfhe 0.7.3",
  "tfhe-versionable 0.1.0",
- "tfhe-versionable 0.2.0",
+ "tfhe-versionable 0.2.1",
 ]
 
 [[package]]
@@ -549,14 +549,14 @@ dependencies = [
 
 [[package]]
 name = "tfhe-versionable"
-version = "0.2.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5bcae0d989f0eb92d5faae77dac5705ff1d9b82c59a38b36fd17edd6509c449c"
+checksum = "9c7f9c9ef59d138c8ee539da0e15daf73345f0969a718f48bfd78706e4948e92"
 dependencies = [
  "aligned-vec",
  "num-complex",
  "serde",
- "tfhe-versionable-derive 0.2.0",
+ "tfhe-versionable-derive 0.2.1",
 ]
 
 [[package]]
@@ -572,9 +572,9 @@ dependencies = [
 
 [[package]]
 name = "tfhe-versionable-derive"
-version = "0.2.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c2049a82376dc42df29b91961a3f58e7923270c976d9c762a43fd55da51d18c5"
+checksum = "4709d2c6e0a39b45ed752f4b1151e261cc43c9681cacad00be4ecfc5df655e5c"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -595,9 +595,9 @@ checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
 
 [[package]]
 name = "version_check"
-version = "0.9.4"
+version = "0.9.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
+checksum = "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a"
 
 [[package]]
 name = "wasi"
