@@ -2,7 +2,8 @@ use crate::generate::{
     store_versioned_auxiliary_02, store_versioned_test_02, TfhersVersion, VALID_TEST_PARAMS,
 };
 use crate::{
-    DataKind, HlHeterogeneousCiphertextListTest, TestMetadata, TestParameterSet, HL_MODULE_NAME,
+    DataKind, HlClientKeyTest, HlHeterogeneousCiphertextListTest, HlServerKeyTest, TestMetadata,
+    TestParameterSet, HL_MODULE_NAME,
 };
 use std::borrow::Cow;
 use std::fs::create_dir_all;
@@ -111,6 +112,17 @@ const HL_COMPRESSED_LIST_TEST: HlHeterogeneousCiphertextListTest =
         compressed: true,
     };
 
+const HL_CLIENTKEY_WITH_COMPRESSION_TEST: HlClientKeyTest = HlClientKeyTest {
+    test_filename: Cow::Borrowed("client_key_with_compression"),
+    parameters: VALID_TEST_PARAMS,
+};
+
+const HL_SERVERKEY_WITH_COMPRESSION_TEST: HlServerKeyTest = HlServerKeyTest {
+    test_filename: Cow::Borrowed("server_key_with_compression"),
+    client_key_filename: Cow::Borrowed("client_key_with_compression.cbor"),
+    compressed: false,
+};
+
 pub struct V0_7;
 
 impl TfhersVersion for V0_7 {
@@ -141,7 +153,7 @@ impl TfhersVersion for V0_7 {
             .build();
         let (hl_client_key, hl_server_key) = generate_keys(config);
 
-        set_server_key(hl_server_key);
+        set_server_key(hl_server_key.clone());
 
         let compact_pub_key = CompactPublicKey::new(&hl_client_key);
 
@@ -191,10 +203,24 @@ impl TfhersVersion for V0_7 {
             &HL_COMPRESSED_LIST_TEST.test_filename,
         );
 
+        store_versioned_test!(
+            &hl_client_key,
+            &dir,
+            &HL_CLIENTKEY_WITH_COMPRESSION_TEST.test_filename,
+        );
+
+        store_versioned_test!(
+            &hl_server_key,
+            &dir,
+            &HL_SERVERKEY_WITH_COMPRESSION_TEST.test_filename,
+        );
+
         vec![
             TestMetadata::HlHeterogeneousCiphertextList(HL_PACKED_COMPACTLIST_TEST),
             TestMetadata::HlHeterogeneousCiphertextList(HL_COMPACTLIST_TEST),
             TestMetadata::HlHeterogeneousCiphertextList(HL_COMPRESSED_LIST_TEST),
+            TestMetadata::HlClientKey(HL_CLIENTKEY_WITH_COMPRESSION_TEST),
+            TestMetadata::HlServerKey(HL_SERVERKEY_WITH_COMPRESSION_TEST),
         ]
     }
 }
