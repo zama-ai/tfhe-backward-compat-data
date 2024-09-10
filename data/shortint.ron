@@ -8,8 +8,12 @@
                 lwe_dimension: 761,
                 glwe_dimension: 1,
                 polynomial_size: 2048,
-                lwe_noise_gaussian_stddev: 0.00000636835566258815,
-                glwe_noise_gaussian_stddev: 0.00000000000000031529322391500584,
+                lwe_noise_distribution: Gaussian(
+                    stddev: 0.00000636835566258815,
+                ),
+                glwe_noise_distribution: Gaussian(
+                    stddev: 0.00000000000000031529322391500584,
+                ),
                 pbs_base_log: 23,
                 pbs_level: 1,
                 ks_base_log: 3,

@@ -1,6 +1,6 @@
 [package]
 name = "tfhe-backward-compat-data"
-version = "0.1.0"
+version = "0.2.0"
 license = "BSD-3-Clause-Clear"
 edition = "2021"
 
@@ -10,22 +10,31 @@ edition = "2021"
 # This is a list of tfhe-rs versions we will generate data for. This list will grow over time.
 # They are only activated when generating data, with the binary target and the "generate" feature.
 tfhe_0_6 = { version = "0.6", features = [
-    "boolean",
-    "integer",
-    "shortint",
-    "x86_64-unix",
-    "experimental-force_fft_algo_dif4",
+  "boolean",
+  "integer",
+  "shortint",
+  "x86_64-unix",
+  "experimental-force_fft_algo_dif4",
 ], package = "tfhe", optional = true }
 tfhe_0_7 = { version = "0.7", features = [
-    "boolean",
-    "integer",
-    "shortint",
-    "x86_64-unix",
-    "experimental-force_fft_algo_dif4",
+  "boolean",
+  "integer",
+  "shortint",
+  "x86_64-unix",
+  "experimental-force_fft_algo_dif4",
 ], package = "tfhe", optional = true }
+tfhe_0_8 = { features = [
+  "boolean",
+  "integer",
+  "shortint",
+  "x86_64-unix",
+	"zk-pok",
+  "experimental-force_fft_algo_dif4",
+], package = "tfhe", optional = true, git = "https://github.com/zama-ai/tfhe-rs", branch = "ns/versionize_zk" }
 
 tfhe-versionable_0_1 = { version = "0.1", optional = true, package = "tfhe-versionable" }
 tfhe-versionable_0_2 = { version = "0.2", optional = true, package = "tfhe-versionable" }
+tfhe-versionable_0_3 = { version = "0.3", optional = true, package = "tfhe-versionable", git = "https://github.com/zama-ai/tfhe-rs", branch = "ns/versionize_zk" }
 
 # other deps
 serde = { version = "1.0", features = ["derive"] }
@@ -43,11 +52,11 @@ required-features = ["generate"]
 default = ["generate"]
 
 generate = [
-    "dep:tfhe_0_6",
-    "dep:tfhe_0_7",
-    "dep:tfhe-versionable_0_1",
-    "dep:tfhe-versionable_0_2",
+  "dep:tfhe_0_6",
+  "dep:tfhe_0_7",
+  "dep:tfhe_0_8",
+  "dep:tfhe-versionable_0_1",
+  "dep:tfhe-versionable_0_2",
+  "dep:tfhe-versionable_0_3",
 ]
 load = ["dep:semver"]
-
-[workspace]

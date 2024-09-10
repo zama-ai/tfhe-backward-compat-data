@@ -2,14 +2,15 @@ use crate::generate::{
     store_versioned_auxiliary_02, store_versioned_test_02, TfhersVersion, VALID_TEST_PARAMS,
 };
 use crate::{
-    DataKind, HlClientKeyTest, HlHeterogeneousCiphertextListTest, HlServerKeyTest, TestMetadata,
-    TestParameterSet, HL_MODULE_NAME,
+    DataKind, HlClientKeyTest, HlHeterogeneousCiphertextListTest, HlServerKeyTest,
+    TestDistribution, TestMetadata, TestParameterSet, HL_MODULE_NAME,
 };
 use std::borrow::Cow;
 use std::fs::create_dir_all;
 use tfhe_0_7::boolean::engine::BooleanEngine;
 use tfhe_0_7::core_crypto::commons::generators::DeterministicSeeder;
 use tfhe_0_7::core_crypto::commons::math::random::ActivatedRandomGenerator;
+use tfhe_0_7::core_crypto::prelude::TUniform;
 use tfhe_0_7::prelude::FheEncrypt;
 use tfhe_0_7::shortint::engine::ShortintEngine;
 use tfhe_0_7::shortint::parameters::{
@@ -37,18 +38,27 @@ macro_rules! store_versioned_auxiliary {
     };
 }
 
+impl From<TestDistribution> for DynamicDistribution<u64> {
+    fn from(value: TestDistribution) -> Self {
+        match value {
+            TestDistribution::Gaussian { stddev } => {
+                DynamicDistribution::new_gaussian_from_std_dev(StandardDev(stddev))
+            }
+            TestDistribution::TUniform { bound_log2 } => {
+                DynamicDistribution::TUniform(TUniform::new(bound_log2))
+            }
+        }
+    }
+}
+
 impl From<TestParameterSet> for ClassicPBSParameters {
     fn from(value: TestParameterSet) -> Self {
         ClassicPBSParameters {
             lwe_dimension: LweDimension(value.lwe_dimension),
             glwe_dimension: GlweDimension(value.glwe_dimension),
             polynomial_size: PolynomialSize(value.polynomial_size),
-            lwe_noise_distribution: DynamicDistribution::new_gaussian_from_std_dev(StandardDev(
-                value.lwe_noise_gaussian_stddev,
-            )),
-            glwe_noise_distribution: DynamicDistribution::new_gaussian_from_std_dev(StandardDev(
-                value.glwe_noise_gaussian_stddev,
-            )),
+            lwe_noise_distribution: value.lwe_noise_distribution.into(),
+            glwe_noise_distribution: value.glwe_noise_distribution.into(),
             pbs_base_log: DecompositionBaseLog(value.pbs_base_log),
             pbs_level: DecompositionLevelCount(value.pbs_level),
             ks_base_log: DecompositionBaseLog(value.ks_base_log),
@@ -87,6 +97,7 @@ const HL_COMPACTLIST_TEST: HlHeterogeneousCiphertextListTest = HlHeterogeneousCi
         DataKind::Bool,
     ]),
     compressed: false,
+    proof_info: None,
 };
 
 const HL_PACKED_COMPACTLIST_TEST: HlHeterogeneousCiphertextListTest =
@@ -96,6 +107,7 @@ const HL_PACKED_COMPACTLIST_TEST: HlHeterogeneousCiphertextListTest =
         clear_values: HL_COMPACTLIST_TEST.clear_values,
         data_kinds: HL_COMPACTLIST_TEST.data_kinds,
         compressed: false,
+        proof_info: None,
     };
 
 const HL_COMPRESSED_LIST_TEST: HlHeterogeneousCiphertextListTest =
@@ -110,6 +122,7 @@ const HL_COMPRESSED_LIST_TEST: HlHeterogeneousCiphertextListTest =
             DataKind::Bool,
         ]),
         compressed: true,
+        proof_info: None,
     };
 
 const HL_CLIENTKEY_WITH_COMPRESSION_TEST: HlClientKeyTest = HlClientKeyTest {

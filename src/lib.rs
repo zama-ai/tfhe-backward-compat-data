@@ -17,6 +17,8 @@ pub mod data_0_6;
 #[cfg(feature = "generate")]
 pub mod data_0_7;
 #[cfg(feature = "generate")]
+pub mod data_0_8;
+#[cfg(feature = "generate")]
 pub mod generate;
 #[cfg(feature = "load")]
 pub mod load;
@@ -25,6 +27,7 @@ const DATA_DIR: &str = "data";
 
 pub const SHORTINT_MODULE_NAME: &str = "shortint";
 pub const HL_MODULE_NAME: &str = "high_level_api";
+pub const ZK_MODULE_NAME: &str = "zk";
 
 /// This struct re-defines tfhe-rs parameter sets but this allows to be independant
 /// of changes made into the  ParameterSet of tfhe-rs. The idea here is to define a type
@@ -35,8 +38,8 @@ pub struct TestParameterSet {
     pub lwe_dimension: usize,
     pub glwe_dimension: usize,
     pub polynomial_size: usize,
-    pub lwe_noise_gaussian_stddev: f64,
-    pub glwe_noise_gaussian_stddev: f64,
+    pub lwe_noise_distribution: TestDistribution,
+    pub glwe_noise_distribution: TestDistribution,
     pub pbs_base_log: usize,
     pub pbs_level: usize,
     pub ks_base_log: usize,
@@ -47,6 +50,13 @@ pub struct TestParameterSet {
     pub max_noise_level: usize,
     pub log2_p_fail: f64,
     pub encryption_key_choice: Cow<'static, str>,
+}
+
+/// Representation of a random distribution that is independant from any tfhe-rs version
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub enum TestDistribution {
+    Gaussian { stddev: f64 },
+    TUniform { bound_log2: u32 },
 }
 
 pub fn dir_for_version<P: AsRef<Path>>(data_dir: P, version: &str) -> PathBuf {
@@ -342,11 +352,20 @@ pub enum DataKind {
     Unsigned,
 }
 
+/// Info needed to be able to verify a pke proven compact list
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct PkeZkProofAuxilliaryInfo {
+    pub public_key_filename: Cow<'static, str>,
+    pub params_filename: Cow<'static, str>,
+    pub metadata: Cow<'static, str>,
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct HlHeterogeneousCiphertextListTest {
     pub test_filename: Cow<'static, str>,
     pub key_filename: Cow<'static, str>,
     pub compressed: bool,
+    pub proof_info: Option<PkeZkProofAuxilliaryInfo>,
     pub clear_values: Cow<'static, [u64]>,
     pub data_kinds: Cow<'static, [DataKind]>,
 }
@@ -358,6 +377,31 @@ impl TestType for HlHeterogeneousCiphertextListTest {
 
     fn target_type(&self) -> String {
         "CompactCiphertextList".to_string()
+    }
+
+    fn test_filename(&self) -> String {
+        self.test_filename.to_string()
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct ZkPkePublicParamsTest {
+    pub test_filename: Cow<'static, str>,
+    pub lwe_dimension: usize,
+    pub max_num_cleartext: usize,
+    pub noise_bound: usize,
+    pub ciphertext_modulus: u128,
+    pub plaintext_modulus: usize,
+    pub padding_bit_count: usize,
+}
+
+impl TestType for ZkPkePublicParamsTest {
+    fn module(&self) -> String {
+        ZK_MODULE_NAME.to_string()
+    }
+
+    fn target_type(&self) -> String {
+        "CompactPkePublicParams".to_string()
     }
 
     fn test_filename(&self) -> String {
@@ -382,6 +426,7 @@ pub enum TestMetadata {
     HlClientKey(HlClientKeyTest),
     HlServerKey(HlServerKeyTest),
     HlPublicKey(HlPublicKeyTest),
+    ZkPkePublicParams(ZkPkePublicParamsTest), // We place it in the hl folder since it is currently used with hl tests:
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
