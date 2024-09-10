@@ -1,12 +1,11 @@
 use tfhe_backward_compat_data::{
     data_0_6::V0_6,
     data_0_7::V0_7,
+    data_0_8::V0_8,
     data_dir,
-    generate::{store_metadata, TfhersVersion},
+    generate::{store_metadata, TfhersVersion, PRNG_SEED},
     Testcase, HL_MODULE_NAME, SHORTINT_MODULE_NAME,
 };
-
-const PRNG_SEED: u128 = 0xdeadbeef;
 
 fn gen_all_data<Vers: TfhersVersion>() -> Vec<Testcase> {
     Vers::seed_prng(PRNG_SEED);
@@ -37,6 +36,7 @@ fn main() {
     let root_dir = env!("CARGO_MANIFEST_DIR");
     let mut testcases = gen_all_data::<V0_6>();
     testcases.extend(gen_all_data::<V0_7>());
+    testcases.extend(gen_all_data::<V0_8>());
 
     let shortint_testcases: Vec<Testcase> = testcases
         .iter()

@@ -8,16 +8,23 @@ use bincode::Options;
 use serde::Serialize;
 use tfhe_versionable_0_1::Versionize as Versionize01;
 use tfhe_versionable_0_2::Versionize as Versionize02;
+use tfhe_versionable_0_3::Versionize as Versionize03;
 
-use crate::{data_dir, dir_for_version, TestMetadata, TestParameterSet};
+use crate::{data_dir, dir_for_version, TestDistribution, TestMetadata, TestParameterSet};
+
+pub const PRNG_SEED: u128 = 0xdeadbeef;
 
 /// Valid parameter set that can be used in tfhe operations
 pub const VALID_TEST_PARAMS: TestParameterSet = TestParameterSet {
     lwe_dimension: 761,
     glwe_dimension: 1,
     polynomial_size: 2048,
-    lwe_noise_gaussian_stddev: 6.36835566258815e-06,
-    glwe_noise_gaussian_stddev: 3.1529322391500584e-16,
+    lwe_noise_distribution: TestDistribution::Gaussian {
+        stddev: 6.36835566258815e-06,
+    },
+    glwe_noise_distribution: TestDistribution::Gaussian {
+        stddev: 3.1529322391500584e-16,
+    },
     pbs_base_log: 23,
     pbs_level: 1,
     ks_base_log: 3,
@@ -30,13 +37,31 @@ pub const VALID_TEST_PARAMS: TestParameterSet = TestParameterSet {
     encryption_key_choice: Cow::Borrowed("big"),
 };
 
+pub const VALID_TEST_PARAMS_TUNIFORM: TestParameterSet = TestParameterSet {
+    lwe_dimension: 887,
+    glwe_dimension: 1,
+    polynomial_size: 2048,
+    lwe_noise_distribution: TestDistribution::TUniform { bound_log2: 46 },
+    glwe_noise_distribution: TestDistribution::TUniform { bound_log2: 17 },
+    pbs_base_log: 22,
+    pbs_level: 1,
+    ks_base_log: 3,
+    ks_level: 5,
+    message_modulus: 4,
+    carry_modulus: 4,
+    max_noise_level: 5,
+    log2_p_fail: -64.138,
+    ciphertext_modulus: (u64::MAX as u128) + 1,
+    encryption_key_choice: Cow::Borrowed("big"),
+};
+
 /// Invalid parameter set to test the limits
 pub const INVALID_TEST_PARAMS: TestParameterSet = TestParameterSet {
     lwe_dimension: usize::MAX,
     glwe_dimension: usize::MAX,
     polynomial_size: usize::MAX,
-    lwe_noise_gaussian_stddev: f64::MAX,
-    glwe_noise_gaussian_stddev: f64::MAX,
+    lwe_noise_distribution: TestDistribution::Gaussian { stddev: f64::MAX },
+    glwe_noise_distribution: TestDistribution::Gaussian { stddev: f64::MAX },
     pbs_base_log: usize::MAX,
     pbs_level: usize::MAX,
     ks_base_log: usize::MAX,
@@ -82,6 +107,7 @@ macro_rules! define_store_versioned_test_fn {
 }
 define_store_versioned_test_fn!(store_versioned_test_01, Versionize01);
 define_store_versioned_test_fn!(store_versioned_test_02, Versionize02);
+define_store_versioned_test_fn!(store_versioned_test_03, Versionize03);
 
 /// Stores the auxiliary data in `dir`, encoded in cbor, using the right tfhe-versionable version
 macro_rules! define_store_versioned_auxiliary_fn {
@@ -101,6 +127,7 @@ macro_rules! define_store_versioned_auxiliary_fn {
 }
 define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_01, Versionize01);
 define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_02, Versionize02);
+define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_03, Versionize03);
 
 pub fn store_metadata<Meta: Serialize, P: AsRef<Path>>(value: &Meta, path: P) {
     let serialized = ron::ser::to_string_pretty(value, ron::ser::PrettyConfig::default()).unwrap();

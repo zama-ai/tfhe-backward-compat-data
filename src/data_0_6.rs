@@ -2,14 +2,15 @@ use crate::generate::{save_cbor, store_versioned_test_01, TfhersVersion, VALID_T
 use crate::{
     HlBoolCiphertextListTest, HlBoolCiphertextTest, HlCiphertextListTest, HlCiphertextTest,
     HlClientKeyTest, HlPublicKeyTest, HlServerKeyTest, HlSignedCiphertextListTest,
-    HlSignedCiphertextTest, ShortintCiphertextTest, ShortintClientKeyTest, TestMetadata,
-    TestParameterSet, HL_MODULE_NAME, SHORTINT_MODULE_NAME,
+    HlSignedCiphertextTest, ShortintCiphertextTest, ShortintClientKeyTest, TestDistribution,
+    TestMetadata, TestParameterSet, HL_MODULE_NAME, SHORTINT_MODULE_NAME,
 };
 use std::borrow::Cow;
 use std::fs::create_dir_all;
 use tfhe_0_6::boolean::engine::BooleanEngine;
 use tfhe_0_6::core_crypto::commons::generators::DeterministicSeeder;
 use tfhe_0_6::core_crypto::commons::math::random::{ActivatedRandomGenerator, Seed};
+use tfhe_0_6::core_crypto::prelude::TUniform;
 use tfhe_0_6::prelude::FheEncrypt;
 use tfhe_0_6::shortint::engine::ShortintEngine;
 use tfhe_0_6::shortint::parameters::{
@@ -34,18 +35,27 @@ macro_rules! store_versioned_test {
     };
 }
 
+impl From<TestDistribution> for DynamicDistribution<u64> {
+    fn from(value: TestDistribution) -> Self {
+        match value {
+            TestDistribution::Gaussian { stddev } => {
+                DynamicDistribution::new_gaussian_from_std_dev(StandardDev(stddev))
+            }
+            TestDistribution::TUniform { bound_log2 } => {
+                DynamicDistribution::TUniform(TUniform::new(bound_log2))
+            }
+        }
+    }
+}
+
 impl From<TestParameterSet> for ClassicPBSParameters {
     fn from(value: TestParameterSet) -> Self {
         ClassicPBSParameters {
             lwe_dimension: LweDimension(value.lwe_dimension),
             glwe_dimension: GlweDimension(value.glwe_dimension),
             polynomial_size: PolynomialSize(value.polynomial_size),
-            lwe_noise_distribution: DynamicDistribution::new_gaussian_from_std_dev(StandardDev(
-                value.lwe_noise_gaussian_stddev,
-            )),
-            glwe_noise_distribution: DynamicDistribution::new_gaussian_from_std_dev(StandardDev(
-                value.glwe_noise_gaussian_stddev,
-            )),
+            lwe_noise_distribution: value.lwe_noise_distribution.into(),
+            glwe_noise_distribution: value.glwe_noise_distribution.into(),
             pbs_base_log: DecompositionBaseLog(value.pbs_base_log),
             pbs_level: DecompositionLevelCount(value.pbs_level),
             ks_base_log: DecompositionBaseLog(value.ks_base_log),

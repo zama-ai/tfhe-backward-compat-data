@@ -8,8 +8,12 @@
                 lwe_dimension: 761,
                 glwe_dimension: 1,
                 polynomial_size: 2048,
-                lwe_noise_gaussian_stddev: 0.00000636835566258815,
-                glwe_noise_gaussian_stddev: 0.00000000000000031529322391500584,
+                lwe_noise_distribution: Gaussian(
+                    stddev: 0.00000636835566258815,
+                ),
+                glwe_noise_distribution: Gaussian(
+                    stddev: 0.00000000000000031529322391500584,
+                ),
                 pbs_base_log: 23,
                 pbs_level: 1,
                 ks_base_log: 3,
@@ -291,6 +295,7 @@
             test_filename: "hl_packed_heterogeneous_list",
             key_filename: "client_key.cbor",
             compressed: false,
+            proof_info: None,
             clear_values: [
                 17,
                 18446744073709551604,
@@ -312,6 +317,7 @@
             test_filename: "hl_heterogeneous_list",
             key_filename: "client_key.cbor",
             compressed: false,
+            proof_info: None,
             clear_values: [
                 17,
                 18446744073709551604,
@@ -333,6 +339,7 @@
             test_filename: "hl_compressed_heterogeneous_list",
             key_filename: "client_key.cbor",
             compressed: true,
+            proof_info: None,
             clear_values: [
                 17,
                 18446744073709551604,
@@ -356,8 +363,12 @@
                 lwe_dimension: 761,
                 glwe_dimension: 1,
                 polynomial_size: 2048,
-                lwe_noise_gaussian_stddev: 0.00000636835566258815,
-                glwe_noise_gaussian_stddev: 0.00000000000000031529322391500584,
+                lwe_noise_distribution: Gaussian(
+                    stddev: 0.00000636835566258815,
+                ),
+                glwe_noise_distribution: Gaussian(
+                    stddev: 0.00000000000000031529322391500584,
+                ),
                 pbs_base_log: 23,
                 pbs_level: 1,
                 ks_base_log: 3,
@@ -378,6 +389,45 @@
             test_filename: "server_key_with_compression",
             client_key_filename: "client_key_with_compression.cbor",
             compressed: false,
+        )),
+    ),
+    (
+        tfhe_version_min: "0.8",
+        tfhe_module: "high_level_api",
+        metadata: ZkPkePublicParams((
+            test_filename: "zk_pke_public_params",
+            lwe_dimension: 2048,
+            max_num_cleartext: 16,
+            noise_bound: 46,
+            ciphertext_modulus: 18446744073709551616,
+            plaintext_modulus: 32,
+            padding_bit_count: 1,
+        )),
+    ),
+    (
+        tfhe_version_min: "0.8",
+        tfhe_module: "high_level_api",
+        metadata: HlHeterogeneousCiphertextList((
+            test_filename: "hl_proven_heterogeneous_list",
+            key_filename: "client_key.cbor",
+            compressed: false,
+            proof_info: Some((
+                public_key_filename: "public_key.cbor",
+                params_filename: "zk_pke_public_params.cbor",
+                metadata: "drawkcab",
+            )),
+            clear_values: [
+                17,
+                18446744073709551604,
+                0,
+                1,
+            ],
+            data_kinds: [
+                Unsigned,
+                Signed,
+                Bool,
+                Bool,
+            ],
         )),
     ),
 ]
