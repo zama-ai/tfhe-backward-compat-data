@@ -1,0 +1,38 @@
+name: Auto rebase the latest version branch with main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  synchronise_version_branch:
+    name: Synchronize the latest branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+        with:
+          fetch-depth: 0
+
+      - name: Get branch for the latest version
+        run: |
+          echo "DATA_LATEST_VERSION=\
+          $(git for-each-ref --format='%(refname:short)' refs/remotes/origin \
+          | grep -Po '(?<=origin/)v\d.\d(.\d)?$' \
+          | sort -V | tail -n 1\
+          )" >> $GITHUB_ENV
+
+      - name: Rebase and push
+        run: |
+          git switch $DATA_LATEST_VERSION
+          git rebase main
+          git push --force-with-lease
+
+      - name: Slack Notification
+        if: ${{ always() && job.status == 'failure' }}
+        continue-on-error: true
+        uses: rtCamp/action-slack-notify@4e5fb42d249be6a45a298f3c9543b111b02f7907
+        env:
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_MESSAGE: "backward-compat-data failed to rebase branch {{ env.DATA_LATEST_VERSION }} into main: (${{ env.ACTION_RUN_URL }})"
+
