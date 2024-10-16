@@ -6,11 +6,13 @@ use std::{
 
 use bincode::Options;
 use serde::Serialize;
-use tfhe_versionable_0_1::Versionize as Versionize01;
-use tfhe_versionable_0_2::Versionize as Versionize02;
-use tfhe_versionable_0_3::Versionize as Versionize03;
+use tfhe_0_8_versionable::Versionize as VersionizeTfhe08;
+use tfhe_0_9_versionable::Versionize as VersionizeTfhe09;
 
-use crate::{data_dir, dir_for_version, TestDistribution, TestMetadata, TestParameterSet};
+use crate::{
+    data_dir, dir_for_version, TestCompressionParameterSet, TestDistribution, TestMetadata,
+    TestParameterSet,
+};
 
 pub const PRNG_SEED: u128 = 0xdeadbeef;
 
@@ -33,7 +35,7 @@ pub const VALID_TEST_PARAMS: TestParameterSet = TestParameterSet {
     carry_modulus: 4,
     max_noise_level: 5,
     log2_p_fail: -40.05,
-    ciphertext_modulus: (u64::MAX as u128) + 1,
+    ciphertext_modulus: 1 << 64,
     encryption_key_choice: Cow::Borrowed("big"),
 };
 
@@ -51,9 +53,46 @@ pub const VALID_TEST_PARAMS_TUNIFORM: TestParameterSet = TestParameterSet {
     carry_modulus: 4,
     max_noise_level: 5,
     log2_p_fail: -64.138,
-    ciphertext_modulus: (u64::MAX as u128) + 1,
+    ciphertext_modulus: 1 << 64,
     encryption_key_choice: Cow::Borrowed("big"),
 };
+
+/// Those parameters are insecure and are used to generate small legacy public keys
+pub const INSECURE_SMALL_PK_TEST_PARAMS: TestParameterSet = TestParameterSet {
+    lwe_dimension: 10,
+    glwe_dimension: 4,
+    polynomial_size: 512,
+    lwe_noise_distribution: TestDistribution::Gaussian {
+        stddev: 1.499_900_593_439_687_3e-6,
+    },
+    glwe_noise_distribution: TestDistribution::Gaussian {
+        stddev: 2.845267479601915e-15,
+    },
+    pbs_base_log: 23,
+    pbs_level: 1,
+    ks_base_log: 5,
+    ks_level: 3,
+    message_modulus: 2,
+    carry_modulus: 2,
+    max_noise_level: 3,
+    log2_p_fail: -64.05,
+    ciphertext_modulus: 1 << 64,
+    encryption_key_choice: Cow::Borrowed("small"),
+};
+
+// Compression parameters for 2_2 TUniform
+pub const VALID_TEST_PARAMS_TUNIFORM_COMPRESSION: TestCompressionParameterSet =
+    TestCompressionParameterSet {
+        br_level: 1,
+        br_base_log: 23,
+        packing_ks_level: 4,
+        packing_ks_base_log: 4,
+        packing_ks_polynomial_size: 256,
+        packing_ks_glwe_dimension: 4,
+        lwe_per_glwe: 256,
+        storage_log_modulus: 12,
+        packing_ks_key_noise_distribution: TestDistribution::TUniform { bound_log2: 42 },
+    };
 
 /// Invalid parameter set to test the limits
 pub const INVALID_TEST_PARAMS: TestParameterSet = TestParameterSet {
@@ -75,11 +114,28 @@ pub const INVALID_TEST_PARAMS: TestParameterSet = TestParameterSet {
 };
 
 pub fn save_cbor<Data: Serialize, P: AsRef<Path>>(msg: &Data, path: P) {
+    let path = path.as_ref();
+    if path.exists() {
+        panic!(
+            "Error while saving {}, file already exists, \
+            indicating an error in the test file organization.",
+            path.display()
+        );
+    }
     let mut file = File::create(path).unwrap();
     ciborium::ser::into_writer(msg, &mut file).unwrap();
 }
 
 pub fn save_bcode<Data: Serialize, P: AsRef<Path>>(msg: &Data, path: P) {
+    let path = path.as_ref();
+    if path.exists() {
+        panic!(
+            "Error while saving {}, file already exists, \
+            indicating an error in the test file organization.",
+            path.display()
+        );
+    }
+
     let mut file = File::create(path).unwrap();
     let options = bincode::DefaultOptions::new().with_fixint_encoding();
     options.serialize_into(&mut file, msg).unwrap();
@@ -105,9 +161,8 @@ macro_rules! define_store_versioned_test_fn {
         }
     };
 }
-define_store_versioned_test_fn!(store_versioned_test_01, Versionize01);
-define_store_versioned_test_fn!(store_versioned_test_02, Versionize02);
-define_store_versioned_test_fn!(store_versioned_test_03, Versionize03);
+define_store_versioned_test_fn!(store_versioned_test_tfhe_08, VersionizeTfhe08);
+define_store_versioned_test_fn!(store_versioned_test_tfhe_09, VersionizeTfhe09);
 
 /// Stores the auxiliary data in `dir`, encoded in cbor, using the right tfhe-versionable version
 macro_rules! define_store_versioned_auxiliary_fn {
@@ -120,14 +175,13 @@ macro_rules! define_store_versioned_auxiliary_fn {
             let versioned = msg.versionize();
 
             // Store in cbor
-            let filename_cbor = format!("{}", test_filename);
+            let filename_cbor = format!("{}.cbor", test_filename);
             save_cbor(&versioned, dir.as_ref().join(filename_cbor));
         }
     };
 }
-define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_01, Versionize01);
-define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_02, Versionize02);
-define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_03, Versionize03);
+define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_tfhe_08, VersionizeTfhe08);
+define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_tfhe_09, VersionizeTfhe09);
 
 pub fn store_metadata<Meta: Serialize, P: AsRef<Path>>(value: &Meta, path: P) {
     let serialized = ron::ser::to_string_pretty(value, ron::ser::PrettyConfig::default()).unwrap();

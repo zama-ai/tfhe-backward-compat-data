@@ -215,17 +215,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "concrete-fft"
+name = "concrete-csprng"
 version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3144f883422ee22c65d4f408c11b3406513eadc0d50b3d65bfadcb97852817e0"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=am/chore/make-ks-level-order-consistent#c0170065b2201e57b84a8588ff0c8210c267d113"
 dependencies = [
- "aligned-vec",
- "bytemuck",
- "dyn-stack 0.9.1",
- "num-complex",
- "pulp",
- "serde",
+ "aes",
+ "libc",
+ "rayon",
 ]
 
 [[package]]
@@ -236,21 +232,11 @@ checksum = "86ff7397e00e903afb03f0adca6a5f3bec3a6e96a7cdb70bdc088e01b125e170"
 dependencies = [
  "aligned-vec",
  "bytemuck",
- "dyn-stack 0.10.0",
+ "dyn-stack",
  "js-sys",
  "num-complex",
  "pulp",
  "serde",
-]
-
-[[package]]
-name = "concrete-ntt"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b4f4643dbd5de069e099122ae6c2bbd3db70d69ffec348dfc228448d635f949e"
-dependencies = [
- "aligned-vec",
- "pulp",
 ]
 
 [[package]]
@@ -332,16 +318,6 @@ checksum = "9ed9a281f7bc9b7576e61468ba615a66a5c8cfdff42420a70aa82701a3b1e292"
 dependencies = [
  "block-buffer",
  "crypto-common",
-]
-
-[[package]]
-name = "dyn-stack"
-version = "0.9.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7fe7f8d7bcc523381d3c437b82cf74805de3931de0da69309ae0fe1bdf7a256e"
-dependencies = [
- "bytemuck",
- "reborrow",
 ]
 
 [[package]]
@@ -454,9 +430,9 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.159"
+version = "0.2.160"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "561d97a539a36e26a9a5fad1ea11a3039a67714694aaa379433e580854bc3dc5"
+checksum = "f0b21006cd1874ae9e650973c565615676dc4a274c965bb0a73796dac838ce4f"
 
 [[package]]
 name = "libm"
@@ -532,9 +508,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.87"
+version = "1.0.88"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b3e4daa0dcf6feba26f985457cdf104d4b4256fc5a09547140f3631bb076b19a"
+checksum = "7c3a7fc5db1e57d5a779a352c8cdb57b29aa4c40cc69c3a68a7fedc815fbf2f9"
 dependencies = [
  "unicode-ident",
 ]
@@ -716,61 +692,17 @@ dependencies = [
 
 [[package]]
 name = "tfhe"
-version = "0.6.4"
+version = "0.8.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ef19c00c4aceea2d103524911ee840fdcdd1376b1946c5b103b5c094a039f160"
+checksum = "e4504375366bae25ff025c6bc19ee6272347121147581aa0fd36c7fc20ab6600"
 dependencies = [
  "aligned-vec",
  "bincode",
  "bytemuck",
- "concrete-csprng",
- "concrete-fft 0.4.1",
- "dyn-stack 0.9.1",
- "itertools 0.11.0",
- "paste",
- "pulp",
- "rand_core",
- "rayon",
- "serde",
- "tfhe-versionable 0.1.0",
-]
-
-[[package]]
-name = "tfhe"
-version = "0.7.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0623aaa0dc7836f4f7aa96602ef9c6a55f87cbcb962a94ed7a9e6d00daa32cfb"
-dependencies = [
- "aligned-vec",
- "bincode",
- "bytemuck",
- "concrete-csprng",
- "concrete-fft 0.4.1",
- "concrete-ntt 0.1.2",
- "dyn-stack 0.9.1",
- "itertools 0.11.0",
- "paste",
- "pulp",
- "rand_core",
- "rayon",
- "serde",
- "sha3",
- "tfhe-versionable 0.2.1",
-]
-
-[[package]]
-name = "tfhe"
-version = "0.8.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4b2e12b38d4a0538191287f31130712a7424f3aed6b922f4d9c4f51a5b7f4cc0"
-dependencies = [
- "aligned-vec",
- "bincode",
- "bytemuck",
- "concrete-csprng",
- "concrete-fft 0.5.1",
- "concrete-ntt 0.2.0",
- "dyn-stack 0.10.0",
+ "concrete-csprng 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "concrete-fft",
+ "concrete-ntt",
+ "dyn-stack",
  "itertools 0.11.0",
  "paste",
  "pulp",
@@ -779,7 +711,30 @@ dependencies = [
  "serde",
  "sha3",
  "tfhe-versionable 0.3.1",
- "tfhe-zk-pok",
+ "tfhe-zk-pok 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "tfhe"
+version = "0.9.0"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=am/chore/make-ks-level-order-consistent#c0170065b2201e57b84a8588ff0c8210c267d113"
+dependencies = [
+ "aligned-vec",
+ "bincode",
+ "bytemuck",
+ "concrete-csprng 0.4.1 (git+https://github.com/zama-ai/tfhe-rs/?branch=am/chore/make-ks-level-order-consistent)",
+ "concrete-fft",
+ "concrete-ntt",
+ "dyn-stack",
+ "itertools 0.11.0",
+ "paste",
+ "pulp",
+ "rand_core",
+ "rayon",
+ "serde",
+ "sha3",
+ "tfhe-versionable 0.3.2",
+ "tfhe-zk-pok 0.3.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=am/chore/make-ks-level-order-consistent)",
 ]
 
 [[package]]
@@ -851,7 +806,7 @@ dependencies = [
 
 [[package]]
 name = "tfhe-backward-compat-data"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "bincode",
  "ciborium",
@@ -859,36 +814,10 @@ dependencies = [
  "semver",
  "serde",
  "strum",
- "tfhe 0.6.4",
- "tfhe 0.7.2",
- "tfhe 0.8.3",
- "tfhe-versionable 0.1.0",
- "tfhe-versionable 0.2.1",
+ "tfhe 0.8.4",
+ "tfhe 0.9.0",
  "tfhe-versionable 0.3.1",
-]
-
-[[package]]
-name = "tfhe-versionable"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c7977829d8b2d59a16d9780ffbf8e4084a8d67f32c0e557b647136d094d391b2"
-dependencies = [
- "aligned-vec",
- "num-complex",
- "serde",
- "tfhe-versionable-derive 0.1.0",
-]
-
-[[package]]
-name = "tfhe-versionable"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9c7f9c9ef59d138c8ee539da0e15daf73345f0969a718f48bfd78706e4948e92"
-dependencies = [
- "aligned-vec",
- "num-complex",
- "serde",
- "tfhe-versionable-derive 0.2.1",
+ "tfhe-versionable 0.3.2",
 ]
 
 [[package]]
@@ -904,25 +833,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "tfhe-versionable-derive"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "754aede9c522d81d852b46714d42137d307f418b8b6eed4db03d1466080f4f9d"
+name = "tfhe-versionable"
+version = "0.3.2"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=am/chore/make-ks-level-order-consistent#c0170065b2201e57b84a8588ff0c8210c267d113"
 dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.79",
-]
-
-[[package]]
-name = "tfhe-versionable-derive"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4709d2c6e0a39b45ed752f4b1151e261cc43c9681cacad00be4ecfc5df655e5c"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.79",
+ "aligned-vec",
+ "num-complex",
+ "serde",
+ "tfhe-versionable-derive 0.3.2",
 ]
 
 [[package]]
@@ -930,6 +848,16 @@ name = "tfhe-versionable-derive"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "01d985f9645ed62be4aefb9c06ec70563291ec475036ebcd2cf95c5429a12e8a"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.79",
+]
+
+[[package]]
+name = "tfhe-versionable-derive"
+version = "0.3.2"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=am/chore/make-ks-level-order-consistent#c0170065b2201e57b84a8588ff0c8210c267d113"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -952,6 +880,24 @@ dependencies = [
  "tfhe-ark-ff",
  "tfhe-ark-poly",
  "tfhe-versionable 0.3.1",
+ "zeroize",
+]
+
+[[package]]
+name = "tfhe-zk-pok"
+version = "0.3.0"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=am/chore/make-ks-level-order-consistent#c0170065b2201e57b84a8588ff0c8210c267d113"
+dependencies = [
+ "num-bigint",
+ "rand",
+ "rayon",
+ "serde",
+ "sha3",
+ "tfhe-ark-bls12-381",
+ "tfhe-ark-ec",
+ "tfhe-ark-ff",
+ "tfhe-ark-poly",
+ "tfhe-versionable 0.3.2",
  "zeroize",
 ]
 
