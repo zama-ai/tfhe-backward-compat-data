@@ -1,6 +1,6 @@
 [
     (
-        tfhe_version_min: "0.6",
+        tfhe_version_min: "0.8",
         tfhe_module: "shortint",
         metadata: ShortintClientKey((
             test_filename: "client_key",
@@ -28,20 +28,20 @@
         )),
     ),
     (
-        tfhe_version_min: "0.6",
+        tfhe_version_min: "0.8",
         tfhe_module: "shortint",
         metadata: ShortintCiphertext((
             test_filename: "ct1",
-            key_filename: "client_key.cbor",
+            key_filename: "client_key",
             clear_value: 0,
         )),
     ),
     (
-        tfhe_version_min: "0.6",
+        tfhe_version_min: "0.8",
         tfhe_module: "shortint",
         metadata: ShortintCiphertext((
             test_filename: "ct2",
-            key_filename: "client_key.cbor",
+            key_filename: "client_key",
             clear_value: 3,
         )),
     ),
