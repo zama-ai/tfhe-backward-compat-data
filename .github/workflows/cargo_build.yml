@@ -34,4 +34,4 @@ jobs:
 
       - name: Run clippy
         run: |
-          cargo clippy --all-features
+          cargo clippy --all-features -- --no-deps -D warnings

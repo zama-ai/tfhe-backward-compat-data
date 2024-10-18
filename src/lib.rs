@@ -13,11 +13,9 @@ use strum::Display;
 use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "generate")]
-pub mod data_0_6;
-#[cfg(feature = "generate")]
-pub mod data_0_7;
-#[cfg(feature = "generate")]
 pub mod data_0_8;
+#[cfg(feature = "generate")]
+pub mod data_0_9;
 #[cfg(feature = "generate")]
 pub mod generate;
 #[cfg(feature = "load")]
@@ -50,6 +48,23 @@ pub struct TestParameterSet {
     pub max_noise_level: usize,
     pub log2_p_fail: f64,
     pub encryption_key_choice: Cow<'static, str>,
+}
+
+/// This struct re-defines tfhe-rs compression parameter sets but this allows to be independant
+/// of changes made into the  ParameterSet of tfhe-rs. The idea here is to define a type
+/// that is able to carry the information of the used parameters without using any tfhe-rs
+/// types.
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct TestCompressionParameterSet {
+    pub br_level: usize,
+    pub br_base_log: usize,
+    pub packing_ks_level: usize,
+    pub packing_ks_base_log: usize,
+    pub packing_ks_polynomial_size: usize,
+    pub packing_ks_glwe_dimension: usize,
+    pub lwe_per_glwe: usize,
+    pub storage_log_modulus: usize,
+    pub packing_ks_key_noise_distribution: TestDistribution,
 }
 
 /// Representation of a random distribution that is independant from any tfhe-rs version
@@ -215,7 +230,6 @@ pub struct HlCiphertextTest {
     pub test_filename: Cow<'static, str>,
     pub key_filename: Cow<'static, str>,
     pub compressed: bool,
-    pub compact: bool,
     pub clear_value: u64,
 }
 
@@ -238,7 +252,6 @@ pub struct HlSignedCiphertextTest {
     pub test_filename: Cow<'static, str>,
     pub key_filename: Cow<'static, str>,
     pub compressed: bool,
-    pub compact: bool,
     pub clear_value: i64,
 }
 
@@ -261,7 +274,6 @@ pub struct HlBoolCiphertextTest {
     pub test_filename: Cow<'static, str>,
     pub key_filename: Cow<'static, str>,
     pub compressed: bool,
-    pub compact: bool,
     pub clear_value: bool,
 }
 
@@ -272,72 +284,6 @@ impl TestType for HlBoolCiphertextTest {
 
     fn target_type(&self) -> String {
         "FheBool".to_string()
-    }
-
-    fn test_filename(&self) -> String {
-        self.test_filename.to_string()
-    }
-}
-
-/// Legacy compact unsigned ciphertext lists (deprected in 0.7)
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct HlCiphertextListTest {
-    pub test_filename: Cow<'static, str>,
-    pub key_filename: Cow<'static, str>,
-    pub clear_values: Cow<'static, [u64]>,
-}
-
-impl TestType for HlCiphertextListTest {
-    fn module(&self) -> String {
-        HL_MODULE_NAME.to_string()
-    }
-
-    fn target_type(&self) -> String {
-        "FheUintList".to_string()
-    }
-
-    fn test_filename(&self) -> String {
-        self.test_filename.to_string()
-    }
-}
-
-/// Legacy compact signed ciphertext lists (deprected in 0.7)
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct HlSignedCiphertextListTest {
-    pub test_filename: Cow<'static, str>,
-    pub key_filename: Cow<'static, str>,
-    pub clear_values: Cow<'static, [i64]>,
-}
-
-impl TestType for HlSignedCiphertextListTest {
-    fn module(&self) -> String {
-        HL_MODULE_NAME.to_string()
-    }
-
-    fn target_type(&self) -> String {
-        "FheIntList".to_string()
-    }
-
-    fn test_filename(&self) -> String {
-        self.test_filename.to_string()
-    }
-}
-
-/// Legacy compact bool ciphertext lists (deprected in 0.7)
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct HlBoolCiphertextListTest {
-    pub test_filename: Cow<'static, str>,
-    pub key_filename: Cow<'static, str>,
-    pub clear_values: Cow<'static, [bool]>,
-}
-
-impl TestType for HlBoolCiphertextListTest {
-    fn module(&self) -> String {
-        HL_MODULE_NAME.to_string()
-    }
-
-    fn target_type(&self) -> String {
-        "FheBoolList".to_string()
     }
 
     fn test_filename(&self) -> String {
@@ -419,9 +365,6 @@ pub enum TestMetadata {
     HlCiphertext(HlCiphertextTest),
     HlSignedCiphertext(HlSignedCiphertextTest),
     HlBoolCiphertext(HlBoolCiphertextTest),
-    HlCiphertextList(HlCiphertextListTest),
-    HlSignedCiphertextList(HlSignedCiphertextListTest),
-    HlBoolCiphertextList(HlBoolCiphertextListTest),
     HlHeterogeneousCiphertextList(HlHeterogeneousCiphertextListTest),
     HlClientKey(HlClientKeyTest),
     HlServerKey(HlServerKeyTest),

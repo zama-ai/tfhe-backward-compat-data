@@ -10,23 +10,22 @@ use serde::de::DeserializeOwned;
 use crate::{TestType, Testcase};
 
 /// Loads auxiliary data that might be needed for a test (eg: a key to test a ciphertext)
+/// If the path has an extension the file is loaded as is, if not it adds the .cbor extension
 pub fn load_versioned_auxiliary<Data: DeserializeOwned, P: AsRef<Path>>(
     path: P,
 ) -> Result<Data, String> {
-    let file = File::open(path.as_ref()).map_err(|e| {
-        format!(
-            "Failed to read auxiliary file {}: {}",
-            path.as_ref().display(),
-            e
-        )
-    })?;
-    ciborium::de::from_reader(file).map_err(|e| {
-        format!(
-            "Failed to parse auxiliary file {}: {}",
-            path.as_ref().display(),
-            e
-        )
-    })
+    let path = path.as_ref();
+    let path = match path.extension() {
+        Some(_) => path.to_path_buf(),
+        None => path.with_extension("cbor"),
+    };
+
+    let path = path.as_path();
+
+    let file = File::open(path)
+        .map_err(|e| format!("Failed to read auxiliary file {}: {}", path.display(), e))?;
+    ciborium::de::from_reader(file)
+        .map_err(|e| format!("Failed to parse auxiliary file {}: {}", path.display(), e))
 }
 
 #[derive(Copy, Clone, Debug)]
