@@ -30,15 +30,6 @@
     (
         tfhe_version_min: "0.8",
         tfhe_module: "high_level_api",
-        metadata: HlServerKey((
-            test_filename: "server_key",
-            client_key_filename: "batch_1_client_key",
-            compressed: false,
-        )),
-    ),
-    (
-        tfhe_version_min: "0.8",
-        tfhe_module: "high_level_api",
         metadata: HlPublicKey((
             test_filename: "legacy_public_key",
             client_key_filename: "client_key_for_pubkey",
@@ -330,16 +321,7 @@
         )),
     ),
     (
-        tfhe_version_min: "0.8",
-        tfhe_module: "high_level_api",
-        metadata: HlServerKey((
-            test_filename: "server_key_with_compression",
-            client_key_filename: "client_key_with_compression",
-            compressed: false,
-        )),
-    ),
-    (
-        tfhe_version_min: "0.9",
+        tfhe_version_min: "0.10",
         tfhe_module: "high_level_api",
         metadata: HlClientKey((
             test_filename: "client_key",
@@ -367,12 +349,21 @@
         )),
     ),
     (
-        tfhe_version_min: "0.9",
+        tfhe_version_min: "0.10",
         tfhe_module: "high_level_api",
         metadata: HlServerKey((
             test_filename: "compressed_server_key",
             client_key_filename: "client_key.cbor",
             compressed: true,
+        )),
+    ),
+    (
+        tfhe_version_min: "0.10",
+        tfhe_module: "high_level_api",
+        metadata: HlServerKey((
+            test_filename: "server_key_with_compression",
+            client_key_filename: "client_key.cbor",
+            compressed: false,
         )),
     ),
 ]

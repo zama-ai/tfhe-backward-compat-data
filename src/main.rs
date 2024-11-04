@@ -1,7 +1,7 @@
 use std::fs::remove_dir_all;
 use tfhe_backward_compat_data::{
+    data_0_10::V0_10,
     data_0_8::V0_8,
-    data_0_9::V0_9,
     data_dir,
     generate::{store_metadata, TfhersVersion, PRNG_SEED},
     Testcase, HL_MODULE_NAME, SHORTINT_MODULE_NAME,
@@ -38,7 +38,7 @@ fn main() {
     remove_dir_all(&data_dir_path).unwrap();
 
     let mut testcases = gen_all_data::<V0_8>();
-    testcases.extend(gen_all_data::<V0_9>());
+    testcases.extend(gen_all_data::<V0_10>());
 
     let shortint_testcases: Vec<Testcase> = testcases
         .iter()

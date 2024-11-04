@@ -1,5 +1,5 @@
 use crate::generate::{
-    store_versioned_test_tfhe_09, TfhersVersion, VALID_TEST_PARAMS_TUNIFORM,
+    store_versioned_test_tfhe_010, TfhersVersion, VALID_TEST_PARAMS_TUNIFORM,
     VALID_TEST_PARAMS_TUNIFORM_COMPRESSION,
 };
 use crate::{
@@ -7,7 +7,7 @@ use crate::{
     TestParameterSet, HL_MODULE_NAME,
 };
 use std::{borrow::Cow, fs::create_dir_all};
-use tfhe_0_9::{
+use tfhe_0_10::{
     boolean::engine::BooleanEngine,
     core_crypto::commons::generators::DeterministicSeeder,
     core_crypto::commons::math::random::ActivatedRandomGenerator,
@@ -19,12 +19,12 @@ use tfhe_0_9::{
         GlweDimension, LweDimension, MaxNoiseLevel, MessageModulus, PBSParameters, PolynomialSize,
         StandardDev,
     },
-    ClientKey, CompressedServerKey, Seed,
+    CompressedServerKey, Seed,
 };
 
 macro_rules! store_versioned_test {
     ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
-        store_versioned_test_tfhe_09($msg, $dir, $test_filename)
+        store_versioned_test_tfhe_010($msg, $dir, $test_filename)
     };
 }
 
@@ -114,10 +114,16 @@ const HL_COMPRESSED_SERVERKEY_TEST: HlServerKeyTest = HlServerKeyTest {
     compressed: true,
 };
 
-pub struct V0_9;
+const HL_SERVERKEY_WITH_COMPRESSION_TEST: HlServerKeyTest = HlServerKeyTest {
+    test_filename: Cow::Borrowed("server_key_with_compression"),
+    client_key_filename: Cow::Borrowed("client_key.cbor"),
+    compressed: false,
+};
 
-impl TfhersVersion for V0_9 {
-    const VERSION_NUMBER: &'static str = "0.9";
+pub struct V0_10;
+
+impl TfhersVersion for V0_10 {
+    const VERSION_NUMBER: &'static str = "0.10";
 
     fn seed_prng(seed: u128) {
         let mut seeder = DeterministicSeeder::<ActivatedRandomGenerator>::new(Seed(seed));
@@ -138,10 +144,10 @@ impl TfhersVersion for V0_9 {
         let dir = Self::data_dir().join(HL_MODULE_NAME);
         create_dir_all(&dir).unwrap();
 
-        let config = tfhe_0_9::ConfigBuilder::with_custom_parameters(HL_CLIENTKEY_TEST.parameters)
+        let config = tfhe_0_10::ConfigBuilder::with_custom_parameters(HL_CLIENTKEY_TEST.parameters)
             .enable_compression(VALID_TEST_PARAMS_TUNIFORM_COMPRESSION.into())
             .build();
-        let hl_client_key = ClientKey::generate(config);
+        let (hl_client_key, hl_server_key) = tfhe_0_10::generate_keys(config);
         let compressed_server_key = CompressedServerKey::new(&hl_client_key);
 
         store_versioned_test!(&hl_client_key, &dir, &HL_CLIENTKEY_TEST.test_filename);
@@ -150,10 +156,16 @@ impl TfhersVersion for V0_9 {
             &dir,
             &HL_COMPRESSED_SERVERKEY_TEST.test_filename,
         );
+        store_versioned_test!(
+            &hl_server_key,
+            &dir,
+            &HL_SERVERKEY_WITH_COMPRESSION_TEST.test_filename,
+        );
 
         vec![
             TestMetadata::HlClientKey(HL_CLIENTKEY_TEST),
             TestMetadata::HlServerKey(HL_COMPRESSED_SERVERKEY_TEST),
+            TestMetadata::HlServerKey(HL_SERVERKEY_WITH_COMPRESSION_TEST),
         ]
     }
 }

@@ -17,17 +17,17 @@ tfhe_0_8 = { version = "0.8", features = [
   "zk-pok",
   "experimental-force_fft_algo_dif4",
 ], package = "tfhe", optional = true }
-tfhe_0_9 = { version = "0.9", features = [
+tfhe_0_10 = { version = "0.10", features = [
   "boolean",
   "integer",
   "shortint",
   "x86_64-unix",
   "zk-pok",
   "experimental-force_fft_algo_dif4",
-], package = "tfhe", optional = true, git = "https://github.com/zama-ai/tfhe-rs/", branch = "am/chore/make-ks-level-order-consistent" }
+], package = "tfhe", optional = true, git = "https://github.com/zama-ai/tfhe-rs/", branch = "am/refactor/use-natural-decomposition-order" }
 
 tfhe_0_8-versionable = { version = "0.3", optional = true, package = "tfhe-versionable" }
-tfhe_0_9-versionable = { version = "0.3", optional = true, package = "tfhe-versionable", git = "https://github.com/zama-ai/tfhe-rs/", branch = "am/chore/make-ks-level-order-consistent" }
+tfhe_0_10-versionable = { version = "0.3", optional = true, package = "tfhe-versionable", git = "https://github.com/zama-ai/tfhe-rs/", branch = "am/refactor/use-natural-decomposition-order" }
 
 # other deps
 serde = { version = "1.0", features = ["derive"] }
@@ -46,8 +46,8 @@ default = ["generate"]
 
 generate = [
   "dep:tfhe_0_8",
-  "dep:tfhe_0_9",
+  "dep:tfhe_0_10",
   "dep:tfhe_0_8-versionable",
-  "dep:tfhe_0_9-versionable",
+  "dep:tfhe_0_10-versionable",
 ]
 load = ["dep:semver"]
