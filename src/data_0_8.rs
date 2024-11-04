@@ -32,7 +32,7 @@ use crate::{
         VALID_TEST_PARAMS_TUNIFORM_COMPRESSION,
     },
     DataKind, HlBoolCiphertextTest, HlCiphertextTest, HlClientKeyTest,
-    HlHeterogeneousCiphertextListTest, HlPublicKeyTest, HlServerKeyTest, HlSignedCiphertextTest,
+    HlHeterogeneousCiphertextListTest, HlPublicKeyTest, HlSignedCiphertextTest,
     PkeZkProofAuxilliaryInfo, ShortintCiphertextTest, ShortintClientKeyTest,
     TestCompressionParameterSet, TestDistribution, TestMetadata, TestParameterSet,
     ZkPkePublicParamsTest, HL_MODULE_NAME, SHORTINT_MODULE_NAME,
@@ -151,12 +151,6 @@ const HL_CLIENT_KEY_BATCH_1_FILENAME: &str = "batch_1_client_key";
 const HL_CLIENTKEY_TEST: HlClientKeyTest = HlClientKeyTest {
     test_filename: Cow::Borrowed(HL_CLIENT_KEY_BATCH_1_FILENAME),
     parameters: VALID_TEST_PARAMS_TUNIFORM,
-};
-
-const HL_SERVERKEY_TEST: HlServerKeyTest = HlServerKeyTest {
-    test_filename: Cow::Borrowed("server_key"),
-    client_key_filename: Cow::Borrowed(HL_CLIENT_KEY_BATCH_1_FILENAME),
-    compressed: false,
 };
 
 // We use a client key with specific parmeters for the pubkey since it can be very large
@@ -356,12 +350,6 @@ const HL_CLIENTKEY_WITH_COMPRESSION_TEST: HlClientKeyTest = HlClientKeyTest {
     parameters: VALID_TEST_PARAMS_TUNIFORM,
 };
 
-const HL_SERVERKEY_WITH_COMPRESSION_TEST: HlServerKeyTest = HlServerKeyTest {
-    test_filename: Cow::Borrowed("server_key_with_compression"),
-    client_key_filename: Cow::Borrowed(HL_CLIENT_W_COMP_KEY_BATCH_2_FILENAME),
-    compressed: false,
-};
-
 pub struct V0_8;
 
 impl TfhersVersion for V0_8 {
@@ -431,7 +419,6 @@ impl TfhersVersion for V0_8 {
 
             store_versioned_test!(&hl_client_key, &dir, &HL_CLIENTKEY_TEST.test_filename);
 
-            store_versioned_test!(&hl_server_key, &dir, &HL_SERVERKEY_TEST.test_filename);
             store_versioned_test!(&pub_key, &dir, &HL_LEGACY_PUBKEY_TEST.test_filename);
             store_versioned_auxiliary!(
                 &client_key_for_pk,
@@ -540,7 +527,6 @@ impl TfhersVersion for V0_8 {
 
             let test_batch_1 = [
                 TestMetadata::HlClientKey(HL_CLIENTKEY_TEST),
-                TestMetadata::HlServerKey(HL_SERVERKEY_TEST),
                 TestMetadata::HlPublicKey(HL_LEGACY_PUBKEY_TEST),
                 TestMetadata::HlPublicKey(HL_COMPRESSED_LEGACY_PUBKEY_TEST),
                 TestMetadata::HlPublicKey(HL_COMPACT_PUBKEY_TEST),
@@ -681,12 +667,6 @@ impl TfhersVersion for V0_8 {
                 &HL_CLIENTKEY_WITH_COMPRESSION_TEST.test_filename,
             );
 
-            store_versioned_test!(
-                &hl_server_key,
-                &dir,
-                &HL_SERVERKEY_WITH_COMPRESSION_TEST.test_filename,
-            );
-
             let test_batch_2 = [
                 TestMetadata::HlHeterogeneousCiphertextList(HL_COMPACTLIST_TEST),
                 TestMetadata::HlHeterogeneousCiphertextList(HL_PACKED_COMPACTLIST_TEST),
@@ -694,7 +674,6 @@ impl TfhersVersion for V0_8 {
                 TestMetadata::HlHeterogeneousCiphertextList(HL_PROVEN_COMPACTLIST_TEST),
                 TestMetadata::ZkPkePublicParams(ZK_PKE_PUBLIC_PARAMS_TEST),
                 TestMetadata::HlClientKey(HL_CLIENTKEY_WITH_COMPRESSION_TEST),
-                TestMetadata::HlServerKey(HL_SERVERKEY_WITH_COMPRESSION_TEST),
             ];
 
             all_tests.extend(test_batch_2);

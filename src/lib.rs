@@ -13,9 +13,9 @@ use strum::Display;
 use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "generate")]
-pub mod data_0_8;
+pub mod data_0_10;
 #[cfg(feature = "generate")]
-pub mod data_0_9;
+pub mod data_0_8;
 #[cfg(feature = "generate")]
 pub mod generate;
 #[cfg(feature = "load")]
@@ -27,10 +27,11 @@ pub const SHORTINT_MODULE_NAME: &str = "shortint";
 pub const HL_MODULE_NAME: &str = "high_level_api";
 pub const ZK_MODULE_NAME: &str = "zk";
 
-/// This struct re-defines tfhe-rs parameter sets but this allows to be independant
-/// of changes made into the  ParameterSet of tfhe-rs. The idea here is to define a type
-/// that is able to carry the information of the used parameters without using any tfhe-rs
-/// types.
+/// This struct re-defines tfhe-rs parameter sets but this allows to be independant of changes made
+/// into the  ParameterSet of tfhe-rs.
+///
+/// The idea here is to define a type that is able to carry the information of the used parameters
+/// without using any tfhe-rs types.
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct TestParameterSet {
     pub lwe_dimension: usize,
@@ -50,10 +51,11 @@ pub struct TestParameterSet {
     pub encryption_key_choice: Cow<'static, str>,
 }
 
-/// This struct re-defines tfhe-rs compression parameter sets but this allows to be independant
-/// of changes made into the  ParameterSet of tfhe-rs. The idea here is to define a type
-/// that is able to carry the information of the used parameters without using any tfhe-rs
-/// types.
+/// This struct re-defines tfhe-rs compression parameter sets but this allows to be independant of
+/// changes made into the ParameterSet of tfhe-rs.
+///
+/// The idea here is to define a type that is able to carry the information of the used parameters
+/// without using any tfhe-rs types.
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct TestCompressionParameterSet {
     pub br_level: usize,
