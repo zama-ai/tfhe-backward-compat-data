@@ -25,9 +25,18 @@ tfhe_0_10 = { version = "0.10", features = [
   "zk-pok",
   "experimental-force_fft_algo_dif4",
 ], package = "tfhe", optional = true }
+tfhe_0_11 = { version = "0.11", features = [
+  "boolean",
+  "integer",
+  "shortint",
+  "x86_64-unix",
+  "zk-pok",
+  "experimental-force_fft_algo_dif4",
+], package = "tfhe", optional = true,  git = "https://github.com/zama-ai/tfhe-rs/", branch = "ns/rename_pp_crs" }
 
 # TFHE-rs 0.8 and 0.10 use the same version of versionable
 tfhe-versionable = { version = "0.3.2", optional = true  }
+tfhe_0_11-versionable = { version = "0.3.2", optional = true, package = "tfhe-versionable", git = "https://github.com/zama-ai/tfhe-rs/", branch = "ns/rename_pp_crs" }
 
 # other deps
 serde = { version = "1.0", features = ["derive"] }
@@ -47,6 +56,8 @@ default = ["generate"]
 generate = [
   "dep:tfhe_0_8",
   "dep:tfhe_0_10",
+	"dep:tfhe_0_11",
   "dep:tfhe-versionable",
+	"dep:tfhe_0_11-versionable",
 ]
 load = ["dep:semver"]

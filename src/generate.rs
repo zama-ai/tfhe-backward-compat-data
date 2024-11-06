@@ -6,6 +6,7 @@ use std::{
 
 use bincode::Options;
 use serde::Serialize;
+use tfhe_0_11_versionable::Versionize as VersionizeTfhe011;
 use tfhe_versionable::Versionize as VersionizeTfhe010;
 use tfhe_versionable::Versionize as VersionizeTfhe08;
 
@@ -163,6 +164,7 @@ macro_rules! define_store_versioned_test_fn {
 }
 define_store_versioned_test_fn!(store_versioned_test_tfhe_08, VersionizeTfhe08);
 define_store_versioned_test_fn!(store_versioned_test_tfhe_010, VersionizeTfhe010);
+define_store_versioned_test_fn!(store_versioned_test_tfhe_011, VersionizeTfhe011);
 
 /// Stores the auxiliary data in `dir`, encoded in cbor, using the right tfhe-versionable version
 macro_rules! define_store_versioned_auxiliary_fn {

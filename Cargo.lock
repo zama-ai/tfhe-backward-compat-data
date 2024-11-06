@@ -215,6 +215,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "concrete-csprng"
+version = "0.4.1"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=ns/rename_pp_crs#62ec37221312b6a20ee80b28051224be5aec16a1"
+dependencies = [
+ "aes",
+ "libc",
+ "rayon",
+]
+
+[[package]]
 name = "concrete-fft"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -689,7 +699,7 @@ dependencies = [
  "aligned-vec",
  "bincode",
  "bytemuck",
- "concrete-csprng",
+ "concrete-csprng 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "concrete-fft",
  "concrete-ntt",
  "dyn-stack",
@@ -700,8 +710,8 @@ dependencies = [
  "rayon",
  "serde",
  "sha3",
- "tfhe-versionable",
- "tfhe-zk-pok",
+ "tfhe-versionable 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "tfhe-zk-pok 0.3.2",
 ]
 
 [[package]]
@@ -713,7 +723,7 @@ dependencies = [
  "aligned-vec",
  "bincode",
  "bytemuck",
- "concrete-csprng",
+ "concrete-csprng 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "concrete-fft",
  "concrete-ntt",
  "dyn-stack",
@@ -724,8 +734,31 @@ dependencies = [
  "rayon",
  "serde",
  "sha3",
- "tfhe-versionable",
- "tfhe-zk-pok",
+ "tfhe-versionable 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "tfhe-zk-pok 0.3.2",
+]
+
+[[package]]
+name = "tfhe"
+version = "0.11.0"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=ns/rename_pp_crs#62ec37221312b6a20ee80b28051224be5aec16a1"
+dependencies = [
+ "aligned-vec",
+ "bincode",
+ "bytemuck",
+ "concrete-csprng 0.4.1 (git+https://github.com/zama-ai/tfhe-rs/?branch=ns/rename_pp_crs)",
+ "concrete-fft",
+ "concrete-ntt",
+ "dyn-stack",
+ "itertools 0.11.0",
+ "paste",
+ "pulp",
+ "rand_core",
+ "rayon",
+ "serde",
+ "sha3",
+ "tfhe-versionable 0.3.2 (git+https://github.com/zama-ai/tfhe-rs/?branch=ns/rename_pp_crs)",
+ "tfhe-zk-pok 0.3.1",
 ]
 
 [[package]]
@@ -806,8 +839,10 @@ dependencies = [
  "serde",
  "strum",
  "tfhe 0.10.0",
+ "tfhe 0.11.0",
  "tfhe 0.8.7",
- "tfhe-versionable",
+ "tfhe-versionable 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "tfhe-versionable 0.3.2 (git+https://github.com/zama-ai/tfhe-rs/?branch=ns/rename_pp_crs)",
 ]
 
 [[package]]
@@ -819,7 +854,18 @@ dependencies = [
  "aligned-vec",
  "num-complex",
  "serde",
- "tfhe-versionable-derive",
+ "tfhe-versionable-derive 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "tfhe-versionable"
+version = "0.3.2"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=ns/rename_pp_crs#62ec37221312b6a20ee80b28051224be5aec16a1"
+dependencies = [
+ "aligned-vec",
+ "num-complex",
+ "serde",
+ "tfhe-versionable-derive 0.3.2 (git+https://github.com/zama-ai/tfhe-rs/?branch=ns/rename_pp_crs)",
 ]
 
 [[package]]
@@ -831,6 +877,34 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.87",
+]
+
+[[package]]
+name = "tfhe-versionable-derive"
+version = "0.3.2"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=ns/rename_pp_crs#62ec37221312b6a20ee80b28051224be5aec16a1"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.87",
+]
+
+[[package]]
+name = "tfhe-zk-pok"
+version = "0.3.1"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=ns/rename_pp_crs#62ec37221312b6a20ee80b28051224be5aec16a1"
+dependencies = [
+ "num-bigint",
+ "rand",
+ "rayon",
+ "serde",
+ "sha3",
+ "tfhe-ark-bls12-381",
+ "tfhe-ark-ec",
+ "tfhe-ark-ff",
+ "tfhe-ark-poly",
+ "tfhe-versionable 0.3.2 (git+https://github.com/zama-ai/tfhe-rs/?branch=ns/rename_pp_crs)",
+ "zeroize",
 ]
 
 [[package]]
@@ -848,7 +922,7 @@ dependencies = [
  "tfhe-ark-ec",
  "tfhe-ark-ff",
  "tfhe-ark-poly",
- "tfhe-versionable",
+ "tfhe-versionable 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "zeroize",
 ]
 
