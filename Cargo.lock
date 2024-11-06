@@ -215,16 +215,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "concrete-csprng"
-version = "0.4.1"
-source = "git+https://github.com/zama-ai/tfhe-rs/?branch=am/refactor/use-natural-decomposition-order#4b5aceb2b2c401b3c9ffe504f3da4994381243a6"
-dependencies = [
- "aes",
- "libc",
- "rayon",
-]
-
-[[package]]
 name = "concrete-fft"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -699,7 +689,7 @@ dependencies = [
  "aligned-vec",
  "bincode",
  "bytemuck",
- "concrete-csprng 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "concrete-csprng",
  "concrete-fft",
  "concrete-ntt",
  "dyn-stack",
@@ -710,19 +700,20 @@ dependencies = [
  "rayon",
  "serde",
  "sha3",
- "tfhe-versionable 0.3.1",
- "tfhe-zk-pok 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "tfhe-versionable",
+ "tfhe-zk-pok",
 ]
 
 [[package]]
 name = "tfhe"
 version = "0.10.0"
-source = "git+https://github.com/zama-ai/tfhe-rs/?branch=am/refactor/use-natural-decomposition-order#4b5aceb2b2c401b3c9ffe504f3da4994381243a6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7190b3967c9322674bae8f247380c8a90d38448fbd8cd35b17a1958f39190ec2"
 dependencies = [
  "aligned-vec",
  "bincode",
  "bytemuck",
- "concrete-csprng 0.4.1 (git+https://github.com/zama-ai/tfhe-rs/?branch=am/refactor/use-natural-decomposition-order)",
+ "concrete-csprng",
  "concrete-fft",
  "concrete-ntt",
  "dyn-stack",
@@ -733,8 +724,8 @@ dependencies = [
  "rayon",
  "serde",
  "sha3",
- "tfhe-versionable 0.3.2",
- "tfhe-zk-pok 0.3.1 (git+https://github.com/zama-ai/tfhe-rs/?branch=am/refactor/use-natural-decomposition-order)",
+ "tfhe-versionable",
+ "tfhe-zk-pok",
 ]
 
 [[package]]
@@ -806,7 +797,7 @@ dependencies = [
 
 [[package]]
 name = "tfhe-backward-compat-data"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "bincode",
  "ciborium",
@@ -816,48 +807,26 @@ dependencies = [
  "strum",
  "tfhe 0.10.0",
  "tfhe 0.8.7",
- "tfhe-versionable 0.3.1",
- "tfhe-versionable 0.3.2",
-]
-
-[[package]]
-name = "tfhe-versionable"
-version = "0.3.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "feeb340d850c65660b321e5379a28b2f3b226c61163de0a12766aedfe8575a29"
-dependencies = [
- "aligned-vec",
- "num-complex",
- "serde",
- "tfhe-versionable-derive 0.3.1",
+ "tfhe-versionable",
 ]
 
 [[package]]
 name = "tfhe-versionable"
 version = "0.3.2"
-source = "git+https://github.com/zama-ai/tfhe-rs/?branch=am/refactor/use-natural-decomposition-order#4b5aceb2b2c401b3c9ffe504f3da4994381243a6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "32111f6df1b4ced57bea0bc548a35eb8130e5b9f2084378299eeacf4148cb8a5"
 dependencies = [
  "aligned-vec",
  "num-complex",
  "serde",
- "tfhe-versionable-derive 0.3.2",
-]
-
-[[package]]
-name = "tfhe-versionable-derive"
-version = "0.3.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "01d985f9645ed62be4aefb9c06ec70563291ec475036ebcd2cf95c5429a12e8a"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.87",
+ "tfhe-versionable-derive",
 ]
 
 [[package]]
 name = "tfhe-versionable-derive"
 version = "0.3.2"
-source = "git+https://github.com/zama-ai/tfhe-rs/?branch=am/refactor/use-natural-decomposition-order#4b5aceb2b2c401b3c9ffe504f3da4994381243a6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a463428890873548472daba5bdcecfe34b89c98518b4bd6cbd8595ac48fc0771"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -866,9 +835,9 @@ dependencies = [
 
 [[package]]
 name = "tfhe-zk-pok"
-version = "0.3.1"
+version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4e729c5020b72de76996496be235ba9e2b0d1629b8df4c881de9a67f587f32d5"
+checksum = "1895354f2c33e7a79b24ac96f08904a396c5ac3ac1bc65587b37cacd7a62e3fa"
 dependencies = [
  "num-bigint",
  "rand",
@@ -879,25 +848,7 @@ dependencies = [
  "tfhe-ark-ec",
  "tfhe-ark-ff",
  "tfhe-ark-poly",
- "tfhe-versionable 0.3.1",
- "zeroize",
-]
-
-[[package]]
-name = "tfhe-zk-pok"
-version = "0.3.1"
-source = "git+https://github.com/zama-ai/tfhe-rs/?branch=am/refactor/use-natural-decomposition-order#4b5aceb2b2c401b3c9ffe504f3da4994381243a6"
-dependencies = [
- "num-bigint",
- "rand",
- "rayon",
- "serde",
- "sha3",
- "tfhe-ark-bls12-381",
- "tfhe-ark-ec",
- "tfhe-ark-ff",
- "tfhe-ark-poly",
- "tfhe-versionable 0.3.2",
+ "tfhe-versionable",
  "zeroize",
 ]
 

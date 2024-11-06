@@ -1,6 +1,6 @@
 [package]
 name = "tfhe-backward-compat-data"
-version = "0.3.0"
+version = "0.4.0"
 license = "BSD-3-Clause-Clear"
 edition = "2021"
 
@@ -24,10 +24,10 @@ tfhe_0_10 = { version = "0.10", features = [
   "x86_64-unix",
   "zk-pok",
   "experimental-force_fft_algo_dif4",
-], package = "tfhe", optional = true, git = "https://github.com/zama-ai/tfhe-rs/", branch = "am/refactor/use-natural-decomposition-order" }
+], package = "tfhe", optional = true }
 
-tfhe_0_8-versionable = { version = "0.3", optional = true, package = "tfhe-versionable" }
-tfhe_0_10-versionable = { version = "0.3", optional = true, package = "tfhe-versionable", git = "https://github.com/zama-ai/tfhe-rs/", branch = "am/refactor/use-natural-decomposition-order" }
+# TFHE-rs 0.8 and 0.10 use the same version of versionable
+tfhe-versionable = { version = "0.3.2", optional = true  }
 
 # other deps
 serde = { version = "1.0", features = ["derive"] }
@@ -47,7 +47,6 @@ default = ["generate"]
 generate = [
   "dep:tfhe_0_8",
   "dep:tfhe_0_10",
-  "dep:tfhe_0_8-versionable",
-  "dep:tfhe_0_10-versionable",
+  "dep:tfhe-versionable",
 ]
 load = ["dep:semver"]
