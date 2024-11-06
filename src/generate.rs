@@ -6,8 +6,8 @@ use std::{
 
 use bincode::Options;
 use serde::Serialize;
-use tfhe_0_10_versionable::Versionize as VersionizeTfhe010;
-use tfhe_0_8_versionable::Versionize as VersionizeTfhe08;
+use tfhe_versionable::Versionize as VersionizeTfhe010;
+use tfhe_versionable::Versionize as VersionizeTfhe08;
 
 use crate::{
     data_dir, dir_for_version, TestCompressionParameterSet, TestDistribution, TestMetadata,
