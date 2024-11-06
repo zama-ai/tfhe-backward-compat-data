@@ -15,6 +15,8 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "generate")]
 pub mod data_0_10;
 #[cfg(feature = "generate")]
+pub mod data_0_11;
+#[cfg(feature = "generate")]
 pub mod data_0_8;
 #[cfg(feature = "generate")]
 pub mod generate;

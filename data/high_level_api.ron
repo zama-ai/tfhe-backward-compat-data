@@ -366,4 +366,17 @@
             compressed: false,
         )),
     ),
+    (
+        tfhe_version_min: "0.11",
+        tfhe_module: "high_level_api",
+        metadata: ZkPkePublicParams((
+            test_filename: "zk_pke_crs",
+            lwe_dimension: 2048,
+            max_num_cleartext: 16,
+            noise_bound: 46,
+            ciphertext_modulus: 18446744073709551616,
+            plaintext_modulus: 32,
+            padding_bit_count: 1,
+        )),
+    ),
 ]
