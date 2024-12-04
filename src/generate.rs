@@ -184,6 +184,7 @@ macro_rules! define_store_versioned_auxiliary_fn {
 }
 define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_tfhe_08, VersionizeTfhe08);
 define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_tfhe_010, VersionizeTfhe010);
+define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_tfhe_011, VersionizeTfhe011);
 
 pub fn store_metadata<Meta: Serialize, P: AsRef<Path>>(value: &Meta, path: P) {
     let serialized = ron::ser::to_string_pretty(value, ron::ser::PrettyConfig::default()).unwrap();
