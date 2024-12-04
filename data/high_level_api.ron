@@ -379,4 +379,30 @@
             padding_bit_count: 1,
         )),
     ),
+    (
+        tfhe_version_min: "0.11",
+        tfhe_module: "high_level_api",
+        metadata: HlHeterogeneousCiphertextList((
+            test_filename: "hl_proven_heterogeneous_list_zkv2",
+            key_filename: "client_key",
+            compressed: false,
+            proof_info: Some((
+                public_key_filename: "public_key",
+                params_filename: "zk_pke_crs",
+                metadata: "2vdrawkcab",
+            )),
+            clear_values: [
+                17,
+                18446744073709551604,
+                0,
+                1,
+            ],
+            data_kinds: [
+                Unsigned,
+                Signed,
+                Bool,
+                Bool,
+            ],
+        )),
+    ),
 ]
