@@ -26,7 +26,7 @@ Any commits to `main` should be backported to the latest version branch.
 To re-generate the data, run the binary target for this project: `cargo run --release`. The prng is seeded with a fixed seed, so the data should be identical.
 
 # Adding a test for an existing type
-To add a new test for a type that is already tested, you need to create a const global variable with the metadata for that test. The type of metadata depends on the type being tested (for example, the metadata for a test of the `ClientKey' from the `high_level_api' is `HlClientKEy'). Then go to the `data_vvv.rs` file (where "vvv" is the TFHE-rs version of the tested data) and update the `gen_xxx_data` method (where "xxx" is the API layer of your test (hl, shortint, integer,...)). In this method, create the object you want to test and serialize it using the `store_versioned_test` macro. Add the metadata of your test to the vector returned by this method.
+To add a new test for a type that is already tested, you need to create a const global variable with the metadata for that test. The type of metadata depends on the type being tested (for example, the metadata for a test of the `ClientKey` from the `high_level_api` is `HlClientKey`). Then go to the `data_vvv.rs` file (where "vvv" is the TFHE-rs version of the tested data) and update the `gen_xxx_data` method (where "xxx" is the API layer of your test (hl, shortint, integer,...)). In this method, create the object you want to test and serialize it using the `store_versioned_test` macro. Add the metadata of your test to the vector returned by this method.
 
 The test will be automatically selected when you run TFHE-rs `make test_backward_compatibility`.
 
