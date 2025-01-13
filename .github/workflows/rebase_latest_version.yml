@@ -35,4 +35,3 @@ jobs:
         env:
           SLACK_COLOR: ${{ job.status }}
           SLACK_MESSAGE: "backward-compat-data failed to rebase branch {{ env.DATA_LATEST_VERSION }} into main: (${{ env.ACTION_RUN_URL }})"
-
