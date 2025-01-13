@@ -71,7 +71,7 @@ pub struct TestCompressionParameterSet {
     pub packing_ks_key_noise_distribution: TestDistribution,
 }
 
-/// Representation of a random distribution that is independent from any tfhe-rs version
+/// Representation of a random distribution that is independant from any tfhe-rs version
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum TestDistribution {
     Gaussian { stddev: f64 },
