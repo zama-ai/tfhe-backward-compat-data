@@ -29,7 +29,7 @@ pub const SHORTINT_MODULE_NAME: &str = "shortint";
 pub const HL_MODULE_NAME: &str = "high_level_api";
 pub const ZK_MODULE_NAME: &str = "zk";
 
-/// This struct re-defines tfhe-rs parameter sets but this allows to be independant of changes made
+/// This struct re-defines tfhe-rs parameter sets but this allows to be independent of changes made
 /// into the  ParameterSet of tfhe-rs.
 ///
 /// The idea here is to define a type that is able to carry the information of the used parameters
@@ -53,7 +53,7 @@ pub struct TestParameterSet {
     pub encryption_key_choice: Cow<'static, str>,
 }
 
-/// This struct re-defines tfhe-rs compression parameter sets but this allows to be independant of
+/// This struct re-defines tfhe-rs compression parameter sets but this allows to be independent of
 /// changes made into the ParameterSet of tfhe-rs.
 ///
 /// The idea here is to define a type that is able to carry the information of the used parameters
@@ -71,7 +71,7 @@ pub struct TestCompressionParameterSet {
     pub packing_ks_key_noise_distribution: TestDistribution,
 }
 
-/// Representation of a random distribution that is independant from any tfhe-rs version
+/// Representation of a random distribution that is independent from any tfhe-rs version
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum TestDistribution {
     Gaussian { stddev: f64 },
@@ -100,7 +100,7 @@ pub trait TestType {
     fn target_type(&self) -> String;
 
     /// The name of the file to be tested, without path or extension
-    /// (they will be infered)
+    /// (they will be inferred)
     fn test_filename(&self) -> String;
 
     #[cfg(feature = "load")]
@@ -304,7 +304,7 @@ pub enum DataKind {
 
 /// Info needed to be able to verify a pke proven compact list
 #[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct PkeZkProofAuxilliaryInfo {
+pub struct PkeZkProofAuxiliaryInfo {
     pub public_key_filename: Cow<'static, str>,
     pub params_filename: Cow<'static, str>,
     pub metadata: Cow<'static, str>,
@@ -315,7 +315,7 @@ pub struct HlHeterogeneousCiphertextListTest {
     pub test_filename: Cow<'static, str>,
     pub key_filename: Cow<'static, str>,
     pub compressed: bool,
-    pub proof_info: Option<PkeZkProofAuxilliaryInfo>,
+    pub proof_info: Option<PkeZkProofAuxiliaryInfo>,
     pub clear_values: Cow<'static, [u64]>,
     pub data_kinds: Cow<'static, [DataKind]>,
 }

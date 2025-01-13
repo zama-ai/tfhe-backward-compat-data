@@ -33,7 +33,7 @@ use crate::{
     },
     DataKind, HlBoolCiphertextTest, HlCiphertextTest, HlClientKeyTest,
     HlHeterogeneousCiphertextListTest, HlPublicKeyTest, HlSignedCiphertextTest,
-    PkeZkProofAuxilliaryInfo, ShortintCiphertextTest, ShortintClientKeyTest,
+    PkeZkProofAuxiliaryInfo, ShortintCiphertextTest, ShortintClientKeyTest,
     TestCompressionParameterSet, TestDistribution, TestMetadata, TestParameterSet,
     ZkPkePublicParamsTest, HL_MODULE_NAME, SHORTINT_MODULE_NAME,
 };
@@ -153,7 +153,7 @@ const HL_CLIENTKEY_TEST: HlClientKeyTest = HlClientKeyTest {
     parameters: VALID_TEST_PARAMS_TUNIFORM,
 };
 
-// We use a client key with specific parmeters for the pubkey since it can be very large
+// We use a client key with specific parameters for the pubkey since it can be very large
 const HL_LEGACY_PUBKEY_TEST: HlPublicKeyTest = HlPublicKeyTest {
     test_filename: Cow::Borrowed("legacy_public_key"),
     client_key_filename: Cow::Borrowed("client_key_for_pubkey"),
@@ -320,7 +320,7 @@ const HL_PROVEN_COMPACTLIST_TEST: HlHeterogeneousCiphertextListTest =
             DataKind::Bool,
         ]),
         compressed: false,
-        proof_info: Some(PkeZkProofAuxilliaryInfo {
+        proof_info: Some(PkeZkProofAuxiliaryInfo {
             public_key_filename: Cow::Borrowed("public_key"),
             params_filename: Cow::Borrowed("zk_pke_public_params"),
             metadata: Cow::Borrowed("drawkcab"),
