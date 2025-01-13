@@ -28,6 +28,9 @@ jobs:
           mv linelint-linux-amd64 /usr/local/bin/linelint
           linelint .
 
+      - name: Spell Check Repo
+        uses: crate-ci/typos@685eb3d55be2f85191e8c84acb9f44d7756f84ab
+
       - name: Check fmt
         run: |
           cargo fmt --check
