@@ -3,7 +3,7 @@ use crate::generate::{
     VALID_TEST_PARAMS_TUNIFORM,
 };
 use crate::{
-    DataKind, HlClientKeyTest, HlHeterogeneousCiphertextListTest, PkeZkProofAuxilliaryInfo,
+    DataKind, HlClientKeyTest, HlHeterogeneousCiphertextListTest, PkeZkProofAuxiliaryInfo,
     TestDistribution, TestMetadata, TestParameterSet, ZkPkePublicParamsTest, HL_MODULE_NAME,
 };
 use std::{borrow::Cow, fs::create_dir_all};
@@ -118,7 +118,7 @@ const HL_PROVEN_COMPACTLIST_TEST_ZKV2: HlHeterogeneousCiphertextListTest =
             DataKind::Bool,
         ]),
         compressed: false,
-        proof_info: Some(PkeZkProofAuxilliaryInfo {
+        proof_info: Some(PkeZkProofAuxiliaryInfo {
             public_key_filename: Cow::Borrowed("public_key"),
             params_filename: Cow::Borrowed("zk_pke_crs"),
             metadata: Cow::Borrowed("2vdrawkcab"),
