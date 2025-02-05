@@ -38,6 +38,7 @@ pub const VALID_TEST_PARAMS: TestParameterSet = TestParameterSet {
     log2_p_fail: -40.05,
     ciphertext_modulus: 1 << 64,
     encryption_key_choice: Cow::Borrowed("big"),
+    modulus_switch_noise_reduction_params: None,
 };
 
 pub const VALID_TEST_PARAMS_TUNIFORM: TestParameterSet = TestParameterSet {
@@ -56,6 +57,7 @@ pub const VALID_TEST_PARAMS_TUNIFORM: TestParameterSet = TestParameterSet {
     log2_p_fail: -64.138,
     ciphertext_modulus: 1 << 64,
     encryption_key_choice: Cow::Borrowed("big"),
+    modulus_switch_noise_reduction_params: None,
 };
 
 /// Those parameters are insecure and are used to generate small legacy public keys
@@ -79,6 +81,7 @@ pub const INSECURE_SMALL_PK_TEST_PARAMS: TestParameterSet = TestParameterSet {
     log2_p_fail: -64.05,
     ciphertext_modulus: 1 << 64,
     encryption_key_choice: Cow::Borrowed("small"),
+    modulus_switch_noise_reduction_params: None,
 };
 
 // Compression parameters for 2_2 TUniform
@@ -112,6 +115,7 @@ pub const INVALID_TEST_PARAMS: TestParameterSet = TestParameterSet {
     log2_p_fail: f64::MAX,
     ciphertext_modulus: u128::MAX,
     encryption_key_choice: Cow::Borrowed("big"),
+    modulus_switch_noise_reduction_params: None,
 };
 
 pub fn save_cbor<Data: Serialize, P: AsRef<Path>>(msg: &Data, path: P) {
