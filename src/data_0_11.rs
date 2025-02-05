@@ -6,23 +6,22 @@ use crate::{
     DataKind, HlClientKeyTest, HlHeterogeneousCiphertextListTest, PkeZkProofAuxiliaryInfo,
     TestDistribution, TestMetadata, TestParameterSet, ZkPkePublicParamsTest, HL_MODULE_NAME,
 };
-use std::{borrow::Cow, fs::create_dir_all};
-use tfhe_0_11::core_crypto::commons::math::random::RandomGenerator;
+use std::borrow::Cow;
+use std::fs::create_dir_all;
+use tfhe_0_11::boolean::engine::BooleanEngine;
+use tfhe_0_11::core_crypto::commons::generators::DeterministicSeeder;
+use tfhe_0_11::core_crypto::commons::math::random::{DefaultRandomGenerator, RandomGenerator};
+use tfhe_0_11::core_crypto::prelude::LweCiphertextCount;
 use tfhe_0_11::core_crypto::prelude::TUniform;
-use tfhe_0_11::zk::{CompactPkeCrs, ZkComputeLoad, ZkMSBZeroPaddingBitCount};
-use tfhe_0_11::{
-    boolean::engine::BooleanEngine,
-    core_crypto::commons::generators::DeterministicSeeder,
-    core_crypto::commons::math::random::ActivatedRandomGenerator,
-    shortint::engine::ShortintEngine,
-    shortint::parameters::{
-        CarryModulus, CiphertextModulus, ClassicPBSParameters, DecompositionBaseLog,
-        DecompositionLevelCount, DynamicDistribution, EncryptionKeyChoice, GlweDimension,
-        LweDimension, MaxNoiseLevel, MessageModulus, PBSParameters, PolynomialSize, StandardDev,
-    },
-    ClientKey, Seed,
+use tfhe_0_11::shortint::engine::ShortintEngine;
+use tfhe_0_11::shortint::parameters::{
+    CarryModulus, CiphertextModulus, ClassicPBSParameters, DecompositionBaseLog,
+    DecompositionLevelCount, DynamicDistribution, EncryptionKeyChoice, GlweDimension, LweDimension,
+    MaxNoiseLevel, MessageModulus, PBSParameters, PolynomialSize, StandardDev,
 };
+use tfhe_0_11::zk::{CompactPkeCrs, ZkComputeLoad, ZkMSBZeroPaddingBitCount};
 use tfhe_0_11::{set_server_key, CompactPublicKey, ProvenCompactCiphertextList, ServerKey};
+use tfhe_0_11::{ClientKey, Seed};
 
 macro_rules! store_versioned_test {
     ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
@@ -131,7 +130,7 @@ impl TfhersVersion for V0_11 {
     const VERSION_NUMBER: &'static str = "0.11";
 
     fn seed_prng(seed: u128) {
-        let mut seeder = DeterministicSeeder::<ActivatedRandomGenerator>::new(Seed(seed));
+        let mut seeder = DeterministicSeeder::<DefaultRandomGenerator>::new(Seed(seed));
         let shortint_engine = ShortintEngine::new_from_seeder(&mut seeder);
         ShortintEngine::with_thread_local_mut(|local_engine| {
             let _ = std::mem::replace(local_engine, shortint_engine);
@@ -149,7 +148,7 @@ impl TfhersVersion for V0_11 {
         let dir = Self::data_dir().join(HL_MODULE_NAME);
         create_dir_all(&dir).unwrap();
 
-        let mut zk_rng: RandomGenerator<ActivatedRandomGenerator> =
+        let mut zk_rng: RandomGenerator<DefaultRandomGenerator> =
             RandomGenerator::new(Seed(PRNG_SEED));
 
         // Generate a compact public key needed to create a compact list
@@ -162,7 +161,7 @@ impl TfhersVersion for V0_11 {
 
         let crs = CompactPkeCrs::new(
             LweDimension(ZK_PKE_CRS_TEST.lwe_dimension),
-            ZK_PKE_CRS_TEST.max_num_cleartext,
+            LweCiphertextCount(ZK_PKE_CRS_TEST.max_num_cleartext),
             TUniform::<u64>::new(ZK_PKE_CRS_TEST.noise_bound as u32),
             CiphertextModulus::new(ZK_PKE_CRS_TEST.ciphertext_modulus),
             ZK_PKE_CRS_TEST.plaintext_modulus as u64,
