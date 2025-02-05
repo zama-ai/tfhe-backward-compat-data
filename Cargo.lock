@@ -626,6 +626,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "itertools"
+version = "0.14.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2b192c782037fadd9cfa75548310488aabdbf3d2da73885b31bd0abd03351285"
+dependencies = [
+ "either",
+]
+
+[[package]]
 name = "js-sys"
 version = "0.3.77"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -968,6 +977,29 @@ dependencies = [
 
 [[package]]
 name = "tfhe"
+version = "0.11.0"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
+dependencies = [
+ "aligned-vec 0.6.1",
+ "bincode",
+ "bytemuck",
+ "dyn-stack 0.11.0",
+ "itertools 0.14.0",
+ "paste",
+ "pulp 0.20.1",
+ "rand_core",
+ "rayon",
+ "serde",
+ "sha3",
+ "tfhe-csprng 0.5.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
+ "tfhe-fft 0.7.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
+ "tfhe-ntt 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
+ "tfhe-versionable 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
+ "tfhe-zk-pok 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
+]
+
+[[package]]
+name = "tfhe"
 version = "0.11.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d7cb0956418a370a8126639e385c2387fc1a67f0b013109a21047544281659ba"
@@ -983,11 +1015,11 @@ dependencies = [
  "rayon",
  "serde",
  "sha3",
- "tfhe-csprng",
- "tfhe-fft",
- "tfhe-ntt",
- "tfhe-versionable 0.4.0",
- "tfhe-zk-pok 0.4.0",
+ "tfhe-csprng 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "tfhe-fft 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "tfhe-ntt 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "tfhe-versionable 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "tfhe-zk-pok 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -1068,10 +1100,12 @@ dependencies = [
  "serde",
  "strum",
  "tfhe 0.10.0",
+ "tfhe 0.11.0",
  "tfhe 0.11.2",
  "tfhe 0.8.7",
  "tfhe-versionable 0.3.2",
- "tfhe-versionable 0.4.0",
+ "tfhe-versionable 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "tfhe-versionable 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
 ]
 
 [[package]]
@@ -1079,6 +1113,16 @@ name = "tfhe-csprng"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7b1a0b71a91c9e36e9e1e8e6a528a056086b01e193e173472ae59cfaac56fdad"
+dependencies = [
+ "aes",
+ "libc",
+ "rayon",
+]
+
+[[package]]
+name = "tfhe-csprng"
+version = "0.5.0"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
 dependencies = [
  "aes",
  "libc",
@@ -1101,10 +1145,34 @@ dependencies = [
 ]
 
 [[package]]
+name = "tfhe-fft"
+version = "0.7.0"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
+dependencies = [
+ "aligned-vec 0.6.1",
+ "bytemuck",
+ "dyn-stack 0.11.0",
+ "js-sys",
+ "num-complex",
+ "pulp 0.20.1",
+ "serde",
+]
+
+[[package]]
 name = "tfhe-ntt"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8c6edf57a11500142fd5731a54d8eb099f8b7b1b17d5ad1e916b668544e83b20"
+dependencies = [
+ "aligned-vec 0.6.1",
+ "bytemuck",
+ "pulp 0.20.1",
+]
+
+[[package]]
+name = "tfhe-ntt"
+version = "0.4.0"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
 dependencies = [
  "aligned-vec 0.6.1",
  "bytemuck",
@@ -1132,7 +1200,18 @@ dependencies = [
  "aligned-vec 0.6.1",
  "num-complex",
  "serde",
- "tfhe-versionable-derive 0.4.0",
+ "tfhe-versionable-derive 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "tfhe-versionable"
+version = "0.4.0"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
+dependencies = [
+ "aligned-vec 0.6.1",
+ "num-complex",
+ "serde",
+ "tfhe-versionable-derive 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
 ]
 
 [[package]]
@@ -1151,6 +1230,16 @@ name = "tfhe-versionable-derive"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ecd3db096e2fb065e012a2f5f8e03789ff980109809e484165c8d7d728a8a11d"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.98",
+]
+
+[[package]]
+name = "tfhe-versionable-derive"
+version = "0.4.0"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1191,7 +1280,25 @@ dependencies = [
  "rayon",
  "serde",
  "sha3",
- "tfhe-versionable 0.4.0",
+ "tfhe-versionable 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "zeroize",
+]
+
+[[package]]
+name = "tfhe-zk-pok"
+version = "0.4.0"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
+dependencies = [
+ "ark-bls12-381",
+ "ark-ec",
+ "ark-ff",
+ "ark-poly",
+ "num-bigint",
+ "rand",
+ "rayon",
+ "serde",
+ "sha3",
+ "tfhe-versionable 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
  "zeroize",
 ]
 

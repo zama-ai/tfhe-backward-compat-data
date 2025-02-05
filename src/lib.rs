@@ -19,6 +19,8 @@ pub mod data_0_11;
 #[cfg(feature = "generate")]
 pub mod data_0_8;
 #[cfg(feature = "generate")]
+pub mod data_1_0;
+#[cfg(feature = "generate")]
 pub mod generate;
 #[cfg(feature = "load")]
 pub mod load;
