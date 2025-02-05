@@ -51,6 +51,14 @@ pub struct TestParameterSet {
     pub max_noise_level: usize,
     pub log2_p_fail: f64,
     pub encryption_key_choice: Cow<'static, str>,
+    pub modulus_switch_noise_reduction_params: Option<TestModulusSwitchNoiseReductionParams>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct TestModulusSwitchNoiseReductionParams {
+    pub modulus_switch_zeros_count: usize,
+    pub ms_bound: f64,
+    pub ms_r_sigma_factor: f64,
 }
 
 /// This struct re-defines tfhe-rs compression parameter sets but this allows to be independent of
