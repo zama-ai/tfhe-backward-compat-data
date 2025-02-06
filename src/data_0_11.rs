@@ -1,5 +1,5 @@
 use crate::generate::{
-    store_versioned_auxiliary_tfhe_011, store_versioned_test_tfhe_011, TfhersVersion, PRNG_SEED,
+    store_versioned_auxiliary_tfhe_0_11, store_versioned_test_tfhe_0_11, TfhersVersion, PRNG_SEED,
     VALID_TEST_PARAMS_TUNIFORM,
 };
 use crate::{
@@ -25,13 +25,13 @@ use tfhe_0_11::{ClientKey, Seed};
 
 macro_rules! store_versioned_test {
     ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
-        store_versioned_test_tfhe_011($msg, $dir, $test_filename)
+        store_versioned_test_tfhe_0_11($msg, $dir, $test_filename)
     };
 }
 
 macro_rules! store_versioned_auxiliary {
     ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
-        store_versioned_auxiliary_tfhe_011($msg, $dir, $test_filename)
+        store_versioned_auxiliary_tfhe_0_11($msg, $dir, $test_filename)
     };
 }
 
