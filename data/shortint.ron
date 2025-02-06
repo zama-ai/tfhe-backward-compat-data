@@ -24,6 +24,7 @@
                 max_noise_level: 5,
                 log2_p_fail: -40.05,
                 encryption_key_choice: "big",
+                modulus_switch_noise_reduction_params: None,
             ),
         )),
     ),

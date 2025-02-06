@@ -7,12 +7,13 @@ use std::{
 use bincode::Options;
 use serde::Serialize;
 use tfhe_0_11_versionable::Versionize as VersionizeTfhe_0_11;
+use tfhe_1_0_versionable::Versionize as VersionizeTfhe_1_0;
 use tfhe_versionable::Versionize as VersionizeTfhe_0_10;
 use tfhe_versionable::Versionize as VersionizeTfhe_0_8;
 
 use crate::{
     data_dir, dir_for_version, TestCompressionParameterSet, TestDistribution, TestMetadata,
-    TestParameterSet,
+    TestModulusSwitchNoiseReductionParams, TestParameterSet,
 };
 
 pub const PRNG_SEED: u128 = 0xdeadbeef;
@@ -82,6 +83,30 @@ pub const INSECURE_SMALL_PK_TEST_PARAMS: TestParameterSet = TestParameterSet {
     ciphertext_modulus: 1 << 64,
     encryption_key_choice: Cow::Borrowed("small"),
     modulus_switch_noise_reduction_params: None,
+};
+
+/// Those parameters are insecure and are used to generate small legacy public keys
+pub const INSECURE_SMALL_TEST_PARAMS_MS_NOISE_REDUCTION: TestParameterSet = TestParameterSet {
+    lwe_dimension: 2,
+    glwe_dimension: 1,
+    polynomial_size: 2048,
+    lwe_noise_distribution: TestDistribution::TUniform { bound_log2: 45 },
+    glwe_noise_distribution: TestDistribution::TUniform { bound_log2: 17 },
+    pbs_base_log: 23,
+    pbs_level: 1,
+    ks_base_log: 4,
+    ks_level: 4,
+    message_modulus: 4,
+    carry_modulus: 4,
+    max_noise_level: 5,
+    log2_p_fail: -129.1531929962914,
+    ciphertext_modulus: 1 << 64,
+    encryption_key_choice: Cow::Borrowed("small"),
+    modulus_switch_noise_reduction_params: Some(TestModulusSwitchNoiseReductionParams {
+        modulus_switch_zeros_count: 2,
+        ms_bound: 288230376151711744f64,
+        ms_r_sigma_factor: 14.5216195122155f64,
+    }),
 };
 
 // Compression parameters for 2_2 TUniform
@@ -169,6 +194,7 @@ macro_rules! define_store_versioned_test_fn {
 define_store_versioned_test_fn!(store_versioned_test_tfhe_0_8, VersionizeTfhe_0_8);
 define_store_versioned_test_fn!(store_versioned_test_tfhe_0_10, VersionizeTfhe_0_10);
 define_store_versioned_test_fn!(store_versioned_test_tfhe_0_11, VersionizeTfhe_0_11);
+define_store_versioned_test_fn!(store_versioned_test_tfhe_1_0, VersionizeTfhe_1_0);
 
 /// Stores the auxiliary data in `dir`, encoded in cbor, using the right tfhe-versionable version
 macro_rules! define_store_versioned_auxiliary_fn {
