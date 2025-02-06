@@ -6,9 +6,9 @@ use std::{
 
 use bincode::Options;
 use serde::Serialize;
-use tfhe_0_11_versionable::Versionize as VersionizeTfhe011;
-use tfhe_versionable::Versionize as VersionizeTfhe010;
-use tfhe_versionable::Versionize as VersionizeTfhe08;
+use tfhe_0_11_versionable::Versionize as VersionizeTfhe_0_11;
+use tfhe_versionable::Versionize as VersionizeTfhe_0_10;
+use tfhe_versionable::Versionize as VersionizeTfhe_0_8;
 
 use crate::{
     data_dir, dir_for_version, TestCompressionParameterSet, TestDistribution, TestMetadata,
@@ -162,9 +162,9 @@ macro_rules! define_store_versioned_test_fn {
         }
     };
 }
-define_store_versioned_test_fn!(store_versioned_test_tfhe_08, VersionizeTfhe08);
-define_store_versioned_test_fn!(store_versioned_test_tfhe_010, VersionizeTfhe010);
-define_store_versioned_test_fn!(store_versioned_test_tfhe_011, VersionizeTfhe011);
+define_store_versioned_test_fn!(store_versioned_test_tfhe_0_8, VersionizeTfhe_0_8);
+define_store_versioned_test_fn!(store_versioned_test_tfhe_0_10, VersionizeTfhe_0_10);
+define_store_versioned_test_fn!(store_versioned_test_tfhe_0_11, VersionizeTfhe_0_11);
 
 /// Stores the auxiliary data in `dir`, encoded in cbor, using the right tfhe-versionable version
 macro_rules! define_store_versioned_auxiliary_fn {
@@ -182,9 +182,9 @@ macro_rules! define_store_versioned_auxiliary_fn {
         }
     };
 }
-define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_tfhe_08, VersionizeTfhe08);
-define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_tfhe_010, VersionizeTfhe010);
-define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_tfhe_011, VersionizeTfhe011);
+define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_tfhe_0_8, VersionizeTfhe_0_8);
+define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_tfhe_0_10, VersionizeTfhe_0_10);
+define_store_versioned_auxiliary_fn!(store_versioned_auxiliary_tfhe_0_11, VersionizeTfhe_0_11);
 
 pub fn store_metadata<Meta: Serialize, P: AsRef<Path>>(value: &Meta, path: P) {
     let serialized = ron::ser::to_string_pretty(value, ron::ser::PrettyConfig::default()).unwrap();

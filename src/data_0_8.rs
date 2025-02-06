@@ -27,7 +27,7 @@ use tfhe_0_8::{
 
 use crate::{
     generate::{
-        store_versioned_auxiliary_tfhe_08, store_versioned_test_tfhe_08, TfhersVersion,
+        store_versioned_auxiliary_tfhe_0_8, store_versioned_test_tfhe_0_8, TfhersVersion,
         INSECURE_SMALL_PK_TEST_PARAMS, PRNG_SEED, VALID_TEST_PARAMS, VALID_TEST_PARAMS_TUNIFORM,
         VALID_TEST_PARAMS_TUNIFORM_COMPRESSION,
     },
@@ -40,13 +40,13 @@ use crate::{
 
 macro_rules! store_versioned_test {
     ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
-        store_versioned_test_tfhe_08($msg, $dir, $test_filename)
+        store_versioned_test_tfhe_0_8($msg, $dir, $test_filename)
     };
 }
 
 macro_rules! store_versioned_auxiliary {
     ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
-        store_versioned_auxiliary_tfhe_08($msg, $dir, $test_filename)
+        store_versioned_auxiliary_tfhe_0_8($msg, $dir, $test_filename)
     };
 }
 

@@ -1,5 +1,5 @@
 use crate::generate::{
-    store_versioned_test_tfhe_010, TfhersVersion, VALID_TEST_PARAMS_TUNIFORM,
+    store_versioned_test_tfhe_0_10, TfhersVersion, VALID_TEST_PARAMS_TUNIFORM,
     VALID_TEST_PARAMS_TUNIFORM_COMPRESSION,
 };
 use crate::{
@@ -24,7 +24,7 @@ use tfhe_0_10::{
 
 macro_rules! store_versioned_test {
     ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
-        store_versioned_test_tfhe_010($msg, $dir, $test_filename)
+        store_versioned_test_tfhe_0_10($msg, $dir, $test_filename)
     };
 }
 
