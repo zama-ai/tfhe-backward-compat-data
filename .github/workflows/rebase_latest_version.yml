@@ -18,7 +18,7 @@ jobs:
         run: |
           echo "DATA_LATEST_VERSION=\
           $(git for-each-ref --format='%(refname:short)' refs/remotes/origin \
-          | grep -Po '(?<=origin/)v\d.\d(.\d)?$' \
+          | grep -Po '(?<=origin\/)v\d+.\d+(.\d+)?$' \
           | sort -V | tail -n 1\
           )" >> $GITHUB_ENV
 
