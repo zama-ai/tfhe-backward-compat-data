@@ -1,4 +1,4 @@
-use std::fs::remove_dir_all;
+use std::{fs::remove_dir_all, thread};
 use tfhe_backward_compat_data::{
     data_0_10::V0_10,
     data_0_11::V0_11,
@@ -39,10 +39,17 @@ fn main() {
     let data_dir_path = data_dir(root_dir);
     remove_dir_all(&data_dir_path).unwrap();
 
-    let mut testcases = gen_all_data::<V0_8>();
-    testcases.extend(gen_all_data::<V0_10>());
-    testcases.extend(gen_all_data::<V0_11>());
-    testcases.extend(gen_all_data::<V1_0>());
+    let handler_v0_8 = thread::spawn(gen_all_data::<V0_8>);
+    let handler_v0_10 = thread::spawn(gen_all_data::<V0_10>);
+    let handler_v0_11 = thread::spawn(gen_all_data::<V0_11>);
+    let handler_v1_0 = thread::spawn(gen_all_data::<V1_0>);
+
+    let mut testcases = vec![];
+
+    testcases.extend_from_slice(&handler_v0_8.join().unwrap());
+    testcases.extend_from_slice(&handler_v0_10.join().unwrap());
+    testcases.extend_from_slice(&handler_v0_11.join().unwrap());
+    testcases.extend_from_slice(&handler_v1_0.join().unwrap());
 
     let shortint_testcases: Vec<Testcase> = testcases
         .iter()
