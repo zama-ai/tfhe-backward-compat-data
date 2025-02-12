@@ -99,13 +99,14 @@ pub const INSECURE_SMALL_TEST_PARAMS_MS_NOISE_REDUCTION: TestParameterSet = Test
     message_modulus: 4,
     carry_modulus: 4,
     max_noise_level: 5,
-    log2_p_fail: -129.1531929962914,
+    log2_p_fail: -129.15284804376165,
     ciphertext_modulus: 1 << 64,
-    encryption_key_choice: Cow::Borrowed("small"),
+    encryption_key_choice: Cow::Borrowed("big"),
     modulus_switch_noise_reduction_params: Some(TestModulusSwitchNoiseReductionParams {
         modulus_switch_zeros_count: 2,
         ms_bound: 288230376151711744f64,
-        ms_r_sigma_factor: 14.5216195122155f64,
+        ms_r_sigma_factor: 13.179852282053789f64,
+        ms_input_variance: 2.63039184094559e-7f64,
     }),
 };
 
