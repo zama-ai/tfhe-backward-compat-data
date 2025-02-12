@@ -7,9 +7,9 @@ use crate::{
 };
 use std::{borrow::Cow, fs::create_dir_all};
 use tfhe_1_0::core_crypto::prelude::{
-    LweCiphertextCount, NoiseEstimationMeasureBound, RSigmaFactor,
+    LweCiphertextCount, NoiseEstimationMeasureBound, RSigmaFactor, Variance,
 };
-use tfhe_1_0::shortint::server_key::ModulusSwitchNoiseReductionParams;
+use tfhe_1_0::shortint::parameters::ModulusSwitchNoiseReductionParams;
 use tfhe_1_0::{
     boolean::engine::BooleanEngine,
     core_crypto::commons::generators::DeterministicSeeder,
@@ -49,12 +49,14 @@ impl From<TestModulusSwitchNoiseReductionParams> for ModulusSwitchNoiseReduction
             modulus_switch_zeros_count,
             ms_bound,
             ms_r_sigma_factor,
+            ms_input_variance,
         } = value;
 
         ModulusSwitchNoiseReductionParams {
             modulus_switch_zeros_count: LweCiphertextCount(modulus_switch_zeros_count),
             ms_bound: NoiseEstimationMeasureBound(ms_bound),
             ms_r_sigma_factor: RSigmaFactor(ms_r_sigma_factor),
+            ms_input_variance: Variance(ms_input_variance),
         }
     }
 }

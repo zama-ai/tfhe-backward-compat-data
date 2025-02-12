@@ -61,6 +61,7 @@ pub struct TestModulusSwitchNoiseReductionParams {
     pub modulus_switch_zeros_count: usize,
     pub ms_bound: f64,
     pub ms_r_sigma_factor: f64,
+    pub ms_input_variance: f64,
 }
 
 /// This struct re-defines tfhe-rs compression parameter sets but this allows to be independent of
