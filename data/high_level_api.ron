@@ -437,6 +437,7 @@
                     modulus_switch_zeros_count: 2,
                     ms_bound: 288230376151711740.0,
                     ms_r_sigma_factor: 14.5216195122155,
+                    ms_input_variance: 0.0,
                 )),
             ),
         )),

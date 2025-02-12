@@ -106,6 +106,7 @@ pub const INSECURE_SMALL_TEST_PARAMS_MS_NOISE_REDUCTION: TestParameterSet = Test
         modulus_switch_zeros_count: 2,
         ms_bound: 288230376151711744f64,
         ms_r_sigma_factor: 14.5216195122155f64,
+        ms_input_variance: 0.0,
     }),
 };
 

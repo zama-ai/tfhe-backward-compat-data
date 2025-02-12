@@ -712,9 +712,9 @@ dependencies = [
 
 [[package]]
 name = "once_cell"
-version = "1.20.2"
+version = "1.20.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1261fe7e33c73b354eab43b1273a57c8f967d0391e80353e51f764ac02cf6775"
+checksum = "945462a4b81e43c4e3ba96bd7b49d834c6f61198356aa858733bc4acf3cbe62e"
 
 [[package]]
 name = "paste"
@@ -978,7 +978,7 @@ dependencies = [
 [[package]]
 name = "tfhe"
 version = "0.11.0"
-source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction#5ed2ad466f8c2e292ab2fc860a931be5261c3db7"
 dependencies = [
  "aligned-vec 0.6.1",
  "bincode",
@@ -991,11 +991,11 @@ dependencies = [
  "rayon",
  "serde",
  "sha3",
- "tfhe-csprng 0.5.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
- "tfhe-fft 0.7.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
- "tfhe-ntt 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
- "tfhe-versionable 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
- "tfhe-zk-pok 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
+ "tfhe-csprng 0.5.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction)",
+ "tfhe-fft 0.7.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction)",
+ "tfhe-ntt 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction)",
+ "tfhe-versionable 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction)",
+ "tfhe-zk-pok 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction)",
 ]
 
 [[package]]
@@ -1105,7 +1105,7 @@ dependencies = [
  "tfhe 0.8.7",
  "tfhe-versionable 0.3.2",
  "tfhe-versionable 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "tfhe-versionable 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
+ "tfhe-versionable 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction)",
 ]
 
 [[package]]
@@ -1122,7 +1122,7 @@ dependencies = [
 [[package]]
 name = "tfhe-csprng"
 version = "0.5.0"
-source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction#5ed2ad466f8c2e292ab2fc860a931be5261c3db7"
 dependencies = [
  "aes",
  "libc",
@@ -1147,7 +1147,7 @@ dependencies = [
 [[package]]
 name = "tfhe-fft"
 version = "0.7.0"
-source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction#5ed2ad466f8c2e292ab2fc860a931be5261c3db7"
 dependencies = [
  "aligned-vec 0.6.1",
  "bytemuck",
@@ -1172,7 +1172,7 @@ dependencies = [
 [[package]]
 name = "tfhe-ntt"
 version = "0.4.0"
-source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction#5ed2ad466f8c2e292ab2fc860a931be5261c3db7"
 dependencies = [
  "aligned-vec 0.6.1",
  "bytemuck",
@@ -1206,12 +1206,12 @@ dependencies = [
 [[package]]
 name = "tfhe-versionable"
 version = "0.4.0"
-source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction#5ed2ad466f8c2e292ab2fc860a931be5261c3db7"
 dependencies = [
  "aligned-vec 0.6.1",
  "num-complex",
  "serde",
- "tfhe-versionable-derive 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
+ "tfhe-versionable-derive 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction)",
 ]
 
 [[package]]
@@ -1239,7 +1239,7 @@ dependencies = [
 [[package]]
 name = "tfhe-versionable-derive"
 version = "0.4.0"
-source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction#5ed2ad466f8c2e292ab2fc860a931be5261c3db7"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1287,7 +1287,7 @@ dependencies = [
 [[package]]
 name = "tfhe-zk-pok"
 version = "0.4.0"
-source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise#eb68c8c1f49fa80cbcd8e1171553c0ccbf8ad828"
+source = "git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction#5ed2ad466f8c2e292ab2fc860a931be5261c3db7"
 dependencies = [
  "ark-bls12-381",
  "ark-ec",
@@ -1298,7 +1298,7 @@ dependencies = [
  "rayon",
  "serde",
  "sha3",
- "tfhe-versionable 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Freduce_ms_noise)",
+ "tfhe-versionable 0.4.0 (git+https://github.com/zama-ai/tfhe-rs/?branch=mz%2Fupdate_ms_noise_reduction)",
  "zeroize",
 ]
 
