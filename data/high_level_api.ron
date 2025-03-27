@@ -447,7 +447,7 @@
         tfhe_module: "high_level_api",
         metadata: HlServerKey((
             test_filename: "server_key_ms_noise_reduction",
-            client_key_filename: "client_key_ms_noise.cbor",
+            client_key_filename: "client_key_ms_noise_reduction.cbor",
             compressed: true,
         )),
     ),

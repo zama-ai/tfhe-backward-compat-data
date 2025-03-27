@@ -5,24 +5,22 @@ use crate::{
     HlClientKeyTest, HlServerKeyTest, TestDistribution, TestMetadata,
     TestModulusSwitchNoiseReductionParams, TestParameterSet, HL_MODULE_NAME,
 };
-use std::{borrow::Cow, fs::create_dir_all};
+use std::borrow::Cow;
+use std::fs::create_dir_all;
+use tfhe_1_0::boolean::engine::BooleanEngine;
+use tfhe_1_0::core_crypto::commons::generators::DeterministicSeeder;
+use tfhe_1_0::core_crypto::commons::math::random::DefaultRandomGenerator;
 use tfhe_1_0::core_crypto::prelude::{
     LweCiphertextCount, NoiseEstimationMeasureBound, RSigmaFactor, Variance,
 };
-use tfhe_1_0::shortint::parameters::ModulusSwitchNoiseReductionParams;
-use tfhe_1_0::{
-    boolean::engine::BooleanEngine,
-    core_crypto::commons::generators::DeterministicSeeder,
-    core_crypto::commons::math::random::DefaultRandomGenerator,
-    shortint::engine::ShortintEngine,
-    shortint::parameters::{
-        CarryModulus, CiphertextModulus, ClassicPBSParameters, DecompositionBaseLog,
-        DecompositionLevelCount, DynamicDistribution, EncryptionKeyChoice, GlweDimension,
-        LweDimension, MaxNoiseLevel, MessageModulus, PBSParameters, PolynomialSize, StandardDev,
-    },
-    ClientKey, Seed,
+use tfhe_1_0::shortint::engine::ShortintEngine;
+use tfhe_1_0::shortint::parameters::{
+    CarryModulus, CiphertextModulus, ClassicPBSParameters, DecompositionBaseLog,
+    DecompositionLevelCount, DynamicDistribution, EncryptionKeyChoice, GlweDimension, LweDimension,
+    MaxNoiseLevel, MessageModulus, ModulusSwitchNoiseReductionParams, PBSParameters,
+    PolynomialSize, StandardDev,
 };
-use tfhe_1_0::{set_server_key, ServerKey};
+use tfhe_1_0::{set_server_key, ClientKey, Seed, ServerKey};
 
 macro_rules! store_versioned_test {
     ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
@@ -108,7 +106,7 @@ const HL_CLIENTKEY_MS_NOISE_REDUCTION_TEST: HlClientKeyTest = HlClientKeyTest {
 
 const HL_SERVERKEY_MS_NOISE_REDUCTION_TEST: HlServerKeyTest = HlServerKeyTest {
     test_filename: Cow::Borrowed("server_key_ms_noise_reduction"),
-    client_key_filename: Cow::Borrowed("client_key_ms_noise.cbor"),
+    client_key_filename: Cow::Borrowed("client_key_ms_noise_reduction.cbor"),
     compressed: true,
 };
 
