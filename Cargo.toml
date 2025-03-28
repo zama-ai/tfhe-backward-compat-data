@@ -39,11 +39,19 @@ tfhe_1_0 = { version = "=1.0.0", features = [
   "zk-pok",
   "experimental-force_fft_algo_dif4",
 ], package = "tfhe", optional = true }
+tfhe_1_1 = { git = "https://github.com/zama-ai/tfhe-rs.git", features = [
+  "boolean",
+  "integer",
+  "shortint",
+  "zk-pok",
+  "experimental-force_fft_algo_dif4",
+], package = "tfhe", branch = "am/feat/noise-squashing-hl", optional = true }
 
 # TFHE-rs 0.8 and 0.10 use the same version of versionable
-tfhe-versionable = { version = "0.3.2", optional = true }
+tfhe-versionable = { version = "0.3.2", optional = true, package = "tfhe-versionable" }
 tfhe_0_11-versionable = { version = "0.4.0", optional = true, package = "tfhe-versionable" }
 tfhe_1_0-versionable = { version = "0.5.0", optional = true, package = "tfhe-versionable" }
+tfhe_1_1-versionable = { version = "0.5.0", git = "https://github.com/zama-ai/tfhe-rs.git", branch = "am/feat/noise-squashing-hl", optional = true, package = "tfhe-versionable" }
 
 
 # other deps
@@ -66,8 +74,10 @@ generate = [
   "dep:tfhe_0_10",
   "dep:tfhe_0_11",
   "dep:tfhe_1_0",
+  "dep:tfhe_1_1",
   "dep:tfhe-versionable",
   "dep:tfhe_0_11-versionable",
   "dep:tfhe_1_0-versionable",
+  "dep:tfhe_1_1-versionable",
 ]
 load = ["dep:semver"]
