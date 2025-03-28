@@ -4,6 +4,7 @@ use tfhe_backward_compat_data::{
     data_0_11::V0_11,
     data_0_8::V0_8,
     data_1_0::V1_0,
+    data_1_1::V1_1,
     data_dir,
     generate::{store_metadata, TfhersVersion, PRNG_SEED},
     Testcase, HL_MODULE_NAME, SHORTINT_MODULE_NAME,
@@ -43,6 +44,7 @@ fn main() {
     let handler_v0_10 = thread::spawn(gen_all_data::<V0_10>);
     let handler_v0_11 = thread::spawn(gen_all_data::<V0_11>);
     let handler_v1_0 = thread::spawn(gen_all_data::<V1_0>);
+    let handler_v1_1 = thread::spawn(gen_all_data::<V1_1>);
 
     let mut testcases = vec![];
 
@@ -50,6 +52,7 @@ fn main() {
     testcases.extend_from_slice(&handler_v0_10.join().unwrap());
     testcases.extend_from_slice(&handler_v0_11.join().unwrap());
     testcases.extend_from_slice(&handler_v1_0.join().unwrap());
+    testcases.extend_from_slice(&handler_v1_1.join().unwrap());
 
     let shortint_testcases: Vec<Testcase> = testcases
         .iter()
