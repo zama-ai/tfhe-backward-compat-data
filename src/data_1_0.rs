@@ -20,7 +20,7 @@ use tfhe_1_0::shortint::parameters::{
     MaxNoiseLevel, MessageModulus, ModulusSwitchNoiseReductionParams, PBSParameters,
     PolynomialSize, StandardDev,
 };
-use tfhe_1_0::{set_server_key, ClientKey, Seed, ServerKey};
+use tfhe_1_0::Seed;
 
 macro_rules! store_versioned_test {
     ($msg:expr, $dir:expr, $test_filename:expr $(,)? ) => {
@@ -107,7 +107,7 @@ const HL_CLIENTKEY_MS_NOISE_REDUCTION_TEST: HlClientKeyTest = HlClientKeyTest {
 const HL_SERVERKEY_MS_NOISE_REDUCTION_TEST: HlServerKeyTest = HlServerKeyTest {
     test_filename: Cow::Borrowed("server_key_ms_noise_reduction"),
     client_key_filename: Cow::Borrowed("client_key_ms_noise_reduction.cbor"),
-    compressed: true,
+    compressed: false,
 };
 
 pub struct V1_0;
@@ -133,14 +133,6 @@ impl TfhersVersion for V1_0 {
     fn gen_hl_data() -> Vec<TestMetadata> {
         let dir = Self::data_dir().join(HL_MODULE_NAME);
         create_dir_all(&dir).unwrap();
-
-        let config = tfhe_1_0::ConfigBuilder::with_custom_parameters(
-            INSECURE_SMALL_TEST_PARAMS_MS_NOISE_REDUCTION,
-        )
-        .build();
-        let hl_client_key = ClientKey::generate(config);
-        let hl_server_key = ServerKey::new(&hl_client_key);
-        set_server_key(hl_server_key.clone());
 
         let config = tfhe_1_0::ConfigBuilder::with_custom_parameters(
             HL_CLIENTKEY_MS_NOISE_REDUCTION_TEST.parameters,
