@@ -64,6 +64,19 @@ pub struct TestModulusSwitchNoiseReductionParams {
     pub ms_input_variance: f64,
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct TestNoiseSquashingParams {
+    pub glwe_dimension: usize,
+    pub polynomial_size: usize,
+    pub glwe_noise_distribution: TestDistribution,
+    pub decomp_base_log: usize,
+    pub decomp_level_count: usize,
+    pub modulus_switch_noise_reduction_params: Option<TestModulusSwitchNoiseReductionParams>,
+    pub message_modulus: usize,
+    pub carry_modulus: usize,
+    pub ciphertext_modulus: u128,
+}
+
 /// This struct re-defines tfhe-rs compression parameter sets but this allows to be independent of
 /// changes made into the ParameterSet of tfhe-rs.
 ///
@@ -346,6 +359,69 @@ impl TestType for HlHeterogeneousCiphertextListTest {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct HlSquashedNoiseUnsignedCiphertextTest {
+    pub test_filename: Cow<'static, str>,
+    pub key_filename: Cow<'static, str>,
+    pub clear_value: u64,
+}
+
+impl TestType for HlSquashedNoiseUnsignedCiphertextTest {
+    fn module(&self) -> String {
+        HL_MODULE_NAME.to_string()
+    }
+
+    fn target_type(&self) -> String {
+        "SquashedNoiseFheUint".to_string()
+    }
+
+    fn test_filename(&self) -> String {
+        self.test_filename.to_string()
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct HlSquashedNoiseSignedCiphertextTest {
+    pub test_filename: Cow<'static, str>,
+    pub key_filename: Cow<'static, str>,
+    pub clear_value: i64,
+}
+
+impl TestType for HlSquashedNoiseSignedCiphertextTest {
+    fn module(&self) -> String {
+        HL_MODULE_NAME.to_string()
+    }
+
+    fn target_type(&self) -> String {
+        "SquashedNoiseFheInt".to_string()
+    }
+
+    fn test_filename(&self) -> String {
+        self.test_filename.to_string()
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct HlSquashedNoiseBoolCiphertextTest {
+    pub test_filename: Cow<'static, str>,
+    pub key_filename: Cow<'static, str>,
+    pub clear_value: bool,
+}
+
+impl TestType for HlSquashedNoiseBoolCiphertextTest {
+    fn module(&self) -> String {
+        HL_MODULE_NAME.to_string()
+    }
+
+    fn target_type(&self) -> String {
+        "SquashedNoiseFheBool".to_string()
+    }
+
+    fn test_filename(&self) -> String {
+        self.test_filename.to_string()
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct ZkPkePublicParamsTest {
     pub test_filename: Cow<'static, str>,
     pub lwe_dimension: usize,
@@ -385,6 +461,9 @@ pub enum TestMetadata {
     HlServerKey(HlServerKeyTest),
     HlPublicKey(HlPublicKeyTest),
     ZkPkePublicParams(ZkPkePublicParamsTest), // We place it in the hl folder since it is currently used with hl tests:
+    HlSquashedNoiseUnsignedCiphertext(HlSquashedNoiseUnsignedCiphertextTest),
+    HlSquashedNoiseSignedCiphertext(HlSquashedNoiseSignedCiphertextTest),
+    HlSquashedNoiseBoolCiphertext(HlSquashedNoiseBoolCiphertextTest),
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
