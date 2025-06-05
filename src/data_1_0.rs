@@ -1,17 +1,18 @@
 use crate::generate::{
     store_versioned_test_tfhe_1_0, TfhersVersion, INSECURE_SMALL_TEST_PARAMS_MS_NOISE_REDUCTION,
+    PRNG_SEED, VALID_TEST_PARAMS_TUNIFORM,
 };
 use crate::{
     HlClientKeyTest, HlServerKeyTest, TestDistribution, TestMetadata,
-    TestModulusSwitchNoiseReductionParams, TestParameterSet, HL_MODULE_NAME,
+    TestModulusSwitchNoiseReductionParams, TestParameterSet, ZkPkePublicParamsTest, HL_MODULE_NAME,
 };
 use std::borrow::Cow;
 use std::fs::create_dir_all;
 use tfhe_1_0::boolean::engine::BooleanEngine;
 use tfhe_1_0::core_crypto::commons::generators::DeterministicSeeder;
-use tfhe_1_0::core_crypto::commons::math::random::DefaultRandomGenerator;
+use tfhe_1_0::core_crypto::commons::math::random::{DefaultRandomGenerator, RandomGenerator};
 use tfhe_1_0::core_crypto::prelude::{
-    LweCiphertextCount, NoiseEstimationMeasureBound, RSigmaFactor, Variance,
+    LweCiphertextCount, NoiseEstimationMeasureBound, RSigmaFactor, TUniform, Variance,
 };
 use tfhe_1_0::shortint::engine::ShortintEngine;
 use tfhe_1_0::shortint::parameters::{
@@ -20,6 +21,8 @@ use tfhe_1_0::shortint::parameters::{
     MaxNoiseLevel, MessageModulus, ModulusSwitchNoiseReductionParams, PBSParameters,
     PolynomialSize, StandardDev,
 };
+use tfhe_1_0::zk::CompactPkeCrs;
+use tfhe_1_0::zk::ZkMSBZeroPaddingBitCount;
 use tfhe_1_0::Seed;
 
 macro_rules! store_versioned_test {
@@ -110,6 +113,22 @@ const HL_SERVERKEY_MS_NOISE_REDUCTION_TEST: HlServerKeyTest = HlServerKeyTest {
     compressed: false,
 };
 
+const ZK_PKEV2_CRS_TEST: ZkPkePublicParamsTest = ZkPkePublicParamsTest {
+    test_filename: Cow::Borrowed("zk_pkev2_crs"),
+    lwe_dimension: VALID_TEST_PARAMS_TUNIFORM.polynomial_size
+        * VALID_TEST_PARAMS_TUNIFORM.glwe_dimension, // Lwe dimension of the "big" key is glwe dimension * polynomial size
+    max_num_cleartext: 16,
+    noise_bound: match VALID_TEST_PARAMS_TUNIFORM.lwe_noise_distribution {
+        TestDistribution::Gaussian { .. } => unreachable!(),
+        TestDistribution::TUniform { bound_log2 } => bound_log2 as usize,
+    },
+    ciphertext_modulus: VALID_TEST_PARAMS_TUNIFORM.ciphertext_modulus,
+    plaintext_modulus: VALID_TEST_PARAMS_TUNIFORM.message_modulus
+        * VALID_TEST_PARAMS_TUNIFORM.carry_modulus
+        * 2, // *2 for padding bit
+    padding_bit_count: 1,
+};
+
 pub struct V1_0;
 
 impl TfhersVersion for V1_0 {
@@ -152,9 +171,26 @@ impl TfhersVersion for V1_0 {
             &HL_SERVERKEY_MS_NOISE_REDUCTION_TEST.test_filename,
         );
 
+        let mut zk_rng: RandomGenerator<DefaultRandomGenerator> =
+            RandomGenerator::new(Seed(PRNG_SEED));
+
+        let zkv2_crs = CompactPkeCrs::new(
+            LweDimension(ZK_PKEV2_CRS_TEST.lwe_dimension),
+            LweCiphertextCount(ZK_PKEV2_CRS_TEST.max_num_cleartext),
+            TUniform::<u64>::new(ZK_PKEV2_CRS_TEST.noise_bound as u32),
+            CiphertextModulus::new(ZK_PKEV2_CRS_TEST.ciphertext_modulus),
+            ZK_PKEV2_CRS_TEST.plaintext_modulus as u64,
+            ZkMSBZeroPaddingBitCount(ZK_PKEV2_CRS_TEST.padding_bit_count as u64),
+            &mut zk_rng,
+        )
+        .unwrap();
+
+        store_versioned_test!(&zkv2_crs, &dir, &ZK_PKEV2_CRS_TEST.test_filename,);
+
         vec![
             TestMetadata::HlClientKey(HL_CLIENTKEY_MS_NOISE_REDUCTION_TEST),
             TestMetadata::HlServerKey(HL_SERVERKEY_MS_NOISE_REDUCTION_TEST),
+            TestMetadata::ZkPkePublicParams(ZK_PKEV2_CRS_TEST),
         ]
     }
 }

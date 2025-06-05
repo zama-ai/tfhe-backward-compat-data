@@ -74,8 +74,8 @@
         metadata: HlCiphertext((
             test_filename: "ct1",
             key_filename: "batch_1_client_key",
-            clear_value: 0,
             compressed: false,
+            clear_value: 0,
         )),
     ),
     (
@@ -84,8 +84,8 @@
         metadata: HlCiphertext((
             test_filename: "ct2",
             key_filename: "batch_1_client_key",
-            clear_value: 255,
             compressed: false,
+            clear_value: 255,
         )),
     ),
     (
@@ -94,8 +94,8 @@
         metadata: HlCiphertext((
             test_filename: "ct_compressed_seeded",
             key_filename: "batch_1_client_key",
-            clear_value: 255,
             compressed: true,
+            clear_value: 255,
         )),
     ),
     (
@@ -104,8 +104,8 @@
         metadata: HlCiphertext((
             test_filename: "ct_compressed_modswitched",
             key_filename: "batch_1_client_key",
-            clear_value: 255,
             compressed: true,
+            clear_value: 255,
         )),
     ),
     (
@@ -449,6 +449,19 @@
             test_filename: "server_key_ms_noise_reduction",
             client_key_filename: "client_key_ms_noise_reduction.cbor",
             compressed: false,
+        )),
+    ),
+    (
+        tfhe_version_min: "1.0",
+        tfhe_module: "high_level_api",
+        metadata: ZkPkePublicParams((
+            test_filename: "zk_pkev2_crs",
+            lwe_dimension: 2048,
+            max_num_cleartext: 16,
+            noise_bound: 46,
+            ciphertext_modulus: 18446744073709551616,
+            plaintext_modulus: 32,
+            padding_bit_count: 1,
         )),
     ),
     (
