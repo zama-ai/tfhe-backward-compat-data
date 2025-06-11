@@ -4,6 +4,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   synchronise_version_branch:
     name: Synchronize the latest branch
