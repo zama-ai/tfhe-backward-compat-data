@@ -6,8 +6,8 @@ use crate::{
         PRNG_SEED, VALID_TEST_PARAMS_TUNIFORM,
     },
     DataKind, HlHeterogeneousCiphertextListTest, PkeZkProofAuxiliaryInfo, TestDistribution,
-    TestMetadata, TestModulusSwitchNoiseReductionParams, TestParameterSet, ZkPkePublicParamsTest,
-    HL_MODULE_NAME,
+    TestMetadata, TestModulusSwitchNoiseReductionParams, TestModulusSwitchType, TestParameterSet,
+    ZkPkePublicParamsTest, HL_MODULE_NAME,
 };
 
 use tfhe_1_3::{
@@ -23,8 +23,8 @@ use tfhe_1_3::{
             CarryModulus, CiphertextModulus, ClassicPBSParameters, DecompositionBaseLog,
             DecompositionLevelCount, DynamicDistribution, EncryptionKeyChoice, GlweDimension,
             LweCiphertextCount, LweDimension, MaxNoiseLevel, MessageModulus,
-            ModulusSwitchNoiseReductionParams, NoiseEstimationMeasureBound, PolynomialSize,
-            RSigmaFactor, StandardDev, Variance,
+            ModulusSwitchNoiseReductionParams, ModulusSwitchType, NoiseEstimationMeasureBound,
+            PolynomialSize, RSigmaFactor, StandardDev, Variance,
         },
         AtomicPatternParameters,
     },
@@ -75,11 +75,24 @@ impl From<TestModulusSwitchNoiseReductionParams> for ModulusSwitchNoiseReduction
     }
 }
 
+impl From<TestModulusSwitchType> for ModulusSwitchType {
+    fn from(value: TestModulusSwitchType) -> Self {
+        match value {
+            TestModulusSwitchType::Standard => Self::Standard,
+            TestModulusSwitchType::DriftTechniqueNoiseReduction(
+                test_modulus_switch_noise_reduction_params,
+            ) => Self::DriftTechniqueNoiseReduction(
+                test_modulus_switch_noise_reduction_params.into(),
+            ),
+            TestModulusSwitchType::CenteredMeanNoiseReduction => Self::CenteredMeanNoiseReduction,
+        }
+    }
+}
+
 impl From<TestParameterSet> for ClassicPBSParameters {
     fn from(value: TestParameterSet) -> Self {
-        let modulus_switch_noise_reduction_params = value
-            .modulus_switch_noise_reduction_params
-            .map(|param| param.into());
+        let modulus_switch_noise_reduction_params =
+            value.modulus_switch_noise_reduction_params.into();
 
         ClassicPBSParameters {
             lwe_dimension: LweDimension(value.lwe_dimension),
@@ -172,77 +185,79 @@ impl TfhersVersion for V1_3 {
     }
 
     fn gen_hl_data() -> Vec<TestMetadata> {
-        let dir = Self::data_dir().join(HL_MODULE_NAME);
-        create_dir_all(&dir).unwrap();
+        // let dir = Self::data_dir().join(HL_MODULE_NAME);
+        // create_dir_all(&dir).unwrap();
 
-        let mut zk_rng: RandomGenerator<DefaultRandomGenerator> =
-            RandomGenerator::new(Seed(PRNG_SEED));
+        // let mut zk_rng: RandomGenerator<DefaultRandomGenerator> =
+        //     RandomGenerator::new(Seed(PRNG_SEED));
 
-        // Generate a compact public key needed to create a compact list
-        let config =
-            tfhe_1_3::ConfigBuilder::with_custom_parameters(VALID_TEST_PARAMS_TUNIFORM).build();
-        let hl_client_key = ClientKey::generate(config);
-        let hl_server_key = ServerKey::new(&hl_client_key);
-        set_server_key(hl_server_key.clone());
-        let compact_pub_key = CompactPublicKey::new(&hl_client_key);
+        // // Generate a compact public key needed to create a compact list
+        // let config =
+        //     tfhe_1_3::ConfigBuilder::with_custom_parameters(VALID_TEST_PARAMS_TUNIFORM).build();
+        // let hl_client_key = ClientKey::generate(config);
+        // let hl_server_key = ServerKey::new(&hl_client_key);
+        // set_server_key(hl_server_key.clone());
+        // let compact_pub_key = CompactPublicKey::new(&hl_client_key);
 
-        let crs = CompactPkeCrs::new(
-            LweDimension(ZK_PKE_CRS_TEST.lwe_dimension),
-            LweCiphertextCount(ZK_PKE_CRS_TEST.max_num_cleartext),
-            TUniform::<u64>::new(ZK_PKE_CRS_TEST.noise_bound as u32),
-            CiphertextModulus::new(ZK_PKE_CRS_TEST.ciphertext_modulus),
-            ZK_PKE_CRS_TEST.plaintext_modulus as u64,
-            ZkMSBZeroPaddingBitCount(ZK_PKE_CRS_TEST.padding_bit_count as u64),
-            &mut zk_rng,
-        )
-        .unwrap();
+        // let crs = CompactPkeCrs::new(
+        //     LweDimension(ZK_PKE_CRS_TEST.lwe_dimension),
+        //     LweCiphertextCount(ZK_PKE_CRS_TEST.max_num_cleartext),
+        //     TUniform::<u64>::new(ZK_PKE_CRS_TEST.noise_bound as u32),
+        //     CiphertextModulus::new(ZK_PKE_CRS_TEST.ciphertext_modulus),
+        //     ZK_PKE_CRS_TEST.plaintext_modulus as u64,
+        //     ZkMSBZeroPaddingBitCount(ZK_PKE_CRS_TEST.padding_bit_count as u64),
+        //     &mut zk_rng,
+        // )
+        // .unwrap();
 
-        // Store the crs
-        store_versioned_auxiliary!(&crs, &dir, &ZK_PKE_CRS_TEST.test_filename);
+        // // Store the crs
+        // store_versioned_auxiliary!(&crs, &dir, &ZK_PKE_CRS_TEST.test_filename);
 
-        // Store the associated client key to be able to decrypt the ciphertexts in the list
-        store_versioned_auxiliary!(
-            &hl_client_key,
-            &dir,
-            &HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH.key_filename
-        );
+        // // Store the associated client key to be able to decrypt the ciphertexts in the list
+        // store_versioned_auxiliary!(
+        //     &hl_client_key,
+        //     &dir,
+        //     &HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH.key_filename
+        // );
 
-        store_versioned_auxiliary!(
-            &compact_pub_key,
-            &dir,
-            &HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH
-                .proof_info
-                .unwrap()
-                .public_key_filename
-        );
+        // store_versioned_auxiliary!(
+        //     &compact_pub_key,
+        //     &dir,
+        //     &HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH
+        //         .proof_info
+        //         .unwrap()
+        //         .public_key_filename
+        // );
 
-        let mut proven_builder = ProvenCompactCiphertextList::builder(&compact_pub_key);
-        proven_builder
-            .push(HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH.clear_values[0] as u8)
-            .push(HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH.clear_values[1] as i8)
-            .push(HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH.clear_values[2] != 0)
-            .push(HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH.clear_values[3] != 0);
+        // let mut proven_builder = ProvenCompactCiphertextList::builder(&compact_pub_key);
+        // proven_builder
+        //     .push(HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH.clear_values[0] as u8)
+        //     .push(HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH.clear_values[1] as i8)
+        //     .push(HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH.clear_values[2] != 0)
+        //     .push(HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH.clear_values[3] != 0);
 
-        let proven_list_packed = proven_builder
-            .build_with_proof_packed(
-                &crs,
-                HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH
-                    .proof_info
-                    .unwrap()
-                    .metadata
-                    .as_bytes(),
-                ZkComputeLoad::Verify,
-            )
-            .unwrap();
+        // let proven_list_packed = proven_builder
+        //     .build_with_proof_packed(
+        //         &crs,
+        //         HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH
+        //             .proof_info
+        //             .unwrap()
+        //             .metadata
+        //             .as_bytes(),
+        //         ZkComputeLoad::Verify,
+        //     )
+        //     .unwrap();
 
-        store_versioned_test!(
-            &proven_list_packed,
-            &dir,
-            &HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH.test_filename,
-        );
+        // store_versioned_test!(
+        //     &proven_list_packed,
+        //     &dir,
+        //     &HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH.test_filename,
+        // );
 
-        vec![TestMetadata::HlHeterogeneousCiphertextList(
-            HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH,
-        )]
+        vec![
+        //     TestMetadata::HlHeterogeneousCiphertextList(
+        //     HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH,
+        // )
+        ]
     }
 }

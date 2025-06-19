@@ -54,7 +54,7 @@ tfhe_1_3 = { git = "https://github.com/zama-ai/tfhe-rs.git", features = [
 	"shortint",
 	"zk-pok",
 	"experimental-force_fft_algo_dif4",
-], package = "tfhe", branch = "ns/feat/zk_faster_hashes", optional = true }
+], package = "tfhe", branch = "mz/centered_ms", optional = true }
 
 
 # TFHE-rs 0.8 and 0.10 use the same version of versionable
