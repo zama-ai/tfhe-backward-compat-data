@@ -1071,10 +1071,34 @@ dependencies = [
  "sha3",
  "strum 0.27.1",
  "tfhe-csprng 0.5.0 (git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0)",
- "tfhe-fft 0.9.0",
- "tfhe-ntt 0.6.0",
+ "tfhe-fft 0.9.0 (git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0)",
+ "tfhe-ntt 0.6.0 (git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0)",
  "tfhe-versionable 0.5.0 (git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0)",
  "tfhe-zk-pok 0.5.0 (git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0)",
+]
+
+[[package]]
+name = "tfhe"
+version = "1.2.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#d77a3c7a5c2fab47fda127589395c1a07106b0ba"
+dependencies = [
+ "aligned-vec 0.6.4",
+ "bincode",
+ "bytemuck",
+ "dyn-stack 0.11.0",
+ "itertools 0.14.0",
+ "paste",
+ "pulp 0.21.5",
+ "rand_core",
+ "rayon",
+ "serde",
+ "sha3",
+ "strum 0.27.1",
+ "tfhe-csprng 0.6.0",
+ "tfhe-fft 0.9.0 (git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes)",
+ "tfhe-ntt 0.6.0 (git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes)",
+ "tfhe-versionable 0.6.0",
+ "tfhe-zk-pok 0.6.0",
 ]
 
 [[package]]
@@ -1146,7 +1170,7 @@ dependencies = [
 
 [[package]]
 name = "tfhe-backward-compat-data"
-version = "0.4.0"
+version = "0.7.0"
 dependencies = [
  "bincode",
  "ciborium",
@@ -1159,10 +1183,12 @@ dependencies = [
  "tfhe 0.8.7",
  "tfhe 1.0.0",
  "tfhe 1.1.0",
+ "tfhe 1.2.0",
  "tfhe-versionable 0.3.2",
  "tfhe-versionable 0.4.0",
  "tfhe-versionable 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "tfhe-versionable 0.5.0 (git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0)",
+ "tfhe-versionable 0.6.0",
 ]
 
 [[package]]
@@ -1180,6 +1206,16 @@ dependencies = [
 name = "tfhe-csprng"
 version = "0.5.0"
 source = "git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0#69438d40a88d51239fbf7b8ffa8d9e6a8858fddb"
+dependencies = [
+ "aes",
+ "libc",
+ "rayon",
+]
+
+[[package]]
+name = "tfhe-csprng"
+version = "0.6.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#d77a3c7a5c2fab47fda127589395c1a07106b0ba"
 dependencies = [
  "aes",
  "libc",
@@ -1231,6 +1267,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "tfhe-fft"
+version = "0.9.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#d77a3c7a5c2fab47fda127589395c1a07106b0ba"
+dependencies = [
+ "aligned-vec 0.6.4",
+ "bytemuck",
+ "dyn-stack 0.11.0",
+ "js-sys",
+ "num-complex",
+ "pulp 0.21.5",
+ "serde",
+]
+
+[[package]]
 name = "tfhe-ntt"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1256,6 +1306,16 @@ dependencies = [
 name = "tfhe-ntt"
 version = "0.6.0"
 source = "git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0#69438d40a88d51239fbf7b8ffa8d9e6a8858fddb"
+dependencies = [
+ "aligned-vec 0.6.4",
+ "bytemuck",
+ "pulp 0.21.5",
+]
+
+[[package]]
+name = "tfhe-ntt"
+version = "0.6.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#d77a3c7a5c2fab47fda127589395c1a07106b0ba"
 dependencies = [
  "aligned-vec 0.6.4",
  "bytemuck",
@@ -1310,6 +1370,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "tfhe-versionable"
+version = "0.6.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#d77a3c7a5c2fab47fda127589395c1a07106b0ba"
+dependencies = [
+ "aligned-vec 0.6.4",
+ "num-complex",
+ "serde",
+ "tfhe-versionable-derive 0.6.0",
+]
+
+[[package]]
 name = "tfhe-versionable-derive"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1346,6 +1417,16 @@ dependencies = [
 name = "tfhe-versionable-derive"
 version = "0.5.0"
 source = "git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0#69438d40a88d51239fbf7b8ffa8d9e6a8858fddb"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.101",
+]
+
+[[package]]
+name = "tfhe-versionable-derive"
+version = "0.6.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#d77a3c7a5c2fab47fda127589395c1a07106b0ba"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1424,6 +1505,24 @@ dependencies = [
  "serde",
  "sha3",
  "tfhe-versionable 0.5.0 (git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0)",
+ "zeroize",
+]
+
+[[package]]
+name = "tfhe-zk-pok"
+version = "0.6.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#d77a3c7a5c2fab47fda127589395c1a07106b0ba"
+dependencies = [
+ "ark-bls12-381",
+ "ark-ec",
+ "ark-ff",
+ "ark-poly",
+ "num-bigint",
+ "rand",
+ "rayon",
+ "serde",
+ "sha3",
+ "tfhe-versionable 0.6.0",
  "zeroize",
 ]
 
