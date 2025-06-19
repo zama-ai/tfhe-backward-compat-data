@@ -75,7 +75,7 @@ dependencies = [
  "ark-std 0.5.0",
  "educe",
  "fnv",
- "hashbrown 0.15.3",
+ "hashbrown 0.15.4",
  "itertools 0.13.0",
  "num-bigint",
  "num-integer",
@@ -122,7 +122,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "62945a2f7e6de02a31fe400aa489f0e0f5b2502e69f95f853adb82a96c7a6b60"
 dependencies = [
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -148,7 +148,7 @@ dependencies = [
  "num-traits",
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -163,7 +163,7 @@ dependencies = [
  "ark-std 0.5.0",
  "educe",
  "fnv",
- "hashbrown 0.15.3",
+ "hashbrown 0.15.4",
  "rayon",
 ]
 
@@ -212,7 +212,7 @@ checksum = "213888f660fddcca0d257e88e54ac05bca01885f258ccdf695bafd77031bb69d"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -245,9 +245,9 @@ checksum = "7c02d123df017efcdfbd739ef81735b36c5ba83ec3c59c80a9d7ecc718f92e50"
 
 [[package]]
 name = "autocfg"
-version = "1.4.0"
+version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ace50bade8e6234aa140d9a2f552bbee1db4d353f69b8217bc503490fc1a9f26"
+checksum = "c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8"
 
 [[package]]
 name = "base64"
@@ -284,21 +284,21 @@ dependencies = [
 
 [[package]]
 name = "bumpalo"
-version = "3.17.0"
+version = "3.18.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1628fb46dfa0b37568d12e5edd512553eccf6a22a78e8bde00bb4aed84d5bdbf"
+checksum = "793db76d6187cd04dff33004d8e6c9cc4e05cd330500379d2394209271b4aeee"
 
 [[package]]
 name = "bytemuck"
-version = "1.23.0"
+version = "1.23.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9134a6ef01ce4b366b50689c94f82c14bc72bc5d0386829828a2e2752ef7958c"
+checksum = "5c76a5792e44e4abe34d3abf15636779261d45a7450612059293d1d2cfc63422"
 
 [[package]]
 name = "cfg-if"
-version = "1.0.0"
+version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
+checksum = "9555578bc9e57714c812a1f84e4fc5b4d21fcb063490c624de019f7464c91268"
 
 [[package]]
 name = "ciborium"
@@ -472,7 +472,7 @@ dependencies = [
  "enum-ordinalize",
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -498,7 +498,7 @@ checksum = "0d28318a75d4aead5c4db25382e8ef717932d0346600cacae6357eb5941bc5ff"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -518,7 +518,7 @@ checksum = "44f23cf4b44bfce11a86ace86f8a73ffdec849c9fd00a386a53d278bd9e81fb3"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -570,9 +570,9 @@ dependencies = [
 
 [[package]]
 name = "hashbrown"
-version = "0.15.3"
+version = "0.15.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "84b26c544d002229e640969970a2e74021aadf6e2f96372b9c58eff97de08eb3"
+checksum = "5971ac85611da7067dbfcabef3c70ebb5606018acd9e2a3903a0da507521e0d5"
 dependencies = [
  "allocator-api2",
 ]
@@ -649,9 +649,9 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.172"
+version = "0.2.174"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d750af042f7ef4f724306de029d18836c26c1765a54a6a3f094cbd23a7267ffa"
+checksum = "1171693293099992e19cddea4e8b849964e9846f4acee11b3948bcc337be8776"
 
 [[package]]
 name = "libm"
@@ -878,7 +878,7 @@ checksum = "5b0276cf7f2c73365f7157c8123c21cd9a50fbbd844757af28ca1f5925fc2a00"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -919,7 +919,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "rustversion",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -932,7 +932,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "rustversion",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -948,9 +948,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "2.0.101"
+version = "2.0.103"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8ce2b7fc941b3a24138a0a7cf8e858bfc6a992e7978a068a5c760deb0ed43caf"
+checksum = "e4307e30089d6fd6aff212f2da3a1f9e32f3223b1f010fb09b7c95f90f3ca1e8"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1071,10 +1071,34 @@ dependencies = [
  "sha3",
  "strum 0.27.1",
  "tfhe-csprng 0.5.0 (git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0)",
- "tfhe-fft 0.9.0",
- "tfhe-ntt 0.6.0",
+ "tfhe-fft 0.9.0 (git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0)",
+ "tfhe-ntt 0.6.0 (git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0)",
  "tfhe-versionable 0.5.0 (git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0)",
  "tfhe-zk-pok 0.5.0 (git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0)",
+]
+
+[[package]]
+name = "tfhe"
+version = "1.3.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
+dependencies = [
+ "aligned-vec 0.6.4",
+ "bincode",
+ "bytemuck",
+ "dyn-stack 0.11.0",
+ "itertools 0.14.0",
+ "paste",
+ "pulp 0.21.5",
+ "rand_core",
+ "rayon",
+ "serde",
+ "sha3",
+ "strum 0.27.1",
+ "tfhe-csprng 0.6.0",
+ "tfhe-fft 0.9.0 (git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes)",
+ "tfhe-ntt 0.6.0 (git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes)",
+ "tfhe-versionable 0.6.0",
+ "tfhe-zk-pok 0.6.0",
 ]
 
 [[package]]
@@ -1146,7 +1170,7 @@ dependencies = [
 
 [[package]]
 name = "tfhe-backward-compat-data"
-version = "0.4.0"
+version = "0.7.0"
 dependencies = [
  "bincode",
  "ciborium",
@@ -1159,10 +1183,12 @@ dependencies = [
  "tfhe 0.8.7",
  "tfhe 1.0.0",
  "tfhe 1.1.0",
+ "tfhe 1.3.0",
  "tfhe-versionable 0.3.2",
  "tfhe-versionable 0.4.0",
  "tfhe-versionable 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "tfhe-versionable 0.5.0 (git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0)",
+ "tfhe-versionable 0.6.0",
 ]
 
 [[package]]
@@ -1180,6 +1206,16 @@ dependencies = [
 name = "tfhe-csprng"
 version = "0.5.0"
 source = "git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0#69438d40a88d51239fbf7b8ffa8d9e6a8858fddb"
+dependencies = [
+ "aes",
+ "libc",
+ "rayon",
+]
+
+[[package]]
+name = "tfhe-csprng"
+version = "0.6.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
 dependencies = [
  "aes",
  "libc",
@@ -1231,6 +1267,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "tfhe-fft"
+version = "0.9.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
+dependencies = [
+ "aligned-vec 0.6.4",
+ "bytemuck",
+ "dyn-stack 0.11.0",
+ "js-sys",
+ "num-complex",
+ "pulp 0.21.5",
+ "serde",
+]
+
+[[package]]
 name = "tfhe-ntt"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1256,6 +1306,16 @@ dependencies = [
 name = "tfhe-ntt"
 version = "0.6.0"
 source = "git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0#69438d40a88d51239fbf7b8ffa8d9e6a8858fddb"
+dependencies = [
+ "aligned-vec 0.6.4",
+ "bytemuck",
+ "pulp 0.21.5",
+]
+
+[[package]]
+name = "tfhe-ntt"
+version = "0.6.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
 dependencies = [
  "aligned-vec 0.6.4",
  "bytemuck",
@@ -1310,6 +1370,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "tfhe-versionable"
+version = "0.6.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
+dependencies = [
+ "aligned-vec 0.6.4",
+ "num-complex",
+ "serde",
+ "tfhe-versionable-derive 0.6.0",
+]
+
+[[package]]
 name = "tfhe-versionable-derive"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1317,7 +1388,7 @@ checksum = "a463428890873548472daba5bdcecfe34b89c98518b4bd6cbd8595ac48fc0771"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -1328,7 +1399,7 @@ checksum = "ecd3db096e2fb065e012a2f5f8e03789ff980109809e484165c8d7d728a8a11d"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -1339,7 +1410,7 @@ checksum = "f221336486fd08a09dcfd035845f18ae4b742bbf6b6c21dc2121f6b3322705f7"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -1349,7 +1420,17 @@ source = "git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0#69438d40a
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
+]
+
+[[package]]
+name = "tfhe-versionable-derive"
+version = "0.6.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -1428,6 +1509,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "tfhe-zk-pok"
+version = "0.6.0"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
+dependencies = [
+ "ark-bls12-381",
+ "ark-ec",
+ "ark-ff",
+ "ark-poly",
+ "num-bigint",
+ "rand",
+ "rayon",
+ "serde",
+ "sha3",
+ "tfhe-versionable 0.6.0",
+ "zeroize",
+]
+
+[[package]]
 name = "typenum"
 version = "1.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1447,9 +1546,9 @@ checksum = "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a"
 
 [[package]]
 name = "wasi"
-version = "0.11.0+wasi-snapshot-preview1"
+version = "0.11.1+wasi-snapshot-preview1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
+checksum = "ccf3ec651a847eb01de73ccad15eb7d99f80485de043efb2f370cd654f4ea44b"
 
 [[package]]
 name = "wasm-bindgen"
@@ -1472,7 +1571,7 @@ dependencies = [
  "log",
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
  "wasm-bindgen-shared",
 ]
 
@@ -1494,7 +1593,7 @@ checksum = "8ae87ea40c9f689fc23f209965b6fb8a99ad69aeeb0231408be24920604395de"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
  "wasm-bindgen-backend",
  "wasm-bindgen-shared",
 ]
@@ -1510,22 +1609,22 @@ dependencies = [
 
 [[package]]
 name = "zerocopy"
-version = "0.8.25"
+version = "0.8.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a1702d9583232ddb9174e01bb7c15a2ab8fb1bc6f227aa1233858c351a3ba0cb"
+checksum = "1039dd0d3c310cf05de012d8a39ff557cb0d23087fd44cad61df08fc31907a2f"
 dependencies = [
  "zerocopy-derive",
 ]
 
 [[package]]
 name = "zerocopy-derive"
-version = "0.8.25"
+version = "0.8.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "28a6e20d751156648aa063f3800b706ee209a32c0b4d9f24be3d980b01be55ef"
+checksum = "9ecf5b4cc5364572d7f4c329661bcc82724222973f2cab6f050a4e5c22f75181"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
 
 [[package]]
@@ -1545,5 +1644,5 @@ checksum = "ce36e65b0d2999d2aafac989fb249189a141aee1f53c612c1f37d72631959f69"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.101",
+ "syn 2.0.103",
 ]
