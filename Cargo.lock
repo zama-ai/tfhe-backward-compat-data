@@ -122,7 +122,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "62945a2f7e6de02a31fe400aa489f0e0f5b2502e69f95f853adb82a96c7a6b60"
 dependencies = [
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -148,7 +148,7 @@ dependencies = [
  "num-traits",
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -212,7 +212,7 @@ checksum = "213888f660fddcca0d257e88e54ac05bca01885f258ccdf695bafd77031bb69d"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -284,9 +284,9 @@ dependencies = [
 
 [[package]]
 name = "bumpalo"
-version = "3.18.1"
+version = "3.19.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "793db76d6187cd04dff33004d8e6c9cc4e05cd330500379d2394209271b4aeee"
+checksum = "46c5e41b57b8bba42a04676d81cb89e9ee8e859a1a66f80a5a72e1cb76b34d43"
 
 [[package]]
 name = "bytemuck"
@@ -409,9 +409,9 @@ checksum = "d0a5c400df2834b80a4c3327b3aad3a4c4cd4de0629063962b03235697506a28"
 
 [[package]]
 name = "crunchy"
-version = "0.2.3"
+version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "43da5946c66ffcc7745f48db692ffbb10a83bfe0afd96235c5c2a4fb23994929"
+checksum = "460fbee9c2c2f33933d720630a6a0bac33ba7053db5344fac858d4b8952d77d5"
 
 [[package]]
 name = "crypto-common"
@@ -472,7 +472,7 @@ dependencies = [
  "enum-ordinalize",
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -498,7 +498,7 @@ checksum = "0d28318a75d4aead5c4db25382e8ef717932d0346600cacae6357eb5941bc5ff"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -518,7 +518,7 @@ checksum = "44f23cf4b44bfce11a86ace86f8a73ffdec849c9fd00a386a53d278bd9e81fb3"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -878,7 +878,7 @@ checksum = "5b0276cf7f2c73365f7157c8123c21cd9a50fbbd844757af28ca1f5925fc2a00"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -919,7 +919,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "rustversion",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -932,7 +932,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "rustversion",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -948,9 +948,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "2.0.103"
+version = "2.0.104"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e4307e30089d6fd6aff212f2da3a1f9e32f3223b1f010fb09b7c95f90f3ca1e8"
+checksum = "17b6f705963418cdb9927482fa304bc562ece2fdd4f616084c50b7023b435a40"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1080,7 +1080,7 @@ dependencies = [
 [[package]]
 name = "tfhe"
 version = "1.3.0"
-source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=mz%2Fcentered_ms#6311487ff8eb8cc8610b4265f56b9f60b46881e4"
 dependencies = [
  "aligned-vec 0.6.4",
  "bincode",
@@ -1095,8 +1095,8 @@ dependencies = [
  "sha3",
  "strum 0.27.1",
  "tfhe-csprng 0.6.0",
- "tfhe-fft 0.9.0 (git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes)",
- "tfhe-ntt 0.6.0 (git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes)",
+ "tfhe-fft 0.9.0 (git+https://github.com/zama-ai/tfhe-rs.git?branch=mz%2Fcentered_ms)",
+ "tfhe-ntt 0.6.0 (git+https://github.com/zama-ai/tfhe-rs.git?branch=mz%2Fcentered_ms)",
  "tfhe-versionable 0.6.0",
  "tfhe-zk-pok 0.6.0",
 ]
@@ -1215,7 +1215,7 @@ dependencies = [
 [[package]]
 name = "tfhe-csprng"
 version = "0.6.0"
-source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=mz%2Fcentered_ms#6311487ff8eb8cc8610b4265f56b9f60b46881e4"
 dependencies = [
  "aes",
  "libc",
@@ -1269,7 +1269,7 @@ dependencies = [
 [[package]]
 name = "tfhe-fft"
 version = "0.9.0"
-source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=mz%2Fcentered_ms#6311487ff8eb8cc8610b4265f56b9f60b46881e4"
 dependencies = [
  "aligned-vec 0.6.4",
  "bytemuck",
@@ -1315,7 +1315,7 @@ dependencies = [
 [[package]]
 name = "tfhe-ntt"
 version = "0.6.0"
-source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=mz%2Fcentered_ms#6311487ff8eb8cc8610b4265f56b9f60b46881e4"
 dependencies = [
  "aligned-vec 0.6.4",
  "bytemuck",
@@ -1372,7 +1372,7 @@ dependencies = [
 [[package]]
 name = "tfhe-versionable"
 version = "0.6.0"
-source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=mz%2Fcentered_ms#6311487ff8eb8cc8610b4265f56b9f60b46881e4"
 dependencies = [
  "aligned-vec 0.6.4",
  "num-complex",
@@ -1388,7 +1388,7 @@ checksum = "a463428890873548472daba5bdcecfe34b89c98518b4bd6cbd8595ac48fc0771"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -1399,7 +1399,7 @@ checksum = "ecd3db096e2fb065e012a2f5f8e03789ff980109809e484165c8d7d728a8a11d"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -1410,7 +1410,7 @@ checksum = "f221336486fd08a09dcfd035845f18ae4b742bbf6b6c21dc2121f6b3322705f7"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -1420,17 +1420,17 @@ source = "git+https://github.com/zama-ai/tfhe-rs.git?tag=tfhe-rs-1.1.0#69438d40a
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
 name = "tfhe-versionable-derive"
 version = "0.6.0"
-source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=mz%2Fcentered_ms#6311487ff8eb8cc8610b4265f56b9f60b46881e4"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -1511,7 +1511,7 @@ dependencies = [
 [[package]]
 name = "tfhe-zk-pok"
 version = "0.6.0"
-source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=ns%2Ffeat%2Fzk_faster_hashes#9ddd9322017bd180b648662b080cf3a93c87c5fc"
+source = "git+https://github.com/zama-ai/tfhe-rs.git?branch=mz%2Fcentered_ms#6311487ff8eb8cc8610b4265f56b9f60b46881e4"
 dependencies = [
  "ark-bls12-381",
  "ark-ec",
@@ -1571,7 +1571,7 @@ dependencies = [
  "log",
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
  "wasm-bindgen-shared",
 ]
 
@@ -1593,7 +1593,7 @@ checksum = "8ae87ea40c9f689fc23f209965b6fb8a99ad69aeeb0231408be24920604395de"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
  "wasm-bindgen-backend",
  "wasm-bindgen-shared",
 ]
@@ -1624,7 +1624,7 @@ checksum = "9ecf5b4cc5364572d7f4c329661bcc82724222973f2cab6f050a4e5c22f75181"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]
 
 [[package]]
@@ -1644,5 +1644,5 @@ checksum = "ce36e65b0d2999d2aafac989fb249189a141aee1f53c612c1f37d72631959f69"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.103",
+ "syn 2.0.104",
 ]

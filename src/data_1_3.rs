@@ -6,8 +6,8 @@ use crate::{
         PRNG_SEED, VALID_TEST_PARAMS_TUNIFORM,
     },
     DataKind, HlHeterogeneousCiphertextListTest, PkeZkProofAuxiliaryInfo, TestDistribution,
-    TestMetadata, TestModulusSwitchNoiseReductionParams, TestParameterSet, ZkPkePublicParamsTest,
-    HL_MODULE_NAME,
+    TestMetadata, TestModulusSwitchNoiseReductionParams, TestModulusSwitchType, TestParameterSet,
+    ZkPkePublicParamsTest, HL_MODULE_NAME,
 };
 
 use tfhe_1_3::{
@@ -26,6 +26,7 @@ use tfhe_1_3::{
             ModulusSwitchNoiseReductionParams, NoiseEstimationMeasureBound, PolynomialSize,
             RSigmaFactor, StandardDev, Variance,
         },
+        prelude::ModulusSwitchType,
         AtomicPatternParameters,
     },
     zk::{CompactPkeCrs, ZkComputeLoad, ZkMSBZeroPaddingBitCount},
@@ -75,12 +76,24 @@ impl From<TestModulusSwitchNoiseReductionParams> for ModulusSwitchNoiseReduction
     }
 }
 
+impl From<TestModulusSwitchType> for ModulusSwitchType {
+    fn from(value: TestModulusSwitchType) -> Self {
+        match value {
+            TestModulusSwitchType::Standard => ModulusSwitchType::Standard,
+            TestModulusSwitchType::DriftTechniqueNoiseReduction(
+                test_modulus_switch_noise_reduction_params,
+            ) => ModulusSwitchType::DriftTechniqueNoiseReduction(
+                test_modulus_switch_noise_reduction_params.into(),
+            ),
+            TestModulusSwitchType::CenteredMeanNoiseReduction => {
+                ModulusSwitchType::CenteredMeanNoiseReduction
+            }
+        }
+    }
+}
+
 impl From<TestParameterSet> for ClassicPBSParameters {
     fn from(value: TestParameterSet) -> Self {
-        let modulus_switch_noise_reduction_params = value
-            .modulus_switch_noise_reduction_params
-            .map(|param| param.into());
-
         ClassicPBSParameters {
             lwe_dimension: LweDimension(value.lwe_dimension),
             glwe_dimension: GlweDimension(value.glwe_dimension),
@@ -103,7 +116,9 @@ impl From<TestParameterSet> for ClassicPBSParameters {
                     _ => panic!("Invalid encryption key choice"),
                 }
             },
-            modulus_switch_noise_reduction_params,
+            modulus_switch_noise_reduction_params: value
+                .modulus_switch_noise_reduction_params
+                .into(),
         }
     }
 }

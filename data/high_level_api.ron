@@ -24,7 +24,7 @@
                 max_noise_level: 5,
                 log2_p_fail: -64.138,
                 encryption_key_choice: "big",
-                modulus_switch_noise_reduction_params: None,
+                modulus_switch_noise_reduction_params: Standard,
             ),
         )),
     ),
@@ -318,7 +318,7 @@
                 max_noise_level: 5,
                 log2_p_fail: -64.138,
                 encryption_key_choice: "big",
-                modulus_switch_noise_reduction_params: None,
+                modulus_switch_noise_reduction_params: Standard,
             ),
         )),
     ),
@@ -347,7 +347,7 @@
                 max_noise_level: 5,
                 log2_p_fail: -64.138,
                 encryption_key_choice: "big",
-                modulus_switch_noise_reduction_params: None,
+                modulus_switch_noise_reduction_params: Standard,
             ),
         )),
     ),
@@ -433,7 +433,7 @@
                 max_noise_level: 5,
                 log2_p_fail: -129.15284804376165,
                 encryption_key_choice: "big",
-                modulus_switch_noise_reduction_params: Some((
+                modulus_switch_noise_reduction_params: DriftTechniqueNoiseReduction((
                     modulus_switch_zeros_count: 2,
                     ms_bound: 288230376151711740.0,
                     ms_r_sigma_factor: 13.179852282053789,
@@ -489,7 +489,7 @@
                 max_noise_level: 5,
                 log2_p_fail: -129.15284804376165,
                 encryption_key_choice: "big",
-                modulus_switch_noise_reduction_params: Some((
+                modulus_switch_noise_reduction_params: DriftTechniqueNoiseReduction((
                     modulus_switch_zeros_count: 2,
                     ms_bound: 288230376151711740.0,
                     ms_r_sigma_factor: 13.179852282053789,

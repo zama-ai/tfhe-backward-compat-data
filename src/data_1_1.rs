@@ -6,8 +6,8 @@ use crate::generate::{
 use crate::{
     HlClientKeyTest, HlServerKeyTest, HlSquashedNoiseBoolCiphertextTest,
     HlSquashedNoiseSignedCiphertextTest, HlSquashedNoiseUnsignedCiphertextTest, TestDistribution,
-    TestMetadata, TestModulusSwitchNoiseReductionParams, TestNoiseSquashingParams,
-    TestParameterSet, HL_MODULE_NAME,
+    TestMetadata, TestModulusSwitchNoiseReductionParams, TestModulusSwitchType,
+    TestNoiseSquashingParams, TestParameterSet, HL_MODULE_NAME,
 };
 use std::borrow::Cow;
 use std::fs::create_dir_all;
@@ -66,9 +66,14 @@ impl From<TestModulusSwitchNoiseReductionParams> for ModulusSwitchNoiseReduction
 
 impl From<TestParameterSet> for ClassicPBSParameters {
     fn from(value: TestParameterSet) -> Self {
-        let modulus_switch_noise_reduction_params = value
-            .modulus_switch_noise_reduction_params
-            .map(|param| param.into());
+        let modulus_switch_noise_reduction_params =
+            match value.modulus_switch_noise_reduction_params {
+                TestModulusSwitchType::Standard => None,
+                TestModulusSwitchType::DriftTechniqueNoiseReduction(
+                    test_modulus_switch_noise_reduction_params,
+                ) => Some(test_modulus_switch_noise_reduction_params.into()),
+                TestModulusSwitchType::CenteredMeanNoiseReduction => panic!("Not supported"),
+            };
 
         ClassicPBSParameters {
             lwe_dimension: LweDimension(value.lwe_dimension),
