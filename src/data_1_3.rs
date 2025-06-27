@@ -3,11 +3,11 @@ use std::{borrow::Cow, fs::create_dir_all};
 use crate::{
     generate::{
         store_versioned_auxiliary_tfhe_1_3, store_versioned_test_tfhe_1_3, TfhersVersion,
-        PRNG_SEED, VALID_TEST_PARAMS_TUNIFORM,
+        INSECURE_SMALL_TEST_PARAMS_MS_MEAN_COMPENSATION, PRNG_SEED, VALID_TEST_PARAMS_TUNIFORM,
     },
-    DataKind, HlHeterogeneousCiphertextListTest, PkeZkProofAuxiliaryInfo, TestDistribution,
-    TestMetadata, TestModulusSwitchNoiseReductionParams, TestModulusSwitchType, TestParameterSet,
-    ZkPkePublicParamsTest, HL_MODULE_NAME,
+    DataKind, HlClientKeyTest, HlHeterogeneousCiphertextListTest, HlServerKeyTest,
+    PkeZkProofAuxiliaryInfo, TestDistribution, TestMetadata, TestModulusSwitchNoiseReductionParams,
+    TestModulusSwitchType, TestParameterSet, ZkPkePublicParamsTest, HL_MODULE_NAME,
 };
 
 use tfhe_1_3::{
@@ -166,6 +166,17 @@ const HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH: HlHeterogeneousCiphertextListTes
         }),
     };
 
+const HL_CLIENTKEY_MS_MEAN_COMPENSATION: HlClientKeyTest = HlClientKeyTest {
+    test_filename: Cow::Borrowed("client_key_ms_mean_compensation"),
+    parameters: INSECURE_SMALL_TEST_PARAMS_MS_MEAN_COMPENSATION,
+};
+
+const HL_SERVERKEY_MS_MEAN_COMPENSATION: HlServerKeyTest = HlServerKeyTest {
+    test_filename: Cow::Borrowed("server_key_ms_mean_compensation"),
+    client_key_filename: Cow::Borrowed("client_key_ms_mean_compensation.cbor"),
+    compressed: false,
+};
+
 pub struct V1_3;
 
 impl TfhersVersion for V1_3 {
@@ -256,8 +267,28 @@ impl TfhersVersion for V1_3 {
             &HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH.test_filename,
         );
 
-        vec![TestMetadata::HlHeterogeneousCiphertextList(
-            HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH,
-        )]
+        let config = tfhe_1_3::ConfigBuilder::with_custom_parameters(
+            HL_CLIENTKEY_MS_MEAN_COMPENSATION.parameters,
+        )
+        .build();
+
+        let (hl_client_key, hl_server_key) = tfhe_1_3::generate_keys(config);
+
+        store_versioned_test!(
+            &hl_client_key,
+            &dir,
+            &HL_CLIENTKEY_MS_MEAN_COMPENSATION.test_filename
+        );
+        store_versioned_test!(
+            &hl_server_key,
+            &dir,
+            &HL_SERVERKEY_MS_MEAN_COMPENSATION.test_filename,
+        );
+
+        vec![
+            TestMetadata::HlHeterogeneousCiphertextList(HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH),
+            TestMetadata::HlClientKey(HL_CLIENTKEY_MS_MEAN_COMPENSATION),
+            TestMetadata::HlServerKey(HL_SERVERKEY_MS_MEAN_COMPENSATION),
+        ]
     }
 }

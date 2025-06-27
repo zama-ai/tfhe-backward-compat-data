@@ -116,6 +116,26 @@ pub const INSECURE_SMALL_TEST_PARAMS_MS_NOISE_REDUCTION: TestParameterSet = Test
 };
 
 /// Those parameters are insecure and are used to generate small legacy public keys
+pub const INSECURE_SMALL_TEST_PARAMS_MS_MEAN_COMPENSATION: TestParameterSet = TestParameterSet {
+    lwe_dimension: 2,
+    glwe_dimension: 1,
+    polynomial_size: 2048,
+    lwe_noise_distribution: TestDistribution::TUniform { bound_log2: 45 },
+    glwe_noise_distribution: TestDistribution::TUniform { bound_log2: 17 },
+    pbs_base_log: 23,
+    pbs_level: 1,
+    ks_base_log: 4,
+    ks_level: 4,
+    message_modulus: 4,
+    carry_modulus: 4,
+    max_noise_level: 5,
+    log2_p_fail: -129.15284804376165,
+    ciphertext_modulus: 1 << 64,
+    encryption_key_choice: Cow::Borrowed("big"),
+    modulus_switch_noise_reduction_params: TestModulusSwitchType::CenteredMeanNoiseReduction,
+};
+
+/// Those parameters are insecure and are used to generate small legacy public keys
 /// Got with the above parameters for noise squashing
 pub const INSECURE_SMALL_TEST_NOISE_SQUASHING_PARAMS_MS_NOISE_REDUCTION: TestNoiseSquashingParams =
     TestNoiseSquashingParams {
