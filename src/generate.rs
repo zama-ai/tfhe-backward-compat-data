@@ -15,7 +15,8 @@ use tfhe_versionable::Versionize as VersionizeTfhe_0_8;
 
 use crate::{
     data_dir, dir_for_version, TestCompressionParameterSet, TestDistribution, TestMetadata,
-    TestModulusSwitchNoiseReductionParams, TestNoiseSquashingParams, TestParameterSet,
+    TestModulusSwitchNoiseReductionParams, TestModulusSwitchType, TestNoiseSquashingParams,
+    TestParameterSet,
 };
 
 pub const PRNG_SEED: u128 = 0xdeadbeef;
@@ -41,7 +42,7 @@ pub const VALID_TEST_PARAMS: TestParameterSet = TestParameterSet {
     log2_p_fail: -40.05,
     ciphertext_modulus: 1 << 64,
     encryption_key_choice: Cow::Borrowed("big"),
-    modulus_switch_noise_reduction_params: None,
+    modulus_switch_noise_reduction_params: TestModulusSwitchType::Standard,
 };
 
 pub const VALID_TEST_PARAMS_TUNIFORM: TestParameterSet = TestParameterSet {
@@ -60,7 +61,7 @@ pub const VALID_TEST_PARAMS_TUNIFORM: TestParameterSet = TestParameterSet {
     log2_p_fail: -64.138,
     ciphertext_modulus: 1 << 64,
     encryption_key_choice: Cow::Borrowed("big"),
-    modulus_switch_noise_reduction_params: None,
+    modulus_switch_noise_reduction_params: TestModulusSwitchType::Standard,
 };
 
 /// Those parameters are insecure and are used to generate small legacy public keys
@@ -84,7 +85,7 @@ pub const INSECURE_SMALL_PK_TEST_PARAMS: TestParameterSet = TestParameterSet {
     log2_p_fail: -64.05,
     ciphertext_modulus: 1 << 64,
     encryption_key_choice: Cow::Borrowed("small"),
-    modulus_switch_noise_reduction_params: None,
+    modulus_switch_noise_reduction_params: TestModulusSwitchType::Standard,
 };
 
 /// Those parameters are insecure and are used to generate small legacy public keys
@@ -104,12 +105,14 @@ pub const INSECURE_SMALL_TEST_PARAMS_MS_NOISE_REDUCTION: TestParameterSet = Test
     log2_p_fail: -129.15284804376165,
     ciphertext_modulus: 1 << 64,
     encryption_key_choice: Cow::Borrowed("big"),
-    modulus_switch_noise_reduction_params: Some(TestModulusSwitchNoiseReductionParams {
-        modulus_switch_zeros_count: 2,
-        ms_bound: 288230376151711744f64,
-        ms_r_sigma_factor: 13.179852282053789f64,
-        ms_input_variance: 2.63039184094559e-7f64,
-    }),
+    modulus_switch_noise_reduction_params: TestModulusSwitchType::DriftTechniqueNoiseReduction(
+        TestModulusSwitchNoiseReductionParams {
+            modulus_switch_zeros_count: 2,
+            ms_bound: 288230376151711744f64,
+            ms_r_sigma_factor: 13.179852282053789f64,
+            ms_input_variance: 2.63039184094559e-7f64,
+        },
+    ),
 };
 
 /// Those parameters are insecure and are used to generate small legacy public keys
@@ -164,7 +167,7 @@ pub const INVALID_TEST_PARAMS: TestParameterSet = TestParameterSet {
     log2_p_fail: f64::MAX,
     ciphertext_modulus: u128::MAX,
     encryption_key_choice: Cow::Borrowed("big"),
-    modulus_switch_noise_reduction_params: None,
+    modulus_switch_noise_reduction_params: TestModulusSwitchType::Standard,
 };
 
 pub fn save_cbor<Data: Serialize, P: AsRef<Path>>(msg: &Data, path: P) {

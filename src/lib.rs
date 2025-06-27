@@ -57,7 +57,7 @@ pub struct TestParameterSet {
     pub max_noise_level: usize,
     pub log2_p_fail: f64,
     pub encryption_key_choice: Cow<'static, str>,
-    pub modulus_switch_noise_reduction_params: Option<TestModulusSwitchNoiseReductionParams>,
+    pub modulus_switch_noise_reduction_params: TestModulusSwitchType,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -66,6 +66,13 @@ pub struct TestModulusSwitchNoiseReductionParams {
     pub ms_bound: f64,
     pub ms_r_sigma_factor: f64,
     pub ms_input_variance: f64,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub enum TestModulusSwitchType {
+    Standard,
+    DriftTechniqueNoiseReduction(TestModulusSwitchNoiseReductionParams),
+    CenteredMeanNoiseReduction,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
