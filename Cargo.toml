@@ -1,6 +1,6 @@
 [package]
 name = "tfhe-backward-compat-data"
-version = "0.7.0"
+version = "0.8.0"
 license = "BSD-3-Clause-Clear"
 edition = "2021"
 
