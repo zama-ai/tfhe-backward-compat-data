@@ -15,8 +15,8 @@ use tfhe_versionable::Versionize as VersionizeTfhe_0_8;
 
 use crate::{
     data_dir, dir_for_version, TestCompressionParameterSet, TestDistribution, TestMetadata,
-    TestModulusSwitchNoiseReductionParams, TestModulusSwitchType, TestNoiseSquashingParams,
-    TestParameterSet,
+    TestModulusSwitchNoiseReductionParams, TestModulusSwitchType,
+    TestNoiseSquashingCompressionParameters, TestNoiseSquashingParams, TestParameterSet,
 };
 
 pub const PRNG_SEED: u128 = 0xdeadbeef;
@@ -154,6 +154,19 @@ pub const INSECURE_SMALL_TEST_NOISE_SQUASHING_PARAMS_MS_NOISE_REDUCTION: TestNoi
         carry_modulus: 4,
         // 0 interpreted as native modulus for u128
         ciphertext_modulus: 0,
+    };
+
+pub const TEST_PRAMS_NOISE_SQUASHING_COMPRESSION: TestNoiseSquashingCompressionParameters =
+    TestNoiseSquashingCompressionParameters {
+        packing_ks_level: 1,
+        packing_ks_base_log: 61,
+        packing_ks_polynomial_size: 1024,
+        packing_ks_glwe_dimension: 6,
+        lwe_per_glwe: 128,
+        packing_ks_key_noise_distribution: TestDistribution::TUniform { bound_log2: 3 },
+        message_modulus: 4,
+        carry_modulus: 4,
+        ciphertext_modulus: 0, // native modulus for u128
     };
 
 // Compression parameters for 2_2 TUniform

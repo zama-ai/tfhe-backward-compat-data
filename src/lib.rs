@@ -88,6 +88,19 @@ pub struct TestNoiseSquashingParams {
     pub ciphertext_modulus: u128,
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct TestNoiseSquashingCompressionParameters {
+    pub packing_ks_level: usize,
+    pub packing_ks_base_log: usize,
+    pub packing_ks_polynomial_size: usize,
+    pub packing_ks_glwe_dimension: usize,
+    pub lwe_per_glwe: usize,
+    pub packing_ks_key_noise_distribution: TestDistribution,
+    pub message_modulus: usize,
+    pub carry_modulus: usize,
+    pub ciphertext_modulus: u128,
+}
+
 /// This struct re-defines tfhe-rs compression parameter sets but this allows to be independent of
 /// changes made into the ParameterSet of tfhe-rs.
 ///
@@ -370,6 +383,28 @@ impl TestType for HlHeterogeneousCiphertextListTest {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct HlCompressedSquashedNoiseCiphertextListTest {
+    pub test_filename: Cow<'static, str>,
+    pub key_filename: Cow<'static, str>,
+    pub clear_values: Cow<'static, [u64]>,
+    pub data_kinds: Cow<'static, [DataKind]>,
+}
+
+impl TestType for HlCompressedSquashedNoiseCiphertextListTest {
+    fn module(&self) -> String {
+        HL_MODULE_NAME.to_string()
+    }
+
+    fn target_type(&self) -> String {
+        "SquashedNoiseCiphertextList".to_string()
+    }
+
+    fn test_filename(&self) -> String {
+        self.test_filename.to_string()
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct HlSquashedNoiseUnsignedCiphertextTest {
     pub test_filename: Cow<'static, str>,
     pub key_filename: Cow<'static, str>,
@@ -475,6 +510,7 @@ pub enum TestMetadata {
     HlSquashedNoiseUnsignedCiphertext(HlSquashedNoiseUnsignedCiphertextTest),
     HlSquashedNoiseSignedCiphertext(HlSquashedNoiseSignedCiphertextTest),
     HlSquashedNoiseBoolCiphertext(HlSquashedNoiseBoolCiphertextTest),
+    HlCompressedSquashedNoiseCiphertextList(HlCompressedSquashedNoiseCiphertextListTest),
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]

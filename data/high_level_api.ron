@@ -616,4 +616,26 @@
             compressed: false,
         )),
     ),
+    (
+        tfhe_version_min: "1.3",
+        tfhe_module: "high_level_api",
+        metadata: HlCompressedSquashedNoiseCiphertextList((
+            test_filename: "hl_compressed_squashed_noise_ciphertext_list",
+            key_filename: "client_key_with_noise_squashing",
+            clear_values: [
+                54679568,
+                18446744073697155244,
+                12396372,
+                0,
+                1,
+            ],
+            data_kinds: [
+                Unsigned,
+                Signed,
+                Signed,
+                Bool,
+                Bool,
+            ],
+        )),
+    ),
 ]
