@@ -1,13 +1,19 @@
-use std::{borrow::Cow, fs::create_dir_all};
-
 use crate::{
     generate::{
         store_versioned_auxiliary_tfhe_1_3, store_versioned_test_tfhe_1_3, TfhersVersion,
         INSECURE_SMALL_TEST_PARAMS_MS_MEAN_COMPENSATION, PRNG_SEED, VALID_TEST_PARAMS_TUNIFORM,
     },
-    DataKind, HlClientKeyTest, HlHeterogeneousCiphertextListTest, HlServerKeyTest,
-    PkeZkProofAuxiliaryInfo, TestDistribution, TestMetadata, TestModulusSwitchNoiseReductionParams,
-    TestModulusSwitchType, TestParameterSet, ZkPkePublicParamsTest, HL_MODULE_NAME,
+    DataKind, HlClientKeyTest, HlCompressedSquashedNoiseCiphertextListTest,
+    HlHeterogeneousCiphertextListTest, HlServerKeyTest, PkeZkProofAuxiliaryInfo, TestDistribution,
+    TestMetadata, TestModulusSwitchNoiseReductionParams, TestModulusSwitchType,
+    TestNoiseSquashingCompressionParameters, TestNoiseSquashingParams, TestParameterSet,
+    ZkPkePublicParamsTest, HL_MODULE_NAME,
+};
+use std::{borrow::Cow, fs::create_dir_all};
+
+use crate::generate::{
+    INSECURE_SMALL_TEST_NOISE_SQUASHING_PARAMS_MS_NOISE_REDUCTION,
+    INSECURE_SMALL_TEST_PARAMS_MS_NOISE_REDUCTION, TEST_PRAMS_NOISE_SQUASHING_COMPRESSION,
 };
 
 use tfhe_1_3::{
@@ -16,21 +22,24 @@ use tfhe_1_3::{
         commons::{generators::DeterministicSeeder, math::random::RandomGenerator},
         prelude::{DefaultRandomGenerator, TUniform},
     },
+    prelude::*,
     set_server_key,
     shortint::{
         engine::ShortintEngine,
         parameters::{
-            CarryModulus, CiphertextModulus, ClassicPBSParameters, DecompositionBaseLog,
-            DecompositionLevelCount, DynamicDistribution, EncryptionKeyChoice, GlweDimension,
-            LweCiphertextCount, LweDimension, MaxNoiseLevel, MessageModulus,
-            ModulusSwitchNoiseReductionParams, NoiseEstimationMeasureBound, PolynomialSize,
+            CarryModulus, CiphertextModulus, ClassicPBSParameters, CoreCiphertextModulus,
+            DecompositionBaseLog, DecompositionLevelCount, DynamicDistribution,
+            EncryptionKeyChoice, GlweDimension, LweCiphertextCount, LweDimension, MaxNoiseLevel,
+            MessageModulus, ModulusSwitchNoiseReductionParams, NoiseEstimationMeasureBound,
+            NoiseSquashingCompressionParameters, NoiseSquashingParameters, PolynomialSize,
             RSigmaFactor, StandardDev, Variance,
         },
         prelude::ModulusSwitchType,
         AtomicPatternParameters,
     },
     zk::{CompactPkeCrs, ZkComputeLoad, ZkMSBZeroPaddingBitCount},
-    ClientKey, CompactPublicKey, ProvenCompactCiphertextList, Seed, ServerKey,
+    ClientKey, CompactPublicKey, CompressedSquashedNoiseCiphertextList, FheBool, FheInt32,
+    FheUint32, ProvenCompactCiphertextList, Seed, ServerKey,
 };
 
 macro_rules! store_versioned_test {
@@ -46,6 +55,19 @@ macro_rules! store_versioned_auxiliary {
 }
 
 impl From<TestDistribution> for DynamicDistribution<u64> {
+    fn from(value: TestDistribution) -> Self {
+        match value {
+            TestDistribution::Gaussian { stddev } => {
+                DynamicDistribution::new_gaussian_from_std_dev(StandardDev(stddev))
+            }
+            TestDistribution::TUniform { bound_log2 } => {
+                DynamicDistribution::new_t_uniform(bound_log2)
+            }
+        }
+    }
+}
+
+impl From<TestDistribution> for DynamicDistribution<u128> {
     fn from(value: TestDistribution) -> Self {
         match value {
             TestDistribution::Gaussian { stddev } => {
@@ -131,6 +153,65 @@ impl From<TestParameterSet> for AtomicPatternParameters {
     }
 }
 
+impl From<TestNoiseSquashingParams> for NoiseSquashingParameters {
+    fn from(value: TestNoiseSquashingParams) -> Self {
+        let TestNoiseSquashingParams {
+            glwe_dimension,
+            polynomial_size,
+            glwe_noise_distribution,
+            decomp_base_log,
+            decomp_level_count,
+            modulus_switch_noise_reduction_params,
+            message_modulus,
+            carry_modulus,
+            ciphertext_modulus,
+        } = value;
+
+        Self {
+            glwe_dimension: GlweDimension(glwe_dimension),
+            polynomial_size: PolynomialSize(polynomial_size),
+            glwe_noise_distribution: glwe_noise_distribution.into(),
+            decomp_base_log: DecompositionBaseLog(decomp_base_log),
+            decomp_level_count: DecompositionLevelCount(decomp_level_count),
+            modulus_switch_noise_reduction_params: match modulus_switch_noise_reduction_params {
+                Some(p) => ModulusSwitchType::DriftTechniqueNoiseReduction(p.into()),
+                None => ModulusSwitchType::Standard,
+            },
+            message_modulus: MessageModulus(message_modulus as u64),
+            carry_modulus: CarryModulus(carry_modulus as u64),
+            ciphertext_modulus: CoreCiphertextModulus::try_new(ciphertext_modulus).unwrap(),
+        }
+    }
+}
+
+impl From<TestNoiseSquashingCompressionParameters> for NoiseSquashingCompressionParameters {
+    fn from(value: TestNoiseSquashingCompressionParameters) -> Self {
+        let TestNoiseSquashingCompressionParameters {
+            packing_ks_level,
+            packing_ks_base_log,
+            packing_ks_polynomial_size,
+            packing_ks_glwe_dimension,
+            lwe_per_glwe,
+            packing_ks_key_noise_distribution,
+            message_modulus,
+            carry_modulus,
+            ciphertext_modulus,
+        } = value;
+
+        Self {
+            packing_ks_level: DecompositionLevelCount(packing_ks_level),
+            packing_ks_base_log: DecompositionBaseLog(packing_ks_base_log),
+            packing_ks_polynomial_size: PolynomialSize(packing_ks_polynomial_size),
+            packing_ks_glwe_dimension: GlweDimension(packing_ks_glwe_dimension),
+            lwe_per_glwe: LweCiphertextCount(lwe_per_glwe),
+            packing_ks_key_noise_distribution: packing_ks_key_noise_distribution.into(),
+            message_modulus: MessageModulus(message_modulus as u64),
+            carry_modulus: CarryModulus(carry_modulus as u64),
+            ciphertext_modulus: CoreCiphertextModulus::try_new(ciphertext_modulus).unwrap(),
+        }
+    }
+}
+
 const ZK_PKE_CRS_TEST: ZkPkePublicParamsTest = ZkPkePublicParamsTest {
     test_filename: Cow::Borrowed("zk_pke_crs"),
     lwe_dimension: VALID_TEST_PARAMS_TUNIFORM.polynomial_size
@@ -176,6 +257,26 @@ const HL_SERVERKEY_MS_MEAN_COMPENSATION: HlServerKeyTest = HlServerKeyTest {
     client_key_filename: Cow::Borrowed("client_key_ms_mean_compensation.cbor"),
     compressed: false,
 };
+
+const HL_COMPRESSED_SQUASHED_NOISE_CIPHERTEXT_LIST: HlCompressedSquashedNoiseCiphertextListTest =
+    HlCompressedSquashedNoiseCiphertextListTest {
+        test_filename: Cow::Borrowed("hl_compressed_squashed_noise_ciphertext_list"),
+        key_filename: Cow::Borrowed("client_key_with_noise_squashing"),
+        clear_values: Cow::Borrowed(&[
+            54679568u32 as u64,
+            -12396372i32 as u64,
+            12396372i32 as u64,
+            false as u64,
+            true as u64,
+        ]),
+        data_kinds: Cow::Borrowed(&[
+            DataKind::Unsigned,
+            DataKind::Signed,
+            DataKind::Signed,
+            DataKind::Bool,
+            DataKind::Bool,
+        ]),
+    };
 
 pub struct V1_3;
 
@@ -285,10 +386,76 @@ impl TfhersVersion for V1_3 {
             &HL_SERVERKEY_MS_MEAN_COMPENSATION.test_filename,
         );
 
+        // Generate data for the squashed noise compressed ciphertext list
+        {
+            let config = tfhe_1_3::ConfigBuilder::with_custom_parameters(
+                INSECURE_SMALL_TEST_PARAMS_MS_NOISE_REDUCTION,
+            )
+            .enable_noise_squashing(
+                INSECURE_SMALL_TEST_NOISE_SQUASHING_PARAMS_MS_NOISE_REDUCTION.into(),
+            )
+            .enable_noise_squashing_compression(TEST_PRAMS_NOISE_SQUASHING_COMPRESSION.into())
+            .build();
+            let hl_client_key = ClientKey::generate(config);
+            let hl_server_key = ServerKey::new(&hl_client_key);
+            set_server_key(hl_server_key.clone());
+
+            let input_a = FheUint32::encrypt(
+                HL_COMPRESSED_SQUASHED_NOISE_CIPHERTEXT_LIST.clear_values[0] as u32,
+                &hl_client_key,
+            );
+            let input_b = FheInt32::encrypt(
+                HL_COMPRESSED_SQUASHED_NOISE_CIPHERTEXT_LIST.clear_values[1] as i32,
+                &hl_client_key,
+            );
+            let input_c = FheInt32::encrypt(
+                HL_COMPRESSED_SQUASHED_NOISE_CIPHERTEXT_LIST.clear_values[2] as i32,
+                &hl_client_key,
+            );
+            let input_d = FheBool::encrypt(
+                HL_COMPRESSED_SQUASHED_NOISE_CIPHERTEXT_LIST.clear_values[3] != 0,
+                &hl_client_key,
+            );
+            let input_e = FheBool::encrypt(
+                HL_COMPRESSED_SQUASHED_NOISE_CIPHERTEXT_LIST.clear_values[4] != 0,
+                &hl_client_key,
+            );
+
+            let ns_a = input_a.squash_noise().unwrap();
+            let ns_b = input_b.squash_noise().unwrap();
+            let ns_c = input_c.squash_noise().unwrap();
+            let ns_d = input_d.squash_noise().unwrap();
+            let ns_e = input_e.squash_noise().unwrap();
+
+            let compressed_list = CompressedSquashedNoiseCiphertextList::builder()
+                .push(ns_a)
+                .push(ns_b)
+                .push(ns_c)
+                .push(ns_d)
+                .push(ns_e)
+                .build()
+                .unwrap();
+
+            store_versioned_auxiliary!(
+                &hl_client_key,
+                &dir,
+                &HL_COMPRESSED_SQUASHED_NOISE_CIPHERTEXT_LIST.key_filename
+            );
+
+            store_versioned_test!(
+                &compressed_list,
+                &dir,
+                &HL_COMPRESSED_SQUASHED_NOISE_CIPHERTEXT_LIST.test_filename,
+            );
+        };
+
         vec![
             TestMetadata::HlHeterogeneousCiphertextList(HL_PROVEN_COMPACTLIST_TEST_ZKV2_FASTHASH),
             TestMetadata::HlClientKey(HL_CLIENTKEY_MS_MEAN_COMPENSATION),
             TestMetadata::HlServerKey(HL_SERVERKEY_MS_MEAN_COMPENSATION),
+            TestMetadata::HlCompressedSquashedNoiseCiphertextList(
+                HL_COMPRESSED_SQUASHED_NOISE_CIPHERTEXT_LIST,
+            ),
         ]
     }
 }
